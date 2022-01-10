@@ -73,9 +73,9 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
                   }}
                 >
                   <h2>{item.name}</h2>
-                  <div>
+                  {/* <div>
                     <span>{item.rating}</span> <Rating star={item.rating} />
-                  </div>
+                  </div> */}
                   <p>현재 위치로부터 {haversined(mapPosition, item)} km</p>
                 </li>
             ))}

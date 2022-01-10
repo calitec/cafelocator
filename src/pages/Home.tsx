@@ -20,10 +20,10 @@ const Home: React.FunctionComponent = () => {
                 </GoogleMapsTemplate>
                 <AuthProvider>
                     <MainTemplate nav={<NavTemplate />}>
-                            <InfoTemplate>
-                                <InfoListContainer />
-                                <InfoDetailContainer />
-                            </InfoTemplate>
+                        <InfoTemplate>
+                            <InfoListContainer />
+                            <InfoDetailContainer />
+                        </InfoTemplate>
                     </MainTemplate>
                 </AuthProvider>
             </MapProvider>

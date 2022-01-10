@@ -1,6 +1,5 @@
 import * as React from 'react';
 import useTouch from 'src/lib/hooks/useTouch';
-import { useInfoState } from '../../context/InfoProvider';
 import { useMapState } from '../../context/MapProvider';
 import InfoDetailPresenter from './InfoDetailPresenter';
 
