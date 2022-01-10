@@ -1,16 +1,14 @@
 import React from 'react';
-import { useInfoState } from '../../context/InfoProvider';
 import DraggableButton from './utils/DraggableButton';
 import { css } from '@emotion/react';
 import { noto } from '../../lib/styles/common';
 import media from '../../lib/styles/media';
-import { useMapState } from 'src/context/MapProvider';
+import useTouch from 'src/lib/hooks/useTouch';
 
 const InfoTemplate: React.FunctionComponent = ({ children }) => {
 
-    const { infoPosition } = useInfoState();
+    const { ref, infoPosition } = useTouch();
     const { transY } = infoPosition;
-
     // console.log('INFO 템플릿 렌더링')
     // useEffect(() => {
     //     console.log('INFO 템플릿 리렌더링')
@@ -19,7 +17,7 @@ const InfoTemplate: React.FunctionComponent = ({ children }) => {
     return (
         <div className='infoTemplate' css={InfoTemplateContainer(transY)}>
             <div className='infoTemplate__body'>
-                <DraggableButton />
+                <DraggableButton refs={ref}/>
                 {children}
             </div>
         </div>

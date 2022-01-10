@@ -1,17 +1,16 @@
 import React from 'react'
 import { useCoreState } from '../../../context/CoreProvider'
-import { useInfoState } from '../../../context/InfoProvider'
 
-const DraggableButton: React.FunctionComponent = () => {
+interface IDragProps {
+  refs: any;
+}
+const DraggableButton: React.FunctionComponent<IDragProps> = ({ refs }) => {
   const { vision } = useCoreState()
-  const { onTouchStart, onTouchMove, onTouchEnd } = useInfoState()
 
   return (
     <div
+      ref={refs}
       className="vision"
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
     >
       <span></span>
       {!vision ? <em>목록을 보려면 탭하세요</em> : ''}

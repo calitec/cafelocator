@@ -6,14 +6,12 @@ import InfoListContainer from 'src/components/info/InfoListContainer';
 import InfoDetailContainer from 'src/components/info/InfoDetailContainer';
 import MapProvider from 'src/context/MapProvider';
 import { AuthProvider } from '../context/AuthProvider';
-import { InfoProvider } from '../context/InfoProvider';
 import { CoreProvider } from '../context/CoreProvider';
 
 import MainTemplate from 'src/components/common/MainTemplate';
 import NavTemplate from '../components/nav/NavTemplate';
 
 const Home: React.FunctionComponent = () => {
-    console.log('wrong')
     return (
         <CoreProvider>
             <MapProvider>
@@ -22,12 +20,10 @@ const Home: React.FunctionComponent = () => {
                 </GoogleMapsTemplate>
                 <AuthProvider>
                     <MainTemplate nav={<NavTemplate />}>
-                        <InfoProvider>
                             <InfoTemplate>
                                 <InfoListContainer />
                                 <InfoDetailContainer />
                             </InfoTemplate>
-                        </InfoProvider>
                     </MainTemplate>
                 </AuthProvider>
             </MapProvider>

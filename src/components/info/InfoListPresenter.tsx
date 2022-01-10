@@ -2,7 +2,6 @@ import * as React from 'react'
 import { useEffect, useState, useCallback } from 'react'
 import { IMapDatasProps } from '../../types/map'
 import { useMapState } from '../../context/MapProvider'
-import { useInfoState } from '../../context/InfoProvider'
 import Rating from '../common/Rating'
 import Skeleton from '../common/Skeleton'
 import Spin from '../common/Spin'
@@ -10,6 +9,7 @@ import { css } from '@emotion/react'
 import media from '../../lib/styles/media'
 import { noto, notoBig } from '../..//lib/styles/common'
 import useScroll from 'src/lib/hooks/useScroll'
+import useTouch from 'src/lib/hooks/useTouch'
 
 interface IInfoListPresenterProps {
   mapPosition: {
@@ -27,7 +27,7 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
   onClick,
   haversined,
 }) => {
-  const { infoPosition } = useInfoState()
+  const { infoPosition } = useTouch();
   const { transY } = infoPosition
   const { mapInfo } = useMapState()
   const { loading } = mapInfo
