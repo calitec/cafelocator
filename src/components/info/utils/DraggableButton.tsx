@@ -2,7 +2,7 @@ import React from 'react'
 import { useCoreState } from '../../../context/CoreProvider'
 
 interface IDragProps {
-  refs: any;
+  refs: React.MutableRefObject<any>;
 }
 const DraggableButton: React.FunctionComponent<IDragProps> = ({ refs }) => {
   const { vision } = useCoreState()
