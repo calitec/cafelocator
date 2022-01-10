@@ -1,8 +1,6 @@
 import React from 'react';
 import { Marker } from '@react-google-maps/api';
 import { IMapDatasProps } from 'src/types/map';
-
-
 interface IGoogleMapsMarkersProps {
     mapDatas: IMapDatasProps[];
     mapPosition: {
