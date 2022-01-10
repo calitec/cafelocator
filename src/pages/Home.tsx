@@ -13,7 +13,7 @@ import MainTemplate from 'src/components/common/MainTemplate';
 import NavTemplate from '../components/nav/NavTemplate';
 
 const Home: React.FunctionComponent = () => {
-
+    console.log('wrong')
     return (
         <CoreProvider>
             <MapProvider>
