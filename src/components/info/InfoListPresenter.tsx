@@ -27,21 +27,21 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
   onClick,
   haversined,
 }) => {
-  const { infoPosition } = useTouch();
+  const { infoPosition } = useTouch()
   const { transY } = infoPosition
   const { mapInfo } = useMapState()
   const { loading } = mapInfo
+  const [scrollTop, ref] = useScroll()
+  const [itemList, setItemList] = useState([])
 
   // console.log('INFO LIST 프레젠터 렌더링')
   // useEffect(() => {
   //   console.log('INFO LIST 프레젠터 리렌더링')
   // }, [])
 
-  const [scrollTop, ref] = useScroll()
-  const [itemList, setItemList] = useState([])
+
   
   useEffect(() => {
-    console.log(mapDatas,'mapDatas')
     setItemList(itemList.concat(mapDatas));
   }, [mapDatas]);
 
@@ -73,9 +73,9 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
                   }}
                 >
                   <h2>{item.name}</h2>
-                  {/* <div>
+                  <div>
                     <span>{item.rating}</span> <Rating star={item.rating} />
-                  </div> */}
+                  </div>
                   <p>현재 위치로부터 {haversined(mapPosition, item)} km</p>
                 </li>
             ))}

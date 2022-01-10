@@ -63,9 +63,6 @@ const InfoTemplateContainer = (transY) => css`
             width: 100%;    
             background-color: #fff;
             border-radius: 20px 20px 0 0;
-            &:hover{
-                will-change: transform;
-            }
             transform: translateY(${transY > 0 ? transY : 0}px);
         }
     }
