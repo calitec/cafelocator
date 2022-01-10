@@ -8,7 +8,7 @@ export default function useTouch() {
     touchStart: false,
     touchMove: false,
   })
-  const { transY, touchStart, touchMove } = infoPosition
+  const { transY, touchStart } = infoPosition
   const ref = useRef(null);
   const draggingDOMHeight = 34
   const iphoneXSafeArea = 145
@@ -75,7 +75,7 @@ export default function useTouch() {
 
     if(!ref.current) return;
       const touchevent = ref.current;
-      touchevent.addEventListener("touchstart", onTouchStart);
+      touchevent.addEventListener("touchstart", onTouchStart, {passive: true});
       touchevent.addEventListener("touchmove", onTouchMove, {passive: true});
       touchevent.addEventListener("touchend", onTouchEnd);
       return () => {
