@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useCoreState } from '../../context/CoreProvider'
+import { throttle } from 'lodash'
 
 export default function useTouch() {
   const { vision, setVision } = useCoreState()
@@ -8,7 +9,7 @@ export default function useTouch() {
     touchStart: false,
     touchMove: false,
   })
-  const { transY, touchStart, touchMove } = infoPosition
+  const { transY, touchStart } = infoPosition
   const ref = useRef(null);
   const draggingDOMHeight = 34
   const iphoneXSafeArea = 145
@@ -28,12 +29,13 @@ export default function useTouch() {
   useEffect(()=>{
     if(!ref.current) return;
     const touchevent = ref.current;
+    const throt = throttle(onTouchMove, 50)
     touchevent.addEventListener("touchstart", onTouchStart, {passive: true});
-    touchevent.addEventListener("touchmove", onTouchMove, {passive: true});
+    touchevent.addEventListener("touchmove", throt, {passive: true});
     touchevent.addEventListener("touchend", onTouchEnd);
     return () => {
       touchevent.removeEventListener("touchstart", onTouchStart);
-      touchevent.removeEventListener("touchmove", onTouchMove);
+      touchevent.removeEventListener("touchmove", throt);
       touchevent.removeEventListener("touchend", onTouchEnd);
     }
   },[infoPosition, ref])
