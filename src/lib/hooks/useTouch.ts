@@ -30,7 +30,7 @@ export default function useTouch() {
 
     if(!ref.current) return;
     const touchevent = ref.current;
-    touchevent.addEventListener("touchstart", onTouchStart, {passive: true});
+    touchevent.addEventListener("touchstart", onTouchStart);
     touchevent.addEventListener("touchmove", onTouchMove, {passive: true});
     touchevent.addEventListener("touchend", onTouchEnd);
     return () => {
@@ -41,6 +41,7 @@ export default function useTouch() {
   },[infoPosition, ref])
 
   const onTouchStart = useCallback((e) => {
+    e.preventDefault()
     setInfoPosition({
       ...infoPosition,
       transY: 0,
@@ -66,7 +67,7 @@ export default function useTouch() {
   },[infoPosition])
 
   const onTouchEnd = useCallback((e) => {
-    e.stopPropagation()
+    e.preventDefault()
     // if (touchStart && !touchMove) {
     // }
     if (transY >= 170 && transY < 350) {
@@ -86,7 +87,6 @@ export default function useTouch() {
         touchMove: false,
       })
     }
-    e.preventDefault()
   },[infoPosition])
 
   return {infoPosition, setInfoPosition, ref} as any;
