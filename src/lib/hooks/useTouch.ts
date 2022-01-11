@@ -29,14 +29,13 @@ export default function useTouch() {
   useEffect(()=>{
     if(!ref.current) return;
     const touchevent = ref.current;
-    const throt = throttle(onTouchMove, 50)
-    touchevent.addEventListener("touchstart", onTouchStart, {passive: true});
-    touchevent.addEventListener("touchmove", throt, {passive: true});
-    touchevent.addEventListener("touchend", onTouchEnd);
+    touchevent.addEventListener("touchstart", onTouchStart, {passive: true})
+    touchevent.addEventListener("touchmove", onTouchMove, {passive: true})
+    touchevent.addEventListener("touchend", onTouchEnd)
     return () => {
-      touchevent.removeEventListener("touchstart", onTouchStart);
-      touchevent.removeEventListener("touchmove", throt);
-      touchevent.removeEventListener("touchend", onTouchEnd);
+      touchevent.removeEventListener("touchstart", onTouchStart)
+      touchevent.removeEventListener("touchmove", onTouchMove)
+      touchevent.removeEventListener("touchend", onTouchEnd)
     }
   },[infoPosition, ref])
 
@@ -85,5 +84,5 @@ export default function useTouch() {
     }
   },[infoPosition])
 
-  return {infoPosition, setInfoPosition, ref} as any;
+  return {infoPosition, setInfoPosition, ref} as any
 };

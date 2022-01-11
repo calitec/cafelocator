@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState, SyntheticEvent } from "react";
+import { useEffect, useRef, useState } from "react";
+import { throttle } from 'lodash'
 
 export default function useScroll() {
   const [scrollTop, setScrollTop] = useState(0);
@@ -16,9 +17,10 @@ export default function useScroll() {
     if(ref) {
         const scrollContainer = ref.current;
         setScrollTop(scrollContainer.scrollTop);
-        scrollContainer.addEventListener("scroll", onScroll, {passive: true});
+        const throt = throttle(onScroll, 50)
+        scrollContainer.addEventListener("scroll", throt, {passive: true});
         return () => {
-            scrollContainer.removeEventListener("scroll", onScroll);
+            scrollContainer.removeEventListener("scroll", throt);
         };
     }
   }, [ref]);
