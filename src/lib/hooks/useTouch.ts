@@ -53,7 +53,7 @@ export default function useTouch() {
       e.stopPropagation()
       // if (touchStart && !touchMove) {
       // }
-      if (transY > 170 && transY < 350) {
+      if (transY >= 170 && transY < 350) {
         setVision(false)
         setInfoPosition({
           ...infoPosition,

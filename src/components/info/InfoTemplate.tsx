@@ -9,10 +9,6 @@ const InfoTemplate: React.FunctionComponent = ({ children }) => {
 
     const { ref, infoPosition } = useTouch();
     const { transY } = infoPosition;
-    // console.log('INFO 템플릿 렌더링')
-    // useEffect(() => {
-    //     console.log('INFO 템플릿 리렌더링')
-    // }, [])
 
     return (
         <div className='infoTemplate' css={InfoTemplateContainer(transY)}>

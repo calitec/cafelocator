@@ -6,11 +6,6 @@ import InfoDetailPresenter from './InfoDetailPresenter';
 const InfoDetailContainer: React.FunctionComponent = ({
 }) => {
 
-    // console.log('INFO DETAIL 컨테이너 렌더링')
-    // useEffect(() => {
-    //     console.log('INFO DETAIL 컨테이너 리렌더링')
-    // }, [])
-
     const { mapInfo, setMapInfo, onClearDirections } = useMapState();
     const { mapDetail } = mapInfo;
     const { infoPosition } = useTouch();

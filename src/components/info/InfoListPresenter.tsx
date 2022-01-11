@@ -32,18 +32,6 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
   const { mapInfo } = useMapState()
   const { loading } = mapInfo
   const [scrollTop, ref] = useScroll()
-  const [itemList, setItemList] = useState([])
-
-  // console.log('INFO LIST 프레젠터 렌더링')
-  // useEffect(() => {
-  //   console.log('INFO LIST 프레젠터 리렌더링')
-  // }, [])
-
-
-  
-  useEffect(() => {
-    setItemList(itemList.concat(mapDatas));
-  }, [mapDatas]);
 
   const totalItemCount = mapDatas.length > 1 && mapDatas.length <= 20 ? mapDatas.length : 20;
   const itemHeight = 130;
@@ -54,7 +42,7 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
   )
   const startIdx = Math.floor(scrollTop / itemHeight);
   const offsetY = startIdx * itemHeight;
-  const visibleNodes = itemList.slice(
+  const visibleNodes = mapDatas.slice(
     startIdx,
     (startIdx + scrollViewPortHeight / itemHeight) + 1
   );

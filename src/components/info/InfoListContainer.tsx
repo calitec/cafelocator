@@ -24,11 +24,6 @@ const InfoListContainer: React.FunctionComponent = () => {
     )
   }
 
-  // console.log('INFO LIST 컨테이너 렌더링')
-  // useEffect(() => {
-  //     console.log('INFO LIST 컨테이너 리렌더링')
-  // }, [])
-
   return (
     <>
       <InfoListPresenter

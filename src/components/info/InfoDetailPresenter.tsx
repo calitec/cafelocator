@@ -24,11 +24,6 @@ const InfoDetailPresenter: React.FunctionComponent<IInfoDetailPresenterProps> = 
     setTravel
 }) => {
 
-    // console.log('INFO DETAIL 프레젠터 렌더링')
-    // useEffect(() => {
-    //     console.log('INFO DETAIL 프레젠터 리렌더링')
-    // }, [])
-
     const refs = useRef();
 
     return (
