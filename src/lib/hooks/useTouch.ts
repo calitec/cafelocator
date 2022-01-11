@@ -8,7 +8,7 @@ export default function useTouch() {
     touchStart: false,
     touchMove: false,
   })
-  const { transY, touchStart } = infoPosition
+  const { transY, touchStart, touchMove } = infoPosition
   const ref = useRef(null);
   const draggingDOMHeight = 34
   const iphoneXSafeArea = 145
@@ -28,7 +28,7 @@ export default function useTouch() {
   useEffect(()=>{
     if(!ref.current) return;
     const touchevent = ref.current;
-    touchevent.addEventListener("touchstart", onTouchStart);
+    touchevent.addEventListener("touchstart", onTouchStart, {passive: true});
     touchevent.addEventListener("touchmove", onTouchMove, {passive: true});
     touchevent.addEventListener("touchend", onTouchEnd);
     return () => {
@@ -39,7 +39,6 @@ export default function useTouch() {
   },[infoPosition, ref])
 
   const onTouchStart = useCallback((e) => {
-    e.preventDefault()
     setInfoPosition({
       ...infoPosition,
       transY: 0,
@@ -64,8 +63,7 @@ export default function useTouch() {
 
   const onTouchEnd = useCallback((e) => {
     e.preventDefault()
-    // if (touchStart && !touchMove) {
-    // }
+    // if (touchStart && !touchMove) return
     if (transY >= 170 && transY < 350) {
       setVision(false)
       setInfoPosition({
