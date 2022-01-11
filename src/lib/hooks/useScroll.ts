@@ -16,7 +16,7 @@ export default function useScroll() {
     if(ref) {
         const scrollContainer = ref.current;
         setScrollTop(scrollContainer.scrollTop);
-        scrollContainer.addEventListener("scroll", onScroll);
+        scrollContainer.addEventListener("scroll", onScroll, {passive: true});
         return () => {
             scrollContainer.removeEventListener("scroll", onScroll);
         };
