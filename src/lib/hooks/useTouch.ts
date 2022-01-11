@@ -26,8 +26,6 @@ export default function useTouch() {
   }, [vision])
 
   useEffect(()=>{
-
-
     if(!ref.current) return;
     const touchevent = ref.current;
     touchevent.addEventListener("touchstart", onTouchStart);
@@ -56,14 +54,12 @@ export default function useTouch() {
       const device = clientY - (mobileScreenHeight - contentHeight - 13)
       const deviceX =
         clientY - (mobileScreenHeight - contentHeight - iphoneXSafeArea)
-    requestAnimationFrame(() => {
       setInfoPosition({
         ...infoPosition,
         transY: mobileScreenHeight == 812 ? deviceX : device,
         touchStart: true,
         touchMove: true,
       })
-    })
   },[infoPosition])
 
   const onTouchEnd = useCallback((e) => {
