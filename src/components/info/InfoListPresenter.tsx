@@ -47,7 +47,7 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
     startIdx + scrollViewPortHeight / itemHeight + 1
   )
 
-  if (!loading && mapDatas.length > 1) {
+  if (mapDatas.length > 1) {
     return (
       <div ref={ref} css={ScrollViewport(transY, scrollViewPortHeight)}>
         <div css={scrollContainer(scrollContainerHeight)}>
@@ -74,18 +74,18 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
   }
 
   // 로딩
-  if (loading) {
-    return (
-      <div ref={ref} css={ScrollViewport(transY, scrollViewPortHeight)}>
-        <ul className="infoList">
-          <Spin />
-          <Skeleton />
-          <Skeleton />
-          <Skeleton />
-        </ul>
-      </div>
-    )
-  }
+  // if (loading) {
+  //   return (
+  //     <div ref={ref} css={ScrollViewport(transY, scrollViewPortHeight)}>
+  //       <ul className="infoList">
+  //         <Spin />
+  //         <Skeleton />
+  //         <Skeleton />
+  //         <Skeleton />
+  //       </ul>
+  //     </div>
+  //   )
+  // }
 
   // 디폴트
   return (

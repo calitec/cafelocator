@@ -1,7 +1,9 @@
 import * as React from 'react'
+import { Suspense } from 'react'
 import { useMapState } from '../../context/MapProvider'
 import InfoListPresenter from './InfoListPresenter'
 import haversine from 'haversine'
+import Loader from '../common/Loader'
 
 const InfoListContainer: React.FunctionComponent = () => {
   const { mapInfo, onClick } = useMapState()
@@ -25,14 +27,14 @@ const InfoListContainer: React.FunctionComponent = () => {
   }
 
   return (
-    <>
+    <Suspense fallback={<Loader />}>
       <InfoListPresenter
         mapPosition={mapPosition}
         mapDatas={mapDatas}
         onClick={onClick}
         haversined={haversined}
       />
-    </>
+    </Suspense>
   )
 }
 
