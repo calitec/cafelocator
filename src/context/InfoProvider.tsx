@@ -38,19 +38,19 @@ export function InfoProvider({ children }: { children: React.ReactNode }) {
         touchStart: false,
         touchMove: false,
         touchEnd: false,
-    })
+      })
     }
   }, [vision])
 
-  useEffect(()=>{
-    if(touchEnd) {
+  useEffect(() => {
+    if (touchEnd) {
       return () => {
         window.removeEventListener('touchstart', onTouchStart)
         window.removeEventListener('touchmove', onTouchMove)
         window.removeEventListener('touchend', onTouchEnd)
       }
     }
-  },[touchEnd])
+  }, [touchEnd])
 
   const onTouchStart = useCallback(
     (e) => {
@@ -66,22 +66,22 @@ export function InfoProvider({ children }: { children: React.ReactNode }) {
   const onTouchMove = useCallback(
     (e) => {
       if (!touchStart) return
-        const draggingDOMHeight = 34
-        const iphoneXSafeArea = 145
-        const contentHeight = 350 + draggingDOMHeight
-        const mobileScreenHeight = window.screen.availHeight
-        const clientY = e.changedTouches[0].clientY
-        const device = clientY - (mobileScreenHeight - contentHeight - 13)
-        const deviceX =
-          clientY - (mobileScreenHeight - contentHeight - iphoneXSafeArea)
-        requestAnimationFrame(() => {
-          setInfoPosition({
-            ...infoPosition,
-            transY: mobileScreenHeight == 812 ? deviceX : device,
-            touchStart: true,
-            touchMove: true,
-          })
+      const draggingDOMHeight = 34
+      const iphoneXSafeArea = 145
+      const contentHeight = 350 + draggingDOMHeight
+      const mobileScreenHeight = window.screen.availHeight
+      const clientY = e.changedTouches[0].clientY
+      const device = clientY - (mobileScreenHeight - contentHeight - 13)
+      const deviceX =
+        clientY - (mobileScreenHeight - contentHeight - iphoneXSafeArea)
+      requestAnimationFrame(() => {
+        setInfoPosition({
+          ...infoPosition,
+          transY: mobileScreenHeight == 812 ? deviceX : device,
+          touchStart: true,
+          touchMove: true,
         })
+      })
     },
     [infoPosition]
   )

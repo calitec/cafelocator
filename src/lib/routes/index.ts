@@ -1,9 +1,9 @@
-import { Home } from "../../pages";
+import { Home } from '../../pages'
 
 export const routes = [
   {
-    path: "/",
+    path: '/',
     page: Home,
-    exact: true
-  }
-];
+    exact: true,
+  },
+]

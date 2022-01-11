@@ -1,13 +1,12 @@
-import * as React from 'react';
-import { useLayoutEffect } from 'react';
-import firebase from "../../firebase";
-import { useAuthState } from '../../context/AuthProvider';
-import { css } from '@emotion/react';
-import { noto } from '../../lib/styles/common';
+import * as React from 'react'
+import { useLayoutEffect } from 'react'
+import firebase from '../../firebase'
+import { useAuthState } from '../../context/AuthProvider'
+import { css } from '@emotion/react'
+import { noto } from '../../lib/styles/common'
 
 const Auth: React.FunctionComponent = () => {
-
-  const { user, setUser, onLogin, onLogout } = useAuthState();
+  const { user, setUser, onLogin, onLogout } = useAuthState()
 
   useLayoutEffect(() => {
     firebase
@@ -16,7 +15,7 @@ const Auth: React.FunctionComponent = () => {
       .then(() => {
         firebase.auth().onAuthStateChanged((user) => {
           if (user) {
-            setUser(prev => ({...prev, user}));
+            setUser((prev) => ({ ...prev, user }))
           }
         })
       })
@@ -25,31 +24,33 @@ const Auth: React.FunctionComponent = () => {
   return (
     <div css={authContainer}>
       <form action="">
-        {
-          user == null ?
-            <button onClick={onLogin}>
-              <img src="//maps.gstatic.com/mapfiles/maps_lite/images/2x/signinphoto_96dp.png" alt="" />
-            </button>
-            :
-            <button onClick={onLogout}>
-              <img src={user ? user?.user.photoURL : ''} alt="" />
-            </button>
-        }
+        {user == null ? (
+          <button onClick={onLogin}>
+            <img
+              src="//maps.gstatic.com/mapfiles/maps_lite/images/2x/signinphoto_96dp.png"
+              alt=""
+            />
+          </button>
+        ) : (
+          <button onClick={onLogout}>
+            <img src={user ? user?.user.photoURL : ''} alt="" />
+          </button>
+        )}
       </form>
     </div>
-  );
-};
+  )
+}
 
 const authContainer = css`
   float: right;
-  span{
+  span {
     display: inline-block;
     font: ${noto()};
     font-weight: 700;
     color: #000;
     margin-left: 10px;
   }
-  button{
+  button {
     font: ${noto()};
     font-weight: 700;
     color: #000;
@@ -60,8 +61,8 @@ const authContainer = css`
     height: 35px;
     overflow: hidden;
     position: relative;
-    box-shadow: 1.5px 1.5px 4px rgba(0,0,0,0.8);
-    img{
+    box-shadow: 1.5px 1.5px 4px rgba(0, 0, 0, 0.8);
+    img {
       position: absolute;
       top: 0;
       left: 0;
@@ -73,4 +74,4 @@ const authContainer = css`
   }
 `
 
-export default Auth;
+export default Auth

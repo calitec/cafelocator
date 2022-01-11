@@ -1,2 +1,2 @@
-import withSplitting from '../lib/withSplitting';
-export const Home = withSplitting(() => import('./Home'));
+import withSplitting from '../lib/withSplitting'
+export const Home = withSplitting(() => import('./Home'))

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback } from 'react'
 import { useCoreState } from '../../context/CoreProvider'
 import { throttle } from 'lodash'
 
@@ -10,7 +10,7 @@ export default function useTouch() {
     touchMove: false,
   })
   const { transY, touchStart } = infoPosition
-  const ref = useRef(null);
+  const ref = useRef(null)
   const draggingDOMHeight = 34
   const iphoneXSafeArea = 145
   const contentHeight = 350 + draggingDOMHeight
@@ -22,34 +22,38 @@ export default function useTouch() {
         transY: 0,
         touchStart: false,
         touchMove: false,
-    })
+      })
     }
   }, [vision])
 
-  useEffect(()=>{
-    if(!ref.current) return;
-    const touchevent = ref.current;
-    touchevent.addEventListener("touchstart", onTouchStart, {passive: true})
-    touchevent.addEventListener("touchmove", onTouchMove, {passive: true})
-    touchevent.addEventListener("touchend", onTouchEnd)
+  useEffect(() => {
+    if (!ref.current) return
+    const touchevent = ref.current
+    touchevent.addEventListener('touchstart', onTouchStart, { passive: true })
+    touchevent.addEventListener('touchmove', onTouchMove, { passive: true })
+    touchevent.addEventListener('touchend', onTouchEnd)
     return () => {
-      touchevent.removeEventListener("touchstart", onTouchStart)
-      touchevent.removeEventListener("touchmove", onTouchMove)
-      touchevent.removeEventListener("touchend", onTouchEnd)
+      touchevent.removeEventListener('touchstart', onTouchStart)
+      touchevent.removeEventListener('touchmove', onTouchMove)
+      touchevent.removeEventListener('touchend', onTouchEnd)
     }
-  },[infoPosition, ref])
+  }, [infoPosition, ref])
 
-  const onTouchStart = useCallback((e) => {
-    setInfoPosition({
-      ...infoPosition,
-      transY: 0,
-      touchStart: true,
-      touchMove: false,
-    })
-  },[infoPosition])
-  
-  const onTouchMove = useCallback((e) => {
-    if (!touchStart) return
+  const onTouchStart = useCallback(
+    (e) => {
+      setInfoPosition({
+        ...infoPosition,
+        transY: 0,
+        touchStart: true,
+        touchMove: false,
+      })
+    },
+    [infoPosition]
+  )
+
+  const onTouchMove = useCallback(
+    (e) => {
+      if (!touchStart) return
       const clientY = e.changedTouches[0].clientY
       const device = clientY - (mobileScreenHeight - contentHeight - 13)
       const deviceX =
@@ -60,29 +64,34 @@ export default function useTouch() {
         touchStart: true,
         touchMove: true,
       })
-  },[infoPosition])
+    },
+    [infoPosition]
+  )
 
-  const onTouchEnd = useCallback((e) => {
-    e.preventDefault()
-    // if (touchStart && !touchMove) return
-    if (transY >= 170 && transY < 350) {
-      setVision(false)
-      setInfoPosition({
-        ...infoPosition,
-        transY: 350,
-        touchStart: false,
-        touchMove: false,
-      })
-    } else {
-      setVision(true)
-      setInfoPosition({
-        ...infoPosition,
-        transY: 0,
-        touchStart: false,
-        touchMove: false,
-      })
-    }
-  },[infoPosition])
+  const onTouchEnd = useCallback(
+    (e) => {
+      e.preventDefault()
+      // if (touchStart && !touchMove) return
+      if (transY >= 170 && transY < 350) {
+        setVision(false)
+        setInfoPosition({
+          ...infoPosition,
+          transY: 350,
+          touchStart: false,
+          touchMove: false,
+        })
+      } else {
+        setVision(true)
+        setInfoPosition({
+          ...infoPosition,
+          transY: 0,
+          touchStart: false,
+          touchMove: false,
+        })
+      }
+    },
+    [infoPosition]
+  )
 
-  return {infoPosition, setInfoPosition, ref} as any
-};
+  return { infoPosition, setInfoPosition, ref } as any
+}

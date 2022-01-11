@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 const GoogleMapsTemplate: React.FunctionComponent = ({ children }) => {
-    return <section>{children}</section>
-};
+  return <section>{children}</section>
+}
 
-export default GoogleMapsTemplate;
+export default GoogleMapsTemplate

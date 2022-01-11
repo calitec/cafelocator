@@ -1,29 +1,29 @@
-import * as React from "react";
+import * as React from 'react'
 
-const withSplitting = getComponent => {
+const withSplitting = (getComponent) => {
   class WithSplitting extends React.Component {
     state = {
-      Splitted: null
-    };
+      Splitted: null,
+    }
 
     constructor(props) {
-      super(props);
+      super(props)
       getComponent().then(({ default: Splitted }) => {
         this.setState({
-          Splitted
-        });
-      });
+          Splitted,
+        })
+      })
     }
 
     render() {
-      const { Splitted } = this.state;
+      const { Splitted } = this.state
       if (!Splitted) {
-        return null;
+        return null
       }
-      return <Splitted {...this.props} />;
+      return <Splitted {...this.props} />
     }
   }
-  return WithSplitting;
-};
+  return WithSplitting
+}
 
-export default withSplitting;
+export default withSplitting

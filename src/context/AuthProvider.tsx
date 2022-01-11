@@ -1,22 +1,22 @@
-import * as React from 'react';
-import { useCallback } from 'react';
-import { createContext, useState, useContext } from 'react';
-import firebase from "../firebase";
+import * as React from 'react'
+import { useCallback } from 'react'
+import { createContext, useState, useContext } from 'react'
+import firebase from '../firebase'
 
 interface State {
-  user: any;
-  setUser: (data: object) => void;
-  onLogin: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  onLogout: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  user: any
+  setUser: (data: object) => void
+  onLogin: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+  onLogout: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
-const AuthStateContext = createContext<State | null>(null);
+const AuthStateContext = createContext<State | null>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState(null);
-  
+  const [user, setUser] = useState(null)
+
   const onLogin = useCallback((e) => {
-    e.preventDefault();
+    e.preventDefault()
     firebase
       .auth()
       .setPersistence(firebase.auth.Auth.Persistence.SESSION)
@@ -34,8 +34,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                   // /** @type {firebase.auth.OAuthCredential} */
                   // var credential = result.credential;
                   // var token = credential.accessToken;
-                  const userResult = result.user;
-                  setUser( prev => ({ ...prev, user: userResult }));
+                  const userResult = result.user
+                  setUser((prev) => ({ ...prev, user: userResult }))
                 })
                 .catch((error) => {
                   // var errorCode = error.code;
@@ -50,28 +50,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const onLogout = useCallback((e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (window.confirm('로그아웃 하시겠습니까?')) {
-      firebase.auth().signOut().then(() => {
-        setUser( prev => ({ 
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          setUser((prev) => ({
             ...prev,
-            user: null
-          })
-        );
-      }).catch((error) => {
-      });
+            user: null,
+          }))
+        })
+        .catch((error) => {})
     }
   }, [])
 
   return (
-    <AuthStateContext.Provider value={{user, setUser, onLogin, onLogout}}>
+    <AuthStateContext.Provider value={{ user, setUser, onLogin, onLogout }}>
       {children}
     </AuthStateContext.Provider>
-  );
+  )
 }
 
 export function useAuthState() {
-  const state = useContext(AuthStateContext);
-  if (!state) throw new Error('Cannot find AuthStateContext');
-  return state;
+  const state = useContext(AuthStateContext)
+  if (!state) throw new Error('Cannot find AuthStateContext')
+  return state
 }

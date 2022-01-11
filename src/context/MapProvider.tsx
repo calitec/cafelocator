@@ -97,7 +97,9 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
   }, [mapInfo])
 
   return (
-    <MapStateContext.Provider value={{ mapInfo, setMapInfo, onClick, onClearDirections, onReset }}>
+    <MapStateContext.Provider
+      value={{ mapInfo, setMapInfo, onClick, onClearDirections, onReset }}
+    >
       {children}
     </MapStateContext.Provider>
   )
