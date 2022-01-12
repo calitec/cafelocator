@@ -47,52 +47,53 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
     startIdx + scrollViewPortHeight / itemHeight + 1
   )
 
-  if (mapDatas.length > 1) {
+  // 로딩
+  if (loading) {
     return (
       <div ref={ref} css={ScrollViewport(transY, scrollViewPortHeight)}>
-        <div css={scrollContainer(scrollContainerHeight)}>
-          <ul className="infoList">
-            {visibleNodes.map((item, i) => (
-              <li
-                key={i}
-                css={visibleNodesWrapper(offsetY)}
-                onClick={() => {
-                  onClick(item, i)
-                }}
-              >
-                <h2>{item.name}</h2>
-                <div>
-                  <span>{item.rating}</span> <Rating star={item.rating} />
-                </div>
-                <p>현재 위치로부터 {haversined(mapPosition, item)} km</p>
-              </li>
-            ))}
-          </ul>
+        <ul className="infoList">
+          <Spin />
+          <Skeleton />
+          <Skeleton />
+          <Skeleton />
+        </ul>
+      </div>
+    )
+  }
+
+  if (mapDatas.length < 1) {
+    return (
+      <div ref={ref} css={ScrollViewport(transY, scrollViewPortHeight)}>
+        <div className="infoList__default">
+          <p>주변 카페를 검색 해보세요.</p>
+          <span>ex) 스타벅스</span>
         </div>
       </div>
     )
   }
 
-  // 로딩
-  // if (loading) {
-  //   return (
-  //     <div ref={ref} css={ScrollViewport(transY, scrollViewPortHeight)}>
-  //       <ul className="infoList">
-  //         <Spin />
-  //         <Skeleton />
-  //         <Skeleton />
-  //         <Skeleton />
-  //       </ul>
-  //     </div>
-  //   )
-  // }
-
   // 디폴트
+
   return (
     <div ref={ref} css={ScrollViewport(transY, scrollViewPortHeight)}>
-      <div className="infoList__default">
-        <p>주변 카페를 검색 해보세요.</p>
-        <span>ex) 스타벅스</span>
+      <div css={scrollContainer(scrollContainerHeight)}>
+        <ul className="infoList">
+          {visibleNodes.map((item, i) => (
+            <li
+              key={i}
+              css={visibleNodesWrapper(offsetY)}
+              onClick={() => {
+                onClick(item, i)
+              }}
+            >
+              <h2>{item.name}</h2>
+              <div>
+                <span>{item.rating}</span> <Rating star={item.rating} />
+              </div>
+              <p>현재 위치로부터 {haversined(mapPosition, item)} km</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   )

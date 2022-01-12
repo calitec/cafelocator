@@ -1,9 +1,7 @@
 import * as React from 'react'
-import { Suspense, lazy } from 'react'
 import useTouch from 'src/lib/hooks/useTouch'
 import { useMapState } from '../../context/MapProvider'
-import Loader from '../common/Loader'
-const InfoDetailPresenter = lazy(() => import('./InfoDetailPresenter'))
+import InfoDetailPresenter from './InfoDetailPresenter'
 
 const InfoDetailContainer: React.FunctionComponent = ({}) => {
   const { mapInfo, setMapInfo, onClearDirections } = useMapState()
@@ -14,14 +12,14 @@ const InfoDetailContainer: React.FunctionComponent = ({}) => {
 
   return (
     <>
-      <Suspense fallback={<Loader />}>
+      {mapDetail && (
         <InfoDetailPresenter
           mapDetail={mapDetail}
           onClearDirections={onClearDirections}
           setTravel={setTravel}
           transY={transY}
         />
-      </Suspense>
+      )}
     </>
   )
 }
