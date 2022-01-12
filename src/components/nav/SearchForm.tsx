@@ -11,11 +11,6 @@ import { fetcher } from 'src/lib/fetcher'
 const SearchForm: React.FunctionComponent = () => {
   const { mapInfo, setMapInfo, onReset } = useMapState()
   const { mapPosition } = mapInfo
-  const setMapDatas = (value) =>
-    setMapInfo((prev) => ({ ...prev, mapDatas: value }))
-  const setLoading = (value) =>
-    setMapInfo((prev) => ({ ...prev, loading: value }))
-
   const [keyword, setKeyword] = useState('')
   const onChange = (e) => setKeyword(e.target.value)
   const enterRef = useRef(null)
@@ -43,10 +38,10 @@ const SearchForm: React.FunctionComponent = () => {
             )}`
 
       onReset()
-      setLoading(true)
       const result = await fetcher(url)
-      setMapDatas(result)
-      setLoading(false)
+      setMapInfo((prev) => ({ ...prev, loading: true }))
+      setMapInfo((prev) => ({ ...prev, mapDatas: result }))
+      setMapInfo((prev) => ({ ...prev, loading: false }))
     },
     [mapInfo, keyword]
   )
@@ -57,9 +52,9 @@ const SearchForm: React.FunctionComponent = () => {
         placeholder="주변 카페를 검색 해보세요"
         name="keyword"
         value={keyword}
-        onChange={onChange}
         autoComplete="off"
         style={input}
+        onChange={onChange}
         onKeyPress={onEnter}
       />
       <Button ref={enterRef} onClick={onSearch} type="submit">

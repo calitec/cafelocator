@@ -1,13 +1,11 @@
 import React from 'react'
 import { css } from '@emotion/react'
 import media from 'src/lib/styles/media'
-import { notoBig } from 'src/lib/styles/common'
-import Skeleton from './Skeleton'
 import Spin from './Spin'
 
 const Loader: React.FunctionComponent = () => {
   return (
-    <div css={ScrollViewport}>
+    <div css={LoaderWrapper}>
       <ul className="infoList">
         <Spin />
       </ul>
@@ -15,7 +13,7 @@ const Loader: React.FunctionComponent = () => {
   )
 }
 
-const ScrollViewport = css`
+const LoaderWrapper = css`
   display: block;
   width: 350px;
   height: 400px;
