@@ -192,6 +192,7 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "^17.0.8"
+    "@types/node": "^17.0.8",
+    "compression-webpack-plugin": "^9.2.0"
   }
 }
