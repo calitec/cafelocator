@@ -135,7 +135,7 @@ const GoogleMapsPresenter: React.FunctionComponent<
         {/* Child components, such as markers, info windows, etc. */}
         <div css={googleMapsContainer}>
           <div className="currentLocation" onClick={getCurrentLocation}>
-            <button>
+            <button type="button">
               <span></span>
             </button>
           </div>

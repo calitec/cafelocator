@@ -62,7 +62,7 @@ const SearchForm: React.FunctionComponent = () => {
         style={input}
         onKeyPress={onEnter}
       />
-      <Button ref={enterRef} onClick={onSearch}>
+      <Button ref={enterRef} onClick={onSearch} type="submit">
         <FontAwesomeIcons icon={'search'} color={'white'} />
       </Button>
     </div>

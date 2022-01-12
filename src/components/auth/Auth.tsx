@@ -25,7 +25,7 @@ const Auth: React.FunctionComponent = () => {
     <div css={authContainer}>
       <form action="">
         {user == null ? (
-          <button onClick={onLogin}>
+          <button onClick={onLogin} type="submit">
             <img
               src="//maps.gstatic.com/mapfiles/maps_lite/images/2x/signinphoto_96dp.png"
               alt=""
