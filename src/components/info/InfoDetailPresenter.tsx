@@ -24,7 +24,7 @@ const InfoDetailPresenter: React.FunctionComponent<
 
   return (
     <>
-      {transY < 1 ? (
+      {transY < 1 && mapDetail ? (
         <div
           css={infoDetailContainer}
           className={mapDetail ? 'infoDetail activated' : 'infoDetail'}

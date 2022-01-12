@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { Suspense } from 'react'
+import { Suspense, lazy } from 'react'
 import { useMapState } from '../../context/MapProvider'
-import InfoListPresenter from './InfoListPresenter'
 import haversine from 'haversine'
 import Loader from '../common/Loader'
+const InfoListPresenter = lazy(() => import('./InfoListPresenter'))
 
 const InfoListContainer: React.FunctionComponent = () => {
   const { mapInfo, onClick } = useMapState()
