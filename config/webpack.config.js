@@ -76,6 +76,7 @@ const hasJsxRuntime = (() => {
     return false
   }
 })()
+const CompressionPlugin = require('compression-webpack-plugin')
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
