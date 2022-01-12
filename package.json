@@ -192,7 +192,6 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "^17.0.8",
-    "compress-create-react-app": "^1.2.1"
+    "@types/node": "^17.0.8"
   }
 }
