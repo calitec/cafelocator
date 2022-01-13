@@ -5,6 +5,7 @@ export const helmets = (
     title="CAFE LOCATOR"
     description="카페 로케이터"
     htmlAttributes={{ lang: 'ko' }}
+    base={{ href: '/' }}
     meta={[
       {
         charset: 'UTF-8',
