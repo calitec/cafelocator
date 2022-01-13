@@ -26,8 +26,8 @@ const Home: React.FunctionComponent = () => {
           <InfoTemplate>
             <Suspense fallback={<Loader />}>
               <InfoListContainer />
-              <InfoDetailContainer />
             </Suspense>
+            <InfoDetailContainer />
           </InfoTemplate>
         </MainTemplate>
       </AuthProvider>
