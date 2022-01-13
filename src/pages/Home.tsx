@@ -14,12 +14,9 @@ import Loader from '../components/common/Loader'
 
 const Home: React.FunctionComponent = () => {
   return (
-    // <CoreProvider>
     <MapProvider>
       <GoogleMapsTemplate>
-        <Suspense fallback={<Loader />}>
-          <GoogleMapsContainer />
-        </Suspense>
+        <GoogleMapsContainer />
       </GoogleMapsTemplate>
       <AuthProvider>
         <MainTemplate nav={<NavTemplate />}>
@@ -32,7 +29,6 @@ const Home: React.FunctionComponent = () => {
         </MainTemplate>
       </AuthProvider>
     </MapProvider>
-    // </CoreProvider>
   )
 }
 

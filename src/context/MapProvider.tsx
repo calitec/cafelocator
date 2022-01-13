@@ -40,10 +40,6 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
   const { mapDetail, mapPosition, currentPosition } = mapInfo
   const { screenHeight } = useDeviceCheck()
 
-  useEffect(() => {
-    console.log(mapInfo.vision)
-  }, [mapInfo.vision])
-
   // 맵 초기화
   useEffect(() => {
     if (mapPosition.lat < 1) {
@@ -57,11 +53,11 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           }
-          setMapInfo((prev) => ({
-            ...prev,
+          setMapInfo({
+            ...mapInfo,
             currentPosition: initPosition,
             mapPosition: mapPosition,
-          }))
+          })
         })
       }
     }
@@ -83,8 +79,8 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
   const getCurrentLocation = useCallback(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        setMapInfo((prev) => ({
-          ...prev,
+        setMapInfo({
+          ...mapInfo,
           currentPosition: {
             lat:
               screenHeight > 812
@@ -92,7 +88,7 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
                 : position.coords.latitude - 0.015,
             lng: position.coords.longitude,
           },
-        }))
+        })
       })
     }
   }, [currentPosition])

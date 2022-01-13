@@ -2,9 +2,7 @@ import React from 'react'
 import { useCallback } from 'react'
 import { useMapState } from 'src/context/MapProvider'
 import { IMapDatasProps } from 'src/types/map'
-import { useCoreState } from '../../context/CoreProvider'
 import axios from 'axios'
-import useTouch from './useTouch'
 
 const useGetDetail = () => {
   const { mapInfo, setMapInfo } = useMapState()
@@ -12,11 +10,10 @@ const useGetDetail = () => {
   const onClick = useCallback(
     async (data: IMapDatasProps) => {
       try {
-        // setVision(true)
-        setMapInfo((prev) => ({
-          ...prev,
+        setMapInfo({
+          ...mapInfo,
           vision: true,
-        }))
+        })
         await axios
           .get(
             process.env.NODE_ENV !== 'production'
@@ -24,10 +21,10 @@ const useGetDetail = () => {
               : `https://cafelocator-server.herokuapp.com/google/detail?place_id=${data.place_id}`
           )
           .then((res) =>
-            setMapInfo((prev) => ({
-              ...prev,
+            setMapInfo({
+              ...mapInfo,
               mapDetail: res.data,
-            }))
+            })
           )
           .catch((error) => console.error(error))
       } catch {

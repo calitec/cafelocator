@@ -52,7 +52,7 @@ const GoogleMapsContainer: React.FunctionComponent = () => {
       // console.log(response,'response')
       if (response !== null && directions == null) {
         if (response.status === 'OK') {
-          setMapInfo((prev) => ({ ...prev, directions: response }))
+          setMapInfo({ ...mapInfo, directions: response })
         }
       }
     },

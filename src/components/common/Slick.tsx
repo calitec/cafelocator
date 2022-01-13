@@ -35,19 +35,19 @@ const Slick: React.FunctionComponent<IImagesProps> = ({ photos }) => {
   const onZoom = (e, i) => {
     e.stopPropagation()
     e.preventDefault()
-    setActive((prev) => ({
-      ...prev,
+    setActive({
+      ...active,
       boolean: true,
       index: i,
-    }))
+    })
   }
 
   const onClose = () => {
-    setActive((prev) => ({
-      ...prev,
+    setActive({
+      ...active,
       boolean: false,
       index: null,
-    }))
+    })
   }
 
   if (photos && photos.length > 1) {

@@ -8,19 +8,6 @@ import { noto } from '../../lib/styles/common'
 const Auth: React.FunctionComponent = () => {
   const { user, setUser, onLogin, onLogout } = useAuthState()
 
-  useLayoutEffect(() => {
-    firebase
-      .auth()
-      .setPersistence(firebase.auth.Auth.Persistence.SESSION)
-      .then(() => {
-        firebase.auth().onAuthStateChanged((user) => {
-          if (user) {
-            setUser((prev) => ({ ...prev, user }))
-          }
-        })
-      })
-  }, [])
-
   return (
     <div css={authContainer}>
       <form action="">
@@ -33,7 +20,7 @@ const Auth: React.FunctionComponent = () => {
           </button>
         ) : (
           <button onClick={onLogout}>
-            <img src={user ? user?.user.photoURL : ''} alt="" />
+            <img src={user ? user?.user?.photoURL : ''} alt="" />
           </button>
         )}
       </form>

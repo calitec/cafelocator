@@ -2,12 +2,16 @@ import React from 'react'
 import { css } from '@emotion/react'
 import media from 'src/lib/styles/media'
 import Spin from './Spin'
+import Skeleton from './Skeleton'
 
 const Loader: React.FunctionComponent = () => {
   return (
     <div css={LoaderWrapper}>
       <ul className="infoList">
         <Spin />
+        <Skeleton />
+        <Skeleton />
+        <Skeleton />
       </ul>
     </div>
   )

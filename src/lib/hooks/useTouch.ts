@@ -72,7 +72,6 @@ export default function useTouch() {
     (e) => {
       e.preventDefault()
       if (touchStart && !touchMove) {
-        console.log('0')
         setMapInfo({
           ...mapInfo,
           vision: true,
@@ -86,7 +85,6 @@ export default function useTouch() {
         return
       }
       if (transY >= 170 && transY < 350) {
-        console.log('1')
         setMapInfo({
           ...mapInfo,
           vision: false,

@@ -1,8 +1,5 @@
 import React from 'react'
 import { useMapState } from 'src/context/MapProvider'
-import useTouch from 'src/lib/hooks/useTouch'
-import { useCoreState } from '../../../context/CoreProvider'
-
 interface IDragProps {
   refs: React.MutableRefObject<any>
 }
