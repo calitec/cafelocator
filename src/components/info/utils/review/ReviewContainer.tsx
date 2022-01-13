@@ -30,12 +30,6 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
     setContent(e.target.value)
     setTextCount(e.target.value.length)
   }
-
-  // console.log('REVIEWS 컨테이너 렌더링')
-  // useEffect(() => {
-  //     console.log('REVIEWS 컨테이너 리렌더링')
-  // }, [])
-
   useScrollTo(wrapperRef, reviews)
 
   // 리뷰 읽기
@@ -45,8 +39,6 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
     if (drop) {
       initReviews()
     }
-    // console.log('떳다');
-    // return () => console.log('사라졌다');
     return () => initReviews()
   }, [mapDetail, drop, reviewsCount])
 

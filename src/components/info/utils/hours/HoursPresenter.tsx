@@ -18,11 +18,6 @@ const HoursPresenter: React.FunctionComponent<IHoursPresenterProps> = ({
   setDrop,
   reproduced,
 }) => {
-  // console.log('HOURS 프레젠터 렌더링')
-  // useEffect(() => {
-  //     console.log('HOURS 프레젠터 리렌더링')
-  // }, [])
-
   return (
     <ul css={hoursWrapper(drop)} className="list__hours head">
       {/* 영업시간 */}

@@ -38,11 +38,6 @@ const ReviewPresenter: React.FunctionComponent<IReviewsPresenterProps> = ({
   hasMore,
   onLogin,
 }) => {
-  // console.log('REVIEWS 프레젠터 렌더링')
-  // useEffect(() => {
-  //     console.log('REVIEWS 프레젠터 리렌더링')
-  // }, [])
-
   return (
     <div css={reviewsWrapper(drop)} className="list__review head">
       {/* 리뷰 */}

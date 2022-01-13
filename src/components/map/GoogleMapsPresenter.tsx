@@ -15,11 +15,10 @@ import { css } from '@emotion/react'
 import Spin from '../common/Spin'
 import useDeviceCheck from '../../lib/hooks/useDeviceCheck'
 import media from '../../lib/styles/media'
-import { useMapState } from '../../context/MapProvider'
 import GoogleMapsMarkers from './utils/GoogleMapsMarkers'
 
 interface IGoogleMapsPresenterProps {
-  initialPosition: {
+  currentPosition: {
     lat: number
     lng: number
   }
@@ -29,11 +28,13 @@ interface IGoogleMapsPresenterProps {
   }
   mapDatas: IMapDatasProps[]
   mapDetail: IMapDetailProps
+  keyword: string
   directions: {}
   directionsOptions: IGoogleMapOptionsProps
-  directionsCallback: (v) => void
+  travel: boolean
   isLoaded: boolean
   loadError: Error | undefined
+  directionsCallback: (v) => void
   onLoad: (v) => void
   onClick: (v, i) => void
   getCurrentLocation: () => void
@@ -42,78 +43,31 @@ interface IGoogleMapsPresenterProps {
 const GoogleMapsPresenter: React.FunctionComponent<
   IGoogleMapsPresenterProps
 > = ({
-  initialPosition,
+  currentPosition,
   mapPosition,
   mapDatas,
   mapDetail,
+  keyword,
   directions,
   directionsOptions,
-  directionsCallback,
+  travel,
   isLoaded,
   loadError,
+  directionsCallback,
   onLoad,
   onClick,
   getCurrentLocation,
 }) => {
-  // console.log('GOOGLE MAP 프레젠터 렌더링')
-  // useEffect(() => {
-  //     console.log('GOOGLE MAP 프레젠터 리렌더링')
-  // }, [])
-
   const { screenWidth } = useDeviceCheck()
   const [zoom, setZoom] = useState(13)
-  const { mapInfo } = useMapState()
-  const { travel } = mapInfo
   const mapOption = {
     fullscreenControl: false,
     disableDefaultUI: screenWidth <= 414 ? true : false,
   }
+
   function zoomChanged() {
     setZoom(this.getZoom())
   }
-
-  // const setMarkers = () => {
-  //     return mapDatas.map((v, i) => {
-  //         const { lat, lng } = v.geometry.location;
-  //         return (
-  //             <div key={i}>
-  //                 {/* current location marker*/}
-  //                 <Marker
-  //                     //@ts-ignore
-  //                     animation={window.google.maps.Animation.BOUNCE}
-  //                     position={{ lat: mapPosition.lat, lng: mapPosition.lng }}
-  //                 >
-  //                     <div className='effective'></div>
-  //                 </Marker>
-  //                 {/* cluster markers */}
-  //                 {
-  //                     <Marker
-  //                         icon={{
-  //                             url: './images/locator.png',
-  //                             //@ts-ignore
-  //                             size: new google.maps.Size(50, 57),
-  //                             //@ts-ignore
-  //                             labelOrigin: new google.maps.Point(9, 50),
-  //                         }}
-  //                         key={i}
-  //                         clickable
-  //                         onClick={() => onClick(v, i)}
-  //                         position={{ lat, lng }}
-  //                         label={{
-  //                             className: 'markerLabels',
-  //                             text: v.name,
-  //                             color: 'black',
-  //                             fontSize: zoom > 12 ? '12px' : '0px',
-  //                             fontWeight: 'bold',
-  //                             stroke: '5px white'
-  //                         }}
-  //                     >
-  //                     </Marker>
-  //                 }
-  //             </div>
-  //         )
-  //     })
-  // }
 
   const renderMap = () => {
     // wrapping to a function is useful in case you want to access `window.google`
@@ -126,7 +80,7 @@ const GoogleMapsPresenter: React.FunctionComponent<
           width: '100%',
           height: `${window.innerHeight}px`,
         }}
-        center={{ lat: initialPosition.lat, lng: initialPosition.lng }}
+        center={{ lat: currentPosition.lat, lng: currentPosition.lng }}
         zoom={13}
         onZoomChanged={zoomChanged}
         onLoad={onLoad}
@@ -159,7 +113,7 @@ const GoogleMapsPresenter: React.FunctionComponent<
             ''
           )}
 
-          {mapDatas.length > 1 && (
+          {mapDatas && keyword.length > 1 && (
             <GoogleMapsMarkers
               mapDatas={mapDatas}
               mapPosition={mapPosition}

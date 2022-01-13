@@ -1,15 +1,15 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
-import { useCoreState } from '../../context/CoreProvider'
-import { throttle } from 'lodash'
+import { useMapState } from 'src/context/MapProvider'
 
 export default function useTouch() {
-  const { vision, setVision } = useCoreState()
+  const { mapInfo, setMapInfo } = useMapState()
+  const { vision } = mapInfo
   const [infoPosition, setInfoPosition] = useState({
     transY: 0,
     touchStart: false,
     touchMove: false,
   })
-  const { transY, touchStart } = infoPosition
+  const { transY, touchStart, touchMove } = infoPosition
   const ref = useRef(null)
   const draggingDOMHeight = 34
   const iphoneXSafeArea = 145
@@ -71,26 +71,35 @@ export default function useTouch() {
   const onTouchEnd = useCallback(
     (e) => {
       e.preventDefault()
-      // if (touchStart && !touchMove) return
-      if (transY >= 170 && transY < 350) {
-        setVision(false)
-        setInfoPosition({
-          ...infoPosition,
-          transY: 350,
-          touchStart: false,
-          touchMove: false,
+      if (touchStart && !touchMove) {
+        console.log('0')
+        setMapInfo({
+          ...mapInfo,
+          vision: true,
         })
-      } else {
-        setVision(true)
         setInfoPosition({
           ...infoPosition,
           transY: 0,
           touchStart: false,
           touchMove: false,
         })
+        return
+      }
+      if (transY >= 170 && transY < 350) {
+        console.log('1')
+        setMapInfo({
+          ...mapInfo,
+          vision: false,
+        })
+        setInfoPosition({
+          ...infoPosition,
+          transY: 350,
+          touchStart: false,
+          touchMove: false,
+        })
       }
     },
-    [infoPosition]
+    [infoPosition, mapInfo]
   )
 
   return { infoPosition, setInfoPosition, ref } as any

@@ -6,22 +6,21 @@ import {
   useContext,
   useEffect,
 } from 'react'
-import { IMapDatasProps, IMapDetailProps } from '../types/map'
-import { useCoreState } from './CoreProvider'
-import axios from 'axios'
+import useDeviceCheck from 'src/lib/hooks/useDeviceCheck'
+import { IMapDetailProps } from '../types/map'
 
 interface State {
   mapInfo: {
-    initialPosition: { lat: number; lng: number }
+    currentPosition: { lat: number; lng: number }
     mapPosition: { lat: number; lng: number }
+    mapDetail: IMapDetailProps
     directions: object
     travel: boolean
-    mapDatas: IMapDatasProps[]
-    mapDetail: IMapDetailProps
-    loading: boolean
+    keyword: string
+    vision: boolean
   }
   setMapInfo: (data: object) => void
-  onClick: (data: object, i: number) => void
+  getCurrentLocation: () => void
   onClearDirections: () => void
   onReset: () => void
 }
@@ -30,23 +29,50 @@ export const MapStateContext = createContext<State | null>(null)
 
 const MapProvider: React.FunctionComponent = ({ children }) => {
   const [mapInfo, setMapInfo] = useState({
-    initialPosition: { lat: 0, lng: 0 },
+    currentPosition: { lat: 0, lng: 0 },
     mapPosition: { lat: 0, lng: 0 },
-    mapDatas: [],
     mapDetail: null,
     directions: null,
     travel: false,
-    loading: false,
+    keyword: '',
+    vision: true,
   })
-  const { mapDetail } = mapInfo
-  const { vision, setVision } = useCoreState()
+  const { mapDetail, mapPosition, currentPosition } = mapInfo
+  const { screenHeight } = useDeviceCheck()
+
+  useEffect(() => {
+    console.log(mapInfo.vision)
+  }, [mapInfo.vision])
+
+  // 맵 초기화
+  useEffect(() => {
+    if (mapPosition.lat < 1) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const initPosition = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          }
+          const mapPosition = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          }
+          setMapInfo((prev) => ({
+            ...prev,
+            currentPosition: initPosition,
+            mapPosition: mapPosition,
+          }))
+        })
+      }
+    }
+  }, [currentPosition, mapPosition])
 
   // 클릭 후 위치조정
   useEffect(() => {
     if (mapDetail) {
       setMapInfo({
         ...mapInfo,
-        initialPosition: {
+        currentPosition: {
           lat: mapDetail?.geometry.location.lat,
           lng: mapDetail?.geometry.location.lng,
         },
@@ -54,27 +80,22 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
     }
   }, [mapDetail])
 
-  // 마커/디테일 클릭/오버 api 요청
-  const onClick = useCallback(
-    async (data: IMapDatasProps) => {
-      try {
-        setVision(true)
-        await axios
-          .get(
-            process.env.NODE_ENV !== 'production'
-              ? `http://localhost:3070/google/detail?place_id=${data.place_id}`
-              : `https://cafelocator-server.herokuapp.com/google/detail?place_id=${data.place_id}`
-          )
-          .then((res) =>
-            setMapInfo((prev) => ({ ...prev, mapDetail: res.data }))
-          )
-          .catch((error) => console.error(error))
-      } catch {
-        console.log('no datas')
-      }
-    },
-    [mapDetail, vision]
-  )
+  const getCurrentLocation = useCallback(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setMapInfo((prev) => ({
+          ...prev,
+          currentPosition: {
+            lat:
+              screenHeight > 812
+                ? position.coords.latitude
+                : position.coords.latitude - 0.015,
+            lng: position.coords.longitude,
+          },
+        }))
+      })
+    }
+  }, [currentPosition])
 
   // 경로/디테일 리셋
   const onClearDirections = useCallback(() => {
@@ -86,19 +107,26 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
     })
   }, [mapInfo])
 
+  // 앱 리셋
   const onReset = useCallback(() => {
     setMapInfo({
       ...mapInfo,
-      mapDatas: [],
       mapDetail: null,
       directions: null,
       travel: false,
+      keyword: '',
     })
   }, [mapInfo])
 
   return (
     <MapStateContext.Provider
-      value={{ mapInfo, setMapInfo, onClick, onClearDirections, onReset }}
+      value={{
+        mapInfo,
+        setMapInfo,
+        getCurrentLocation,
+        onClearDirections,
+        onReset,
+      }}
     >
       {children}
     </MapStateContext.Provider>

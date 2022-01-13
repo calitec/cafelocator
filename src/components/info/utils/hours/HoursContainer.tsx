@@ -17,11 +17,6 @@ const HoursContainer: React.FunctionComponent<IHoursContainerProps> = ({
   const [reproduced, setReproduced] = useState([])
   const [drop, setDrop] = useToggle(false)
 
-  // console.log('HOURS 컨테이너 렌더링')
-  // useEffect(() => {
-  //     console.log('HOURS 컨테이너 리렌더링')
-  // }, [])
-
   useScrollTo(wrapperRef, drop)
 
   // 영업시간 재가공

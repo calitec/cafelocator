@@ -6,11 +6,9 @@ import FontAwesomeIcons from '../common/FontAwesomeIcons'
 import Input from '../common/Input'
 import Button from '../../components/common/Button'
 import { css } from '@emotion/react'
-import { fetcher } from 'src/lib/fetcher'
 
 const SearchForm: React.FunctionComponent = () => {
   const { mapInfo, setMapInfo, onReset } = useMapState()
-  const { mapPosition } = mapInfo
   const [keyword, setKeyword] = useState('')
   const onChange = (e) => setKeyword(e.target.value)
   const enterRef = useRef(null)
@@ -27,21 +25,8 @@ const SearchForm: React.FunctionComponent = () => {
   const onSearch = useCallback(
     async (e) => {
       e.preventDefault()
-      const { lat, lng } = mapPosition
-      const url =
-        process.env.NODE_ENV !== 'production'
-          ? `http://localhost:3070/google/nearby?lat=${lat}&lng=${lng}&keyword=${encodeURIComponent(
-              keyword.split(' ').join('')
-            )}`
-          : `https://cafelocator-server.herokuapp.com/google/nearby?lat=${lat}&lng=${lng}&keyword=${encodeURIComponent(
-              keyword.split(' ').join('')
-            )}`
-
       onReset()
-      const result = await fetcher(url)
-      setMapInfo((prev) => ({ ...prev, loading: true }))
-      setMapInfo((prev) => ({ ...prev, mapDatas: result }))
-      setMapInfo((prev) => ({ ...prev, loading: false }))
+      setMapInfo((prev) => ({ ...prev, keyword: keyword }))
     },
     [mapInfo, keyword]
   )

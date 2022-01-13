@@ -12,14 +12,12 @@ const InfoDetailContainer: React.FunctionComponent = ({}) => {
 
   return (
     <>
-      {mapDetail && (
-        <InfoDetailPresenter
-          mapDetail={mapDetail}
-          onClearDirections={onClearDirections}
-          setTravel={setTravel}
-          transY={transY}
-        />
-      )}
+      <InfoDetailPresenter
+        mapDetail={mapDetail}
+        onClearDirections={onClearDirections}
+        setTravel={setTravel}
+        transY={transY}
+      />
     </>
   )
 }

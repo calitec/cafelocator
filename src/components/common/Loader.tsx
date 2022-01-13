@@ -17,9 +17,8 @@ const LoaderWrapper = css`
   display: block;
   width: 350px;
   height: 400px;
-  overflow-y: 'hidden';
+  overflow-y: auto;
   z-index: 1000;
-  -webkit-overflow-scrolling: touch;
   ${media.large} {
     width: 100%;
     height: 350px;
