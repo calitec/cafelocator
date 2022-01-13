@@ -38,6 +38,10 @@ export const helmets = (
         property: 'og:image',
         content: 'http://calicafefinder.com/favicon.ico',
       },
+      {
+        httpEquiv: 'Pragma',
+        content: 'no-cache',
+      },
     ]}
     link={[
       {
