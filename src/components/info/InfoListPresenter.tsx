@@ -1,14 +1,10 @@
 import * as React from 'react'
-import { IMapDatasProps } from '../../types/map'
-import { useMapState } from '../../context/MapProvider'
 import Rating from '../common/Rating'
-import Skeleton from '../common/Skeleton'
-import Spin from '../common/Spin'
-import { css } from '@emotion/react'
 import media from '../../lib/styles/media'
-import { noto, notoBig } from '../..//lib/styles/common'
 import useScroll from 'src/lib/hooks/useScroll'
-import useTouch from 'src/lib/hooks/useTouch'
+import { IMapDatasProps } from '../../types/map'
+import { css } from '@emotion/react'
+import { noto, notoBig } from '../..//lib/styles/common'
 
 interface IInfoListPresenterProps {
   mapPosition: {
