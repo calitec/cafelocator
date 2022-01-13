@@ -2,12 +2,20 @@ import ReactDOM from 'react-dom'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { BrowserRouter } from 'react-router-dom'
+import MapProvider from './context/MapProvider'
+import { AuthProvider } from './context/AuthProvider'
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLDivElement
 )
+
 root.render(
   <BrowserRouter>
-    <App />
+    <MapProvider>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </MapProvider>
   </BrowserRouter>
 )
 // ReactDOM.render(

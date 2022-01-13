@@ -1,7 +1,7 @@
 import React from 'react'
 import { useMapState } from 'src/context/MapProvider'
 
-const useGetDatas = () => {
+export default function useGetDatas() {
   const { mapInfo } = useMapState()
   const { mapPosition, keyword } = mapInfo
   const url =
@@ -16,5 +16,3 @@ const useGetDatas = () => {
         )}`
   return url
 }
-
-export default useGetDatas

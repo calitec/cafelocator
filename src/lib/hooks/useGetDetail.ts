@@ -4,7 +4,7 @@ import { useMapState } from 'src/context/MapProvider'
 import { IMapDatasProps } from 'src/types/map'
 import axios from 'axios'
 
-const useGetDetail = () => {
+export default function useGetDetail() {
   const { mapInfo, setMapInfo } = useMapState()
   const { mapDetail } = mapInfo
   const onClick = useCallback(
@@ -35,5 +35,3 @@ const useGetDetail = () => {
   )
   return { onClick }
 }
-
-export default useGetDetail
