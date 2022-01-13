@@ -5,7 +5,6 @@ export const helmets = (
     title="CAFE LOCATOR"
     description="카페 로케이터"
     htmlAttributes={{ lang: 'ko' }}
-    base={{ href: '/' }}
     meta={[
       {
         charset: 'UTF-8',
@@ -38,10 +37,6 @@ export const helmets = (
       {
         property: 'og:image',
         content: 'http://calicafefinder.com/favicon.ico',
-      },
-      {
-        httpEquiv: 'Pragma',
-        content: 'no-cache',
       },
     ]}
     link={[

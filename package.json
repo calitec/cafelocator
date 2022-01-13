@@ -2,7 +2,6 @@
   "name": "cafelocator-client",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
   "engines": {
     "node": "10.x"
   },
@@ -59,7 +58,6 @@
     "file-loader": "6.1.1",
     "firebase": "^8.8.0",
     "fs-extra": "^9.0.1",
-    "gzip": "^0.1.0",
     "haversine": "^1.1.1",
     "html-webpack-plugin": "4.5.0",
     "identity-obj-proxy": "3.0.0",
@@ -112,8 +110,7 @@
     "dev": "node scripts/start.js",
     "build": "node scripts/build.js",
     "start": "node server.js",
-    "test": "node scripts/test.js",
-    "postbuild": "gzip build/static/js/*.js && gzip build/static/css/*.css"
+    "test": "node scripts/test.js"
   },
   "eslintConfig": {
     "extends": [
