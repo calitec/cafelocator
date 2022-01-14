@@ -6,12 +6,12 @@ export default function useGetDatas() {
   const { mapPosition, keyword } = mapInfo
   const url =
     process.env.NODE_ENV !== 'production'
-      ? `http://localhost:3070/google/nearby?lat=${mapPosition.lat}&lng=${
-          mapPosition.lng
+      ? `http://localhost:3070/google/nearby?lat=${mapPosition?.lat}&lng=${
+          mapPosition?.lng
         }&keyword=${encodeURIComponent(keyword.split(' ').join(''))}`
       : `https://cafelocator-server.herokuapp.com/google/nearby?lat=${
-          mapPosition.lat
-        }&lng=${mapPosition.lng}&keyword=${encodeURIComponent(
+          mapPosition?.lat
+        }&lng=${mapPosition?.lng}&keyword=${encodeURIComponent(
           keyword.split(' ').join('')
         )}`
   return url

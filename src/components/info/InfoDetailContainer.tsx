@@ -8,7 +8,7 @@ const InfoDetailContainer: React.FunctionComponent = ({}) => {
   const { mapDetail } = mapInfo
   const { infoPosition } = useTouch()
   const { transY } = infoPosition
-  const setTravel = () => setMapInfo((prev) => ({ ...prev, travel: true }))
+  const setTravel = () => setMapInfo({ ...mapInfo, travel: true })
 
   return (
     <>

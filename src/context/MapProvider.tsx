@@ -76,6 +76,10 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
     }
   }, [mapDetail])
 
+  useEffect(() => {
+    console.log(mapInfo.directions)
+  }, [mapInfo])
+
   const getCurrentLocation = useCallback(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
