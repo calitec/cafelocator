@@ -100,7 +100,7 @@ const ReviewPresenter: React.FunctionComponent<IReviewsPresenterProps> = ({
             )}
           </li>
         )}
-        {reviewsCount != reviews.length ? (
+        {reviews.length < reviewsCount ? (
           <div className="plus">
             <button onClick={hasMore}>더 보기</button>
           </div>

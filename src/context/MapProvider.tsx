@@ -45,18 +45,14 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
     if (mapPosition.lat < 1) {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
-          const initPosition = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          }
-          const mapPosition = {
+          const positions = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           }
           setMapInfo({
             ...mapInfo,
-            currentPosition: initPosition,
-            mapPosition: mapPosition,
+            currentPosition: positions,
+            mapPosition: positions,
           })
         })
       }
@@ -74,11 +70,7 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
         },
       })
     }
-  }, [mapDetail])
-
-  useEffect(() => {
-    console.log(mapInfo.directions)
-  }, [mapInfo])
+  }, [mapInfo.mapDetail])
 
   const getCurrentLocation = useCallback(() => {
     if (navigator.geolocation) {
@@ -95,7 +87,7 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
         })
       })
     }
-  }, [currentPosition])
+  }, [mapInfo])
 
   // 경로/디테일 리셋
   const onClearDirections = useCallback(() => {

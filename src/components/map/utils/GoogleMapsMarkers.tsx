@@ -8,30 +8,33 @@ interface IGoogleMapsMarkersProps {
     lng: number
   }
   zoom: number
+  keyword: string
   onClick: (v, i) => void
 }
 const GoogleMapsMarkers: React.FunctionComponent<IGoogleMapsMarkersProps> = ({
   mapDatas,
   mapPosition,
   zoom,
+  keyword,
   onClick,
 }) => {
   return (
     <>
-      {mapDatas.map((v, i) => {
-        const { lat, lng } = v.geometry.location
-        return (
-          <div key={i}>
-            {/* current location marker*/}
-            <Marker
-              //@ts-ignore
-              animation={window.google.maps.Animation.BOUNCE}
-              position={{ lat: mapPosition.lat, lng: mapPosition.lng }}
-            >
-              <div className="effective"></div>
-            </Marker>
-            {/* cluster markers */}
-            {
+      {/* current location marker*/}
+      <Marker
+        //@ts-ignore
+        animation={window.google.maps.Animation.BOUNCE}
+        position={{ lat: mapPosition.lat, lng: mapPosition.lng }}
+      >
+        <div className="effective"></div>
+      </Marker>
+      {mapDatas &&
+        keyword.length > 1 &&
+        mapDatas.map((v, i) => {
+          const { lat, lng } = v.geometry.location
+          return (
+            <div key={i}>
+              {/* cluster markers */}
               <Marker
                 icon={{
                   url: './images/locator.png',
@@ -53,10 +56,9 @@ const GoogleMapsMarkers: React.FunctionComponent<IGoogleMapsMarkersProps> = ({
                   stroke: '5px white',
                 }}
               ></Marker>
-            }
-          </div>
-        )
-      })}
+            </div>
+          )
+        })}
     </>
   )
 }

@@ -113,14 +113,13 @@ const GoogleMapsPresenter: React.FunctionComponent<
             ''
           )}
 
-          {mapDatas && keyword.length > 1 && (
-            <GoogleMapsMarkers
-              mapDatas={mapDatas}
-              mapPosition={mapPosition}
-              zoom={zoom}
-              onClick={onClick}
-            />
-          )}
+          <GoogleMapsMarkers
+            mapDatas={mapDatas}
+            mapPosition={mapPosition}
+            keyword={keyword}
+            zoom={zoom}
+            onClick={onClick}
+          />
         </div>
       </GoogleMap>
     )

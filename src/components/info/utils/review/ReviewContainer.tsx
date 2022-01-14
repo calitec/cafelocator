@@ -39,8 +39,7 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
     if (drop) {
       initReviews()
     }
-    return () => initReviews()
-  }, [mapDetail, drop, reviewsCount])
+  }, [mapInfo.mapDetail, drop, reviewsCount])
 
   // offset 값 저장
   useEffect(() => {
@@ -116,7 +115,7 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
 
   function initReviews() {
     if (mapDetail?.place_id != undefined) {
-      if (reviewsCount == 0) {
+      if (drop) {
         reviewsRef
           .child(`${mapDetail?.place_id}`)
           .on('value', (DataSnapshot) => {
