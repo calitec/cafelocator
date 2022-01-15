@@ -6,14 +6,9 @@ import axios from 'axios'
 
 export default function useGetDetail() {
   const { mapInfo, setMapInfo } = useMapState()
-  const { mapDetail } = mapInfo
   const onClick = useCallback(
     async (data: IMapDatasProps) => {
       try {
-        setMapInfo({
-          ...mapInfo,
-          vision: true,
-        })
         await axios
           .get(
             process.env.NODE_ENV !== 'production'
@@ -21,17 +16,20 @@ export default function useGetDetail() {
               : `https://cafelocator-server.herokuapp.com/google/detail?place_id=${data.place_id}`
           )
           .then((res) =>
-            setMapInfo({
-              ...mapInfo,
+            setMapInfo((prev) => ({
+              ...prev,
+              vision: true,
+              travel: false,
+              directions: null,
               mapDetail: res.data,
-            })
+            }))
           )
           .catch((error) => console.error(error))
       } catch {
         console.log('no datas')
       }
     },
-    [mapDetail, mapInfo]
+    [mapInfo]
   )
   return { onClick }
 }

@@ -39,7 +39,10 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
   })
   const { mapDetail, mapPosition, currentPosition } = mapInfo
   const { screenHeight } = useDeviceCheck()
-
+  useEffect(()=>{
+    console.log(mapInfo.travel)
+    console.log(mapInfo.directions)
+  },[mapInfo])
   // 맵 초기화
   useEffect(() => {
     if (mapPosition.lat < 1) {
@@ -62,21 +65,21 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
   // 클릭 후 위치조정
   useEffect(() => {
     if (mapDetail) {
-      setMapInfo({
-        ...mapInfo,
+      setMapInfo((prev) => ({
+        ...prev,
         currentPosition: {
           lat: mapDetail?.geometry.location.lat,
           lng: mapDetail?.geometry.location.lng,
         },
-      })
+      }))
     }
   }, [mapInfo.mapDetail])
 
   const getCurrentLocation = useCallback(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        setMapInfo({
-          ...mapInfo,
+        setMapInfo((prev) => ({
+          ...prev,
           currentPosition: {
             lat:
               screenHeight > 812
@@ -84,30 +87,30 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
                 : position.coords.latitude - 0.015,
             lng: position.coords.longitude,
           },
-        })
+        }))
       })
     }
   }, [mapInfo])
 
   // 경로/디테일 리셋
   const onClearDirections = useCallback(() => {
-    setMapInfo({
-      ...mapInfo,
+    setMapInfo((prev) => ({
+      ...prev,
       mapDetail: null,
       directions: null,
       travel: false,
-    })
+    }))
   }, [mapInfo])
 
   // 앱 리셋
   const onReset = useCallback(() => {
-    setMapInfo({
-      ...mapInfo,
+    setMapInfo((prev) => ({
+      ...prev,
       mapDetail: null,
       directions: null,
       travel: false,
       keyword: '',
-    })
+    }))
   }, [mapInfo])
 
   return (

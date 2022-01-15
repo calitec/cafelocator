@@ -26,7 +26,8 @@ const SearchForm: React.FunctionComponent = () => {
     async (e) => {
       e.preventDefault()
       onReset()
-      setMapInfo({ ...mapInfo, keyword: keyword })
+      setMapInfo((prev) => ({
+        ...prev, keyword: keyword }))
     },
     [mapInfo, keyword]
   )
