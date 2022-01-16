@@ -37,12 +37,14 @@ const HoursContainer: React.FunctionComponent<IHoursContainerProps> = ({
         } else if (getDay == 1) {
           // 월요일~
           setRealignment(realignment.concat(opening))
+          return
         } else {
           // rest
           const prevDays = opening?.filter((v, i) => i < getDay - 1)
           const nextDays = opening?.filter((v, i) => i > getDay - 2)
           const result = nextDays.concat(prevDays)
           setRealignment(realignment.concat(result))
+          return
         }
       }
     } catch {
