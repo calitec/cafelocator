@@ -17,10 +17,10 @@ export default function useScroll() {
     if (ref) {
       const scrollContainer = ref.current
       setScrollTop(scrollContainer.scrollTop)
-      const throt = throttle(onScroll, 50)
-      scrollContainer.addEventListener('scroll', throt, { passive: true })
+      const throttling = throttle(onScroll, 50)
+      scrollContainer.addEventListener('scroll', throttling, { passive: true })
       return () => {
-        scrollContainer.removeEventListener('scroll', throt)
+        scrollContainer.removeEventListener('scroll', throttling)
       }
     }
   }, [ref])

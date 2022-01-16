@@ -6,7 +6,7 @@ import { noto } from '../../../../lib/styles/common'
 interface IHoursPresenterProps {
   drop: boolean
   setDrop: () => void
-  reproduced: {
+  realignment: {
     opening_hours: {
       weekday_text: string
     }
@@ -16,7 +16,7 @@ interface IHoursPresenterProps {
 const HoursPresenter: React.FunctionComponent<IHoursPresenterProps> = ({
   drop,
   setDrop,
-  reproduced,
+  realignment,
 }) => {
   return (
     <ul css={hoursWrapper(drop)} className="list__hours head">
@@ -24,8 +24,8 @@ const HoursPresenter: React.FunctionComponent<IHoursPresenterProps> = ({
       <span className="icon">
         {<FontAwesomeIcons icon={'clock'} color={'black'} />}
       </span>
-      {(reproduced.length > 0 &&
-        reproduced.map((v, i) => {
+      {(realignment.length > 0 &&
+        realignment.map((v, i) => {
           return (
             <li
               key={i}

@@ -14,43 +14,44 @@ const HoursContainer: React.FunctionComponent<IHoursContainerProps> = ({
 }) => {
   const { mapInfo } = useMapState()
   const { mapDetail } = mapInfo
-  const [reproduced, setReproduced] = useState([])
+  const [realignment, setRealignment] = useState([])
   const [drop, setDrop] = useToggle(false)
 
   useScrollTo(wrapperRef, drop)
 
   // 영업시간 재가공
   useEffect(() => {
-    reproduce(mapDetail.opening_hours?.weekday_text)
+    doRealignment(mapDetail.opening_hours?.weekday_text)
+    return () => doRealignment(mapDetail.opening_hours?.weekday_text)
   }, [])
 
-  const reproduce = useMemo(
-    () => (opening) => {
-      try {
-        if (reproduced.length < 1) {
-          const getDay = new Date().getDay()
-          if (getDay == 0) {
-            const filterd = [opening[opening.length - 1], ...opening]
-            setReproduced(reproduced.concat(filterd.slice(0, 7)))
-            return
-          } else if (getDay == 1) {
-            return setReproduced(reproduced.concat(opening))
-          } else {
-            const prevDay = opening?.filter((v, i) => i < getDay - 1)
-            const filtered = opening?.filter((v, i) => i > getDay - 2)
-            const result = filtered.concat(prevDay)
-            setReproduced(reproduced.concat(result))
-          }
+  function doRealignment (opening) {
+    try {
+      if (realignment.length < 1) {
+        const getDay = new Date().getDay()
+        if (getDay == 0) {
+          // 일요일~
+          const sortedSundayFirst = [opening[opening.length - 1], ...opening]
+          setRealignment(realignment.concat(sortedSundayFirst.slice(0, 7)))
+          return
+        } else if (getDay == 1) {
+          // 월요일~
+          setRealignment(realignment.concat(opening))
+        } else {
+          // rest
+          const prevDays = opening?.filter((v, i) => i < getDay - 1)
+          const nextDays = opening?.filter((v, i) => i > getDay - 2)
+          const result = nextDays.concat(prevDays)
+          setRealignment(realignment.concat(result))
         }
-      } catch {
-        console.log('no datas')
       }
-    },
-    [mapDetail.opening_hours?.weekday_text]
-  )
+    } catch {
+      console.log('no datas')
+    }
+  }
 
   return (
-    <HoursPresenter drop={drop} setDrop={setDrop} reproduced={reproduced} />
+    <HoursPresenter drop={drop} setDrop={setDrop} realignment={realignment} />
   )
 }
 

@@ -42,29 +42,31 @@ const GoogleMapsMarkers: React.FunctionComponent<IGoogleMapsMarkersProps> = ({
           const { lat, lng } = v.geometry.location
           if(mapDetail?.place_id === v.place_id) {
             return(
-              <Marker
-                icon={{
-                  url: './images/locator.png',
+              <div key={i}>
+                <Marker
+                  icon={{
+                    url: './images/locator.png',
+                    //@ts-ignore
+                    size: new google.maps.Size(50, 57),
+                    //@ts-ignore
+                    labelOrigin: new google.maps.Point(9, 50),
+                  }}
                   //@ts-ignore
-                  size: new google.maps.Size(50, 57),
-                  //@ts-ignore
-                  labelOrigin: new google.maps.Point(9, 50),
-                }}
-                //@ts-ignore
-                animation={!travel && window.google.maps.Animation.BOUNCE}
-                position={{ lat, lng }}
+                  animation={!travel && window.google.maps.Animation.BOUNCE}
+                  position={{ lat, lng }}
 
-                label={{
-                  className: 'markerLabels',
-                  text: v.name,
-                  color: 'black',
-                  fontSize: zoom > 12 ? '12px' : '0px',
-                  fontWeight: 'bold',
-                  stroke: '5px white',
-                }}
-              >
-                <div className="effective"></div>
-              </Marker>
+                  label={{
+                    className: 'markerLabels',
+                    text: v.name,
+                    color: 'black',
+                    fontSize: zoom > 12 ? '12px' : '0px',
+                    fontWeight: 'bold',
+                    stroke: '5px white',
+                  }}
+                >
+                  <div className="effective"></div>
+                </Marker>
+              </div>
             )
           }
           return (
