@@ -39,10 +39,7 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
   })
   const { mapDetail, mapPosition, currentPosition } = mapInfo
   const { screenHeight } = useDeviceCheck()
-  useEffect(()=>{
-    console.log(mapInfo.travel)
-    console.log(mapInfo.directions)
-  },[mapInfo])
+
   // 맵 초기화
   useEffect(() => {
     if (mapPosition.lat < 1) {

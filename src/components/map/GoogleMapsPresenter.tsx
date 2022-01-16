@@ -1,6 +1,6 @@
 /* global google */
 import * as React from 'react'
-import { useState, memo, useMemo } from 'react'
+import { useState, memo } from 'react'
 import {
   GoogleMap,
   DirectionsService,
@@ -18,20 +18,22 @@ import media from '../../lib/styles/media'
 import GoogleMapsMarkers from './utils/GoogleMapsMarkers'
 
 interface IGoogleMapsPresenterProps {
-  currentPosition: {
-    lat: number
-    lng: number
-  }
-  mapPosition: {
-    lat: number
-    lng: number
-  }
   mapDatas: IMapDatasProps[]
-  mapDetail: IMapDetailProps
-  keyword: string
-  directions: {}
+  mapInfo: {
+    currentPosition: {
+      lat: number
+      lng: number
+    }
+    mapPosition: {
+      lat: number
+      lng: number
+    }
+    mapDetail: IMapDetailProps
+    travel: boolean
+    keyword: string
+    directions: {}
+  }
   directionsOptions: IGoogleMapOptionsProps
-  travel: boolean
   isLoaded: boolean
   loadError: Error | undefined
   directionsCallback: (v) => void
@@ -43,14 +45,9 @@ interface IGoogleMapsPresenterProps {
 const GoogleMapsPresenter: React.FunctionComponent<
   IGoogleMapsPresenterProps
 > = ({
-  currentPosition,
-  mapPosition,
   mapDatas,
-  mapDetail,
-  keyword,
-  directions,
+  mapInfo,
   directionsOptions,
-  travel,
   isLoaded,
   loadError,
   directionsCallback,
@@ -64,6 +61,7 @@ const GoogleMapsPresenter: React.FunctionComponent<
     fullscreenControl: false,
     disableDefaultUI: screenWidth <= 414 ? true : false,
   }
+  const { currentPosition, mapPosition, mapDetail, keyword, directions, travel } = mapInfo
 
   function zoomChanged() {
     setZoom(this.getZoom())
@@ -115,8 +113,7 @@ const GoogleMapsPresenter: React.FunctionComponent<
 
           <GoogleMapsMarkers
             mapDatas={mapDatas}
-            mapPosition={mapPosition}
-            keyword={keyword}
+            mapInfo={mapInfo}
             zoom={zoom}
             onClick={onClick}
           />

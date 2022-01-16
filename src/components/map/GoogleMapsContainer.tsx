@@ -66,14 +66,15 @@ const GoogleMapsContainer: React.FunctionComponent = () => {
   return (
     <>
       <GoogleMapsPresenter
-        currentPosition={currentPosition}
-        mapPosition={mapPosition}
         mapDatas={data}
-        mapDetail={mapDetail}
-        keyword={keyword}
-        directions={directions}
+        // currentPosition={currentPosition}
+        // mapPosition={mapPosition}
+        // mapDetail={mapDetail}
+        // keyword={keyword}
+        // travel={travel}
+        // directions={directions}
+        mapInfo={mapInfo}
         directionsOptions={directionsOptions}
-        travel={travel}
         isLoaded={isLoaded}
         loadError={loadError}
         directionsCallback={directionsCallback}

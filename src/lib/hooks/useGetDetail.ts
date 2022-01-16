@@ -5,10 +5,11 @@ import { IMapDatasProps } from 'src/types/map'
 import axios from 'axios'
 
 export default function useGetDetail() {
-  const { mapInfo, setMapInfo } = useMapState()
+  const { mapInfo, setMapInfo, onClearDirections } = useMapState()
   const onClick = useCallback(
     async (data: IMapDatasProps) => {
       try {
+        onClearDirections()
         await axios
           .get(
             process.env.NODE_ENV !== 'production'
@@ -18,9 +19,6 @@ export default function useGetDetail() {
           .then((res) =>
             setMapInfo((prev) => ({
               ...prev,
-              vision: true,
-              travel: false,
-              directions: null,
               mapDetail: res.data,
             }))
           )

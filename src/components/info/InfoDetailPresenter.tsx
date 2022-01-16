@@ -91,7 +91,8 @@ const infoDetailContainer = css`
     }
     to {
       opacity: 1;
-      left: 360px;
+      z-index: 2;
+      /* left: 360px; */
     }
   }
   @keyframes fixPosition {
@@ -100,7 +101,7 @@ const infoDetailContainer = css`
     }
     to {
       opacity: 1;
-      z-index: 3;
+      z-index: 2;
     }
   }
   &.activated {
