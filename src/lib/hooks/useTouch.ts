@@ -41,12 +41,12 @@ export default function useTouch() {
 
   const onTouchStart = useCallback(
     (e) => {
-      setInfoPosition({
-        ...infoPosition,
+      setInfoPosition((prev) => ({
+        ...prev,
         transY: 0,
         touchStart: true,
         touchMove: false,
-      })
+      }))
     },
     [infoPosition]
   )
@@ -58,12 +58,12 @@ export default function useTouch() {
       const device = clientY - (mobileScreenHeight - contentHeight - 13)
       const deviceX =
         clientY - (mobileScreenHeight - contentHeight - iphoneXSafeArea)
-      setInfoPosition({
-        ...infoPosition,
+      setInfoPosition((prev) => ({
+        ...prev,
         transY: mobileScreenHeight == 812 ? deviceX : device,
         touchStart: true,
         touchMove: true,
-      })
+      }))
     },
     [infoPosition]
   )
@@ -72,29 +72,36 @@ export default function useTouch() {
     (e) => {
       e.preventDefault()
       if (touchStart && !touchMove) {
-        setMapInfo({
-          ...mapInfo,
+        setMapInfo((prev) => ({
+          ...prev,
           vision: true,
-        })
-        setInfoPosition({
-          ...infoPosition,
+        }))
+        setInfoPosition((prev) => ({
+          ...prev,
           transY: 0,
           touchStart: false,
           touchMove: false,
-        })
+        }))
         return
       }
       if (transY >= 170 && transY < 350) {
-        setMapInfo({
-          ...mapInfo,
+        setMapInfo((prev) => ({
+          ...prev,
           vision: false,
-        })
-        setInfoPosition({
-          ...infoPosition,
+        }))
+        setInfoPosition((prev) => ({
+          ...prev,
           transY: 350,
           touchStart: false,
           touchMove: false,
-        })
+        }))
+      } else {
+        setInfoPosition((prev) => ({
+          ...prev,
+          transY: 0,
+          touchStart: false,
+          touchMove: false,
+        }))
       }
     },
     [infoPosition, mapInfo]
