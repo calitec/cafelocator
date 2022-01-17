@@ -1,13 +1,26 @@
 import * as React from 'react'
 import { useEffect, useState, useCallback } from 'react'
-import firebase from 'firebase'
+import {
+  getDatabase,
+  ref,
+  get,
+  set,
+  child,
+  push,
+  update,
+  orderByChild,
+  equalTo,
+  endAt,
+  limitToLast,
+  query,
+} from 'firebase/database'
 import { toast } from 'react-toastify'
 import { useAuthState } from '../../../../context/AuthProvider'
 import { useMapState } from '../../../../context/MapProvider'
 import ReviewPresenter from './ReviewPresenter'
 import useToggle from '../../../../lib/hooks/useToggle'
 import useScrollTo from '../../../../lib/hooks/useScrollTo'
-
+import { getAuth } from 'firebase/auth'
 interface IReviewsContainerProps {
   wrapperRef: any
 }
@@ -15,8 +28,10 @@ interface IReviewsContainerProps {
 const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
   wrapperRef,
 }) => {
-  const reviewsRef = firebase.database().ref('reviews')
-  const currentUser = firebase.auth().currentUser
+  const db = getDatabase()
+  const auth = getAuth()
+  const reviewsRef = ref(db, 'reviews')
+  const currentUser = auth.currentUser
   const { mapInfo } = useMapState()
   const { mapDetail } = mapInfo
   const [drop, setDrop] = useToggle(false)
@@ -57,18 +72,15 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
       toast.error('3글자 이상 입력 해주세요.')
       return
     }
-    const userUid = firebase.auth().currentUser.uid
-    const userName = firebase.auth().currentUser.displayName
-    reviewsRef
-      .child(`${mapDetail.place_id}`)
-      .push()
-      .set({
-        place_id: mapDetail.place_id,
-        name: userName,
-        uid: userUid,
-        content: content,
-        createdAt: +new Date(),
-      })
+    const userUid = currentUser.uid
+    const userName = currentUser.displayName
+    set(push(child(reviewsRef, `${mapDetail.place_id}`)), {
+      place_id: mapDetail.place_id,
+      name: userName,
+      uid: userUid,
+      content: content,
+      createdAt: +new Date(),
+    })
     toast.info('리뷰가 작성되었습니다.')
     setContent('')
   }
@@ -77,15 +89,17 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
     (i) => {
       if (window.confirm('삭제 하시겠습니까?')) {
         if (currentUser && currentUser.uid == reviews[i].uid) {
-          reviewsRef
-            .child(`${mapDetail.place_id}`)
-            .orderByChild('createdAt')
-            .equalTo(reviews[i].createdAt)
-            .on('value', (QuerySnapshot) => {
-              const updates = {}
-              QuerySnapshot.forEach((child) => (updates[child.key] = null))
-              reviewsRef.child(`${mapDetail.place_id}`).update(updates)
-            })
+          get(
+            query(
+              child(reviewsRef, `${mapDetail.place_id}`),
+              orderByChild('createdAt'),
+              equalTo(reviews[i].createdAt)
+            )
+          ).then((snapshot) => {
+            const updates = {}
+            snapshot.forEach((child) => (updates[child.key] = null))
+            update(child(reviewsRef, `${mapDetail.place_id}`), updates)
+          })
         }
         if (reviews.length == 1) setReviews([])
       }
@@ -95,41 +109,37 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
 
   const hasMore = useCallback(() => {
     if (mapDetail.place_id != undefined && offset != null) {
-      reviewsRef
-        .child(`${mapDetail.place_id}`)
-        .orderByChild('createdAt')
-        .endAt(offset)
-        .limitToLast(5 + 1)
-        .on('value', (QuerySnapshot) => {
-          if (QuerySnapshot.numChildren() >= 1) {
-            setReviews(
-              reviews.concat(
-                Object.values(QuerySnapshot.val()).reverse().slice(1, 6)
-              )
-            )
-            // console.log(QuerySnapshot.numChildren(), QuerySnapshot.val(), '쿼리쿼리')
-          }
-        })
+      get(
+        query(
+          child(reviewsRef, `${mapDetail.place_id}`),
+          orderByChild('createdAt'),
+          endAt(offset),
+          limitToLast(5 + 1)
+        )
+      ).then((snapshot) => {
+        if (snapshot.size >= 1) {
+          setReviews(
+            reviews.concat(Object.values(snapshot.val()).reverse().slice(1, 6))
+          )
+        }
+      })
     }
   }, [offset, reviews])
 
   function initReviews() {
     if (mapDetail?.place_id != undefined) {
       if (drop) {
-        reviewsRef
-          .child(`${mapDetail?.place_id}`)
-          .on('value', (DataSnapshot) => {
-            setReviewsCount(DataSnapshot.numChildren())
-          })
-      }
-      reviewsRef
-        .child(`${mapDetail?.place_id}`)
-        .limitToLast(5)
-        .on('value', (DataSnapshot) => {
-          if (DataSnapshot.val() != null) {
-            setReviews(Object.values(DataSnapshot.val()).reverse())
-          }
+        get(child(reviewsRef, `${mapDetail.place_id}`)).then((snapshot) => {
+          if (snapshot.exists()) setReviewsCount(snapshot.size)
         })
+      }
+      get(
+        query(child(reviewsRef, `${mapDetail.place_id}`), limitToLast(5))
+      ).then((snapshot) => {
+        if (snapshot.val() != null) {
+          setReviews(Object.values(snapshot.val()).reverse())
+        }
+      })
     }
   }
 
