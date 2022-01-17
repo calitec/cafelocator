@@ -13,6 +13,7 @@ import {
   endAt,
   limitToLast,
   query,
+  onValue,
 } from 'firebase/database'
 import { toast } from 'react-toastify'
 import { useAuthState } from '../../../../context/AuthProvider'
@@ -34,13 +35,13 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
   const currentUser = auth.currentUser
   const { mapInfo } = useMapState()
   const { mapDetail } = mapInfo
-  const [drop, setDrop] = useToggle(false)
   const { user, onLogin } = useAuthState()
   const [reviews, setReviews] = useState([])
   const [reviewsCount, setReviewsCount] = useState(0)
   const [offset, setOffset] = useState('')
   const [content, setContent] = useState('')
   const [textCount, setTextCount] = useState(0)
+  const [drop, setDrop] = useToggle(false)
   const onChange = (e) => {
     setContent(e.target.value)
     setTextCount(e.target.value.length)
@@ -95,9 +96,9 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
               orderByChild('createdAt'),
               equalTo(reviews[i].createdAt)
             )
-          ).then((snapshot) => {
+          ).then((DataSnapshot) => {
             const updates = {}
-            snapshot.forEach((child) => (updates[child.key] = null))
+            DataSnapshot.forEach((child) => (updates[child.key] = null))
             update(child(reviewsRef, `${mapDetail.place_id}`), updates)
           })
         }
@@ -106,7 +107,9 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
     },
     [reviews]
   )
-
+  useEffect(() => {
+    console.log(reviews)
+  }, [reviews])
   const hasMore = useCallback(() => {
     if (mapDetail.place_id != undefined && offset != null) {
       get(
@@ -116,10 +119,12 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
           endAt(offset),
           limitToLast(5 + 1)
         )
-      ).then((snapshot) => {
-        if (snapshot.size >= 1) {
+      ).then((DataSnapshot) => {
+        if (DataSnapshot.size >= 1) {
           setReviews(
-            reviews.concat(Object.values(snapshot.val()).reverse().slice(1, 6))
+            reviews.concat(
+              Object.values(DataSnapshot.val()).reverse().slice(1, 6)
+            )
           )
         }
       })
@@ -129,17 +134,18 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
   function initReviews() {
     if (mapDetail?.place_id != undefined) {
       if (drop) {
-        get(child(reviewsRef, `${mapDetail.place_id}`)).then((snapshot) => {
+        onValue(child(reviewsRef, `${mapDetail.place_id}`), (snapshot) => {
           if (snapshot.exists()) setReviewsCount(snapshot.size)
         })
       }
-      get(
-        query(child(reviewsRef, `${mapDetail.place_id}`), limitToLast(5))
-      ).then((snapshot) => {
-        if (snapshot.val() != null) {
-          setReviews(Object.values(snapshot.val()).reverse())
+      onValue(
+        query(child(reviewsRef, `${mapDetail.place_id}`), limitToLast(5)),
+        (DataSnapshot) => {
+          if (DataSnapshot.val() != null) {
+            setReviews(Object.values(DataSnapshot.val()).reverse())
+          }
         }
-      })
+      )
     }
   }
 
