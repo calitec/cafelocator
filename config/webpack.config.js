@@ -77,8 +77,6 @@ const hasJsxRuntime = (() => {
   }
 })()
 const CompressionPlugin = require('compression-webpack-plugin')
-const BundleAnalyzerPlugin =
-  require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -575,7 +573,6 @@ module.exports = function (webpackEnv) {
         // minRatio: Number.MAX_SAFE_INTEGER
         minRatio: 0.8,
       }),
-      new BundleAnalyzerPlugin(),
       new HtmlWebpackPlugin(
         Object.assign(
           {},
