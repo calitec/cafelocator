@@ -107,9 +107,7 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
     },
     [reviews]
   )
-  useEffect(() => {
-    console.log(reviews)
-  }, [reviews])
+
   const hasMore = useCallback(() => {
     if (mapDetail.place_id != undefined && offset != null) {
       get(
