@@ -61,7 +61,8 @@ const GoogleMapsPresenter: React.FunctionComponent<
     fullscreenControl: false,
     disableDefaultUI: screenWidth <= 414 ? true : false,
   }
-  const { currentPosition, mapPosition, mapDetail, keyword, directions, travel } = mapInfo
+  const { currentPosition, mapPosition, mapDetail, directions, travel } =
+    mapInfo
 
   function zoomChanged() {
     setZoom(this.getZoom())

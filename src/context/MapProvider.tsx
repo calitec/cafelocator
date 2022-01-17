@@ -49,11 +49,11 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           }
-          setMapInfo({
-            ...mapInfo,
+          setMapInfo((prev) => ({
+            ...prev,
             currentPosition: positions,
             mapPosition: positions,
-          })
+          }))
         })
       }
     }
