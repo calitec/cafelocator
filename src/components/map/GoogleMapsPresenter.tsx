@@ -81,7 +81,7 @@ const GoogleMapsPresenter: React.FunctionComponent<
         }}
         center={{ lat: currentPosition.lat, lng: currentPosition.lng }}
         zoom={13}
-        onZoomChanged={zoomChanged}
+        // onZoomChanged={zoomChanged}
         onLoad={onLoad}
         options={mapOption}
       >
