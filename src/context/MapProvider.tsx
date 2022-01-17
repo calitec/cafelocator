@@ -37,7 +37,7 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
     keyword: '',
     vision: true,
   })
-  const { mapDetail, mapPosition, currentPosition } = mapInfo
+  const { mapDetail, mapPosition, currentPosition, keyword } = mapInfo
   const { screenHeight } = useDeviceCheck()
 
   // 맵 초기화
@@ -71,6 +71,11 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
       }))
     }
   }, [mapInfo.mapDetail])
+
+  // 키워드 없을 시 초기화
+  useEffect(() => {
+    if (keyword == '') onReset()
+  }, [keyword])
 
   const getCurrentLocation = useCallback(() => {
     if (navigator.geolocation) {

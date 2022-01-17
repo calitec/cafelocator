@@ -1,12 +1,10 @@
 import * as React from 'react'
-import { useLayoutEffect } from 'react'
-import firebase from '../../firebase'
 import { useAuthState } from '../../context/AuthProvider'
 import { css } from '@emotion/react'
 import { noto } from '../../lib/styles/common'
 
 const Auth: React.FunctionComponent = () => {
-  const { user, setUser, onLogin, onLogout } = useAuthState()
+  const { user, onLogin, onLogout } = useAuthState()
 
   return (
     <div css={authContainer}>

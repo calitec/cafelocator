@@ -4,12 +4,14 @@ import { Suspense, lazy } from 'react'
 import GoogleMapsTemplate from 'src/components/map/GoogleMapsTemplate'
 import GoogleMapsContainer from 'src/components/map/GoogleMapsContainer'
 import NavTemplate from '../components/nav/NavTemplate'
-import InfoTemplate from 'src/components/info/InfoTemplate'
+import InfoTemplate from '../components/info/InfoTemplate'
 import InfoListContainer from 'src/components/info/InfoListContainer'
-import InfoDetailContainer from 'src/components/info/InfoDetailContainer'
-import MainTemplate from 'src/components/common/MainTemplate'
-import Loader from '../components/common/Loader'
 
+import MainTemplate from '../components/common/MainTemplate'
+import Loader from '../components/common/Loader'
+const InfoDetailContainer = lazy(
+  () => import('../components/info/InfoDetailContainer')
+)
 const Home: React.FunctionComponent = () => {
   return (
     <>
@@ -21,7 +23,9 @@ const Home: React.FunctionComponent = () => {
           <Suspense fallback={<Loader />}>
             <InfoListContainer />
           </Suspense>
-          <InfoDetailContainer />
+          <Suspense fallback={<Loader />}>
+            <InfoDetailContainer />
+          </Suspense>
         </InfoTemplate>
       </MainTemplate>
     </>

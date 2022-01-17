@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useRef, useEffect } from 'react'
+import { useRef } from 'react'
 import { useCallback, useState } from 'react'
 import { useMapState } from '../../context/MapProvider'
 import FontAwesomeIcons from '../common/FontAwesomeIcons'
@@ -13,11 +13,6 @@ const SearchForm: React.FunctionComponent = () => {
   const onChange = (e) => setKeyword(e.target.value)
   const enterRef = useRef(null)
 
-  // 키워드 없을 시 초기화
-  useEffect(() => {
-    if (keyword == '') onReset()
-  }, [keyword])
-
   const onEnter = (event: React.KeyboardEvent<HTMLInputElement>) =>
     event.key == 'Enter' && enterRef.current.click()
 
@@ -27,7 +22,9 @@ const SearchForm: React.FunctionComponent = () => {
       e.preventDefault()
       onReset()
       setMapInfo((prev) => ({
-        ...prev, keyword: keyword }))
+        ...prev,
+        keyword: keyword,
+      }))
     },
     [mapInfo, keyword]
   )

@@ -1,9 +1,8 @@
 import * as React from 'react'
-import { useEffect, useCallback, memo } from 'react'
+import { useCallback, memo } from 'react'
 import GoogleMapsPresenter from './GoogleMapsPresenter'
 import { useLoadScript } from '@react-google-maps/api'
 import { useMapState } from '../../context/MapProvider'
-import useDeviceCheck from '../../lib/hooks/useDeviceCheck'
 import useGetDatas from 'src/lib/hooks/useGetDatas'
 import useSWR from 'swr'
 import { fetcher } from 'src/lib/fetcher'
@@ -15,14 +14,7 @@ Geocode.enableDebug()
 
 const GoogleMapsContainer: React.FunctionComponent = () => {
   const { mapInfo, setMapInfo, getCurrentLocation } = useMapState()
-  const {
-    currentPosition,
-    mapPosition,
-    mapDetail,
-    directions,
-    travel,
-    keyword,
-  } = mapInfo
+  const { mapPosition, directions } = mapInfo
   const { onClick } = useGetDetail()
   const url = useGetDatas()
   const { data, error } = useSWR(url, fetcher)
@@ -67,12 +59,6 @@ const GoogleMapsContainer: React.FunctionComponent = () => {
     <>
       <GoogleMapsPresenter
         mapDatas={data}
-        // currentPosition={currentPosition}
-        // mapPosition={mapPosition}
-        // mapDetail={mapDetail}
-        // keyword={keyword}
-        // travel={travel}
-        // directions={directions}
         mapInfo={mapInfo}
         directionsOptions={directionsOptions}
         isLoaded={isLoaded}
