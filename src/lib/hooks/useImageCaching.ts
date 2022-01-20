@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { useLayoutEffect } from 'react'
 
 export default function useImageCaching() {

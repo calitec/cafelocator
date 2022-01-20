@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { useEffect } from 'react'
 import { useCallback } from 'react'
 import { createContext, useState, useContext } from 'react'
@@ -8,6 +7,8 @@ import {
   setPersistence,
   browserSessionPersistence,
   signInWithRedirect,
+  GoogleAuthProvider,
+  signInWithPopup,
   onAuthStateChanged,
 } from 'firebase/auth'
 import { provider } from '../firebase'
@@ -35,40 +36,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const onLogin = useCallback((e) => {
     e.preventDefault()
     try {
-      setPersistence(auth, browserSessionPersistence)
-        .then(() => {
-          // const provider = new GoogleAuthProvider()
-          // In memory persistence will be applied to the signed in Google user
-          // even though the persistence was set to 'none' and a page redirect
-          // occurred.
-          return signInWithRedirect(auth, provider)
-        })
-        .catch((error) => {
-          // Handle Errors here.
-          const errorCode = error.code
-          const errorMessage = error.message
-        })
-
-      // signInWithPopup(auth, provider)
-      //   .then((result) => {
-      //     // This gives you a Google Access Token. You can use it to access the Google API.
-      //     const credential = GoogleAuthProvider.credentialFromResult(result)
-      //     const token = credential.accessToken
-      //     // The signed-in user info.
-      //     const user = result.user
-      //     setUser({ ...user, user: user })
-      //     // ...
+      // setPersistence(auth, browserSessionPersistence)
+      //   .then(() => {
+      //     // const provider = new GoogleAuthProvider()
+      //     // In memory persistence will be applied to the signed in Google user
+      //     // even though the persistence was set to 'none' and a page redirect
+      //     // occurred.
+      //     return signInWithRedirect(auth, provider)
       //   })
       //   .catch((error) => {
       //     // Handle Errors here.
-      //     const errorCode = error.code
-      //     const errorMessage = error.message
-      //     // The email of the user's account used.
-      //     const email = error.email
-      //     // The AuthCredential type that was used.
-      //     const credential = GoogleAuthProvider.credentialFromError(error)
-      //     // ...
+      //     // const errorCode = error.code
+      //     // const errorMessage = error.message
       //   })
+
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          // const credential = GoogleAuthProvider.credentialFromResult(result)
+          // const token = credential.accessToken
+          // The signed-in user info.
+          // const user = result.user
+          // setUser({ ...user, user: user })
+          // ...
+        })
+        .catch((error) => {
+          // Handle Errors here.
+          // const errorCode = error.code
+          // const errorMessage = error.message
+          // // The email of the user's account used.
+          // const email = error.email
+          // // The AuthCredential type that was used.
+          // const credential = GoogleAuthProvider.credentialFromError(error)
+          // ...
+        })
     } catch (error) {
       console.error(error)
     }

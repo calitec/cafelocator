@@ -1,4 +1,3 @@
-import React from 'react'
 import DraggableButton from './utils/DraggableButton'
 import useTouch from 'src/lib/hooks/useTouch'
 import media from '../../lib/styles/media'

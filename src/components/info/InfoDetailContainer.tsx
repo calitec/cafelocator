@@ -3,7 +3,7 @@ import useTouch from 'src/lib/hooks/useTouch'
 import { useMapState } from '../../context/MapProvider'
 import InfoDetailPresenter from './InfoDetailPresenter'
 
-const InfoDetailContainer: React.FunctionComponent = ({}) => {
+const InfoDetailContainer: React.FunctionComponent = () => {
   const { mapInfo, setMapInfo, onClearDirections } = useMapState()
   const { mapDetail } = mapInfo
   const { infoPosition } = useTouch()

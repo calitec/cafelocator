@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { css } from '@emotion/react'
 interface ISkeletonProps {
   anim?: string
@@ -48,13 +47,13 @@ const skeletonWrapper = (anim) => css`
   div {
     position: absolute;
     left: 30px;
-    -webkit-animation: ${anim != 'bg'
+    -webkit-animation: ${anim !== 'bg'
       ? 'skeleton-gradient 1.8s infinite ease-in-out'
       : ''};
-    animation: ${anim != 'bg'
+    animation: ${anim !== 'bg'
       ? 'skeleton-gradient 1.8s infinite ease-in-out'
       : ''};
-    background-color: ${anim == 'bg' ? 'rgba(165, 165, 165, 0.1)' : ''};
+    background-color: ${anim === 'bg' ? 'rgba(165, 165, 165, 0.1)' : ''};
   }
   p {
     width: 150px;

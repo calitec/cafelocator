@@ -1,4 +1,3 @@
-import * as React from 'react'
 import {
   useCallback,
   createContext,
@@ -71,11 +70,6 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
       }))
     }
   }, [mapInfo.mapDetail])
-
-  // 키워드 없을 시 초기화
-  useEffect(() => {
-    if (keyword == '') onReset()
-  }, [keyword])
 
   const getCurrentLocation = useCallback(() => {
     if (navigator.geolocation) {

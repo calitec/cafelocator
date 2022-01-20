@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { forwardRef } from 'react'
 import { css } from '@emotion/react'
 import { noto } from '../../lib/styles/common'

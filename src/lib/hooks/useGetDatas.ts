@@ -1,4 +1,3 @@
-import React from 'react'
 import { useMapState } from 'src/context/MapProvider'
 
 export default function useGetDatas() {

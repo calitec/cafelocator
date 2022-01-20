@@ -1,4 +1,3 @@
-import * as React from 'react'
 import FontAwesomeIcons from '../../../../components/common/FontAwesomeIcons'
 import { css } from '@emotion/react'
 import { noto } from '../../../../lib/styles/common'
@@ -29,9 +28,13 @@ const HoursPresenter: React.FunctionComponent<IHoursPresenterProps> = ({
           return (
             <li
               key={i}
-              onClick={i == 0 ? () => setDrop() : null}
+              onClick={i === 0 ? () => setDrop() : null}
               className={
-                i == 0 && drop == true ? 'arrow reverse' : i != 0 ? '' : 'arrow'
+                i === 0 && drop === true
+                  ? 'arrow reverse'
+                  : i !== 0
+                  ? ''
+                  : 'arrow'
               }
             >
               <span className="indent">{v}</span>

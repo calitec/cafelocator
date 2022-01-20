@@ -1,4 +1,3 @@
-import * as React from 'react'
 import Rating from '../common/Rating'
 import media from '../../lib/styles/media'
 import useScroll from 'src/lib/hooks/useScroll'

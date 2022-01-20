@@ -1,4 +1,3 @@
-import React from 'react'
 import { css } from '@emotion/react'
 import media from 'src/lib/styles/media'
 import Spin from './Spin'

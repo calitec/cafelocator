@@ -26,7 +26,7 @@ const GoogleMapsMarkers: React.FunctionComponent<IGoogleMapsMarkersProps> = ({
   zoom,
   onClick,
 }) => {
-  const { mapDetail, mapPosition, keyword, travel } = mapInfo 
+  const { mapDetail, mapPosition, keyword, travel } = mapInfo
   return (
     <>
       {/* current location marker*/}
@@ -40,8 +40,8 @@ const GoogleMapsMarkers: React.FunctionComponent<IGoogleMapsMarkersProps> = ({
         keyword.length > 1 &&
         mapDatas.map((v, i) => {
           const { lat, lng } = v.geometry.location
-          if(mapDetail?.place_id === v.place_id) {
-            return(
+          if (mapDetail?.place_id === v.place_id) {
+            return (
               <div key={i}>
                 <Marker
                   icon={{
@@ -54,7 +54,6 @@ const GoogleMapsMarkers: React.FunctionComponent<IGoogleMapsMarkersProps> = ({
                   //@ts-ignore
                   animation={!travel && window.google.maps.Animation.BOUNCE}
                   position={{ lat, lng }}
-
                   label={{
                     className: 'markerLabels',
                     text: v.name,

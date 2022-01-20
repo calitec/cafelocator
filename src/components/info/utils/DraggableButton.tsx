@@ -1,4 +1,3 @@
-import React from 'react'
 import { useMapState } from 'src/context/MapProvider'
 interface IDragProps {
   refs: React.MutableRefObject<any>

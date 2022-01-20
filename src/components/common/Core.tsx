@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { useEffect } from 'react'
 import { ToastContainer, Flip } from 'react-toastify'
 import { injectStyle } from 'react-toastify/dist/inject-style'

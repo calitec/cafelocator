@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useEffect } from 'react'
 import { useRef } from 'react'
 import { useCallback, useState } from 'react'
 import { useMapState } from '../../context/MapProvider'
@@ -14,7 +14,12 @@ const SearchForm: React.FunctionComponent = () => {
   const enterRef = useRef(null)
 
   const onEnter = (event: React.KeyboardEvent<HTMLInputElement>) =>
-    event.key == 'Enter' && enterRef.current.click()
+    event.key === 'Enter' && enterRef.current.click()
+
+  // 키워드 없을 시 초기화
+  useEffect(() => {
+    if (keyword === '') onReset()
+  }, [keyword])
 
   // 전체 카페 api 요청
   const onSearch = useCallback(

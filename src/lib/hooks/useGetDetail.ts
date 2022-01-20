@@ -1,4 +1,3 @@
-import React from 'react'
 import { useCallback } from 'react'
 import { useMapState } from 'src/context/MapProvider'
 import { IMapDatasProps } from 'src/types/map'

@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { useAuthState } from '../../context/AuthProvider'
 import { css } from '@emotion/react'
 import { noto } from '../../lib/styles/common'

@@ -1,5 +1,4 @@
-import * as React from 'react'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, memo } from 'react'
 import {
   getDatabase,
   ref,
@@ -89,7 +88,7 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
   const onRemove = useCallback(
     (i) => {
       if (window.confirm('삭제 하시겠습니까?')) {
-        if (currentUser && currentUser.uid == reviews[i].uid) {
+        if (currentUser && currentUser.uid === reviews[i].uid) {
           get(
             query(
               child(reviewsRef, `${mapDetail.place_id}`),
@@ -102,7 +101,7 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
             update(child(reviewsRef, `${mapDetail.place_id}`), updates)
           })
         }
-        if (reviews.length == 1) setReviews([])
+        if (reviews.length === 1) setReviews([])
       }
     },
     [reviews]
@@ -130,7 +129,7 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
   }, [offset, reviews])
 
   function initReviews() {
-    if (mapDetail?.place_id != undefined) {
+    if (mapDetail?.place_id !== undefined) {
       if (drop) {
         onValue(child(reviewsRef, `${mapDetail.place_id}`), (snapshot) => {
           if (snapshot.exists()) setReviewsCount(snapshot.size)
@@ -165,4 +164,4 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
   )
 }
 
-export default React.memo(ReviewContainer)
+export default memo(ReviewContainer)

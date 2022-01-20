@@ -64,9 +64,9 @@ const GoogleMapsPresenter: React.FunctionComponent<
   const { currentPosition, mapPosition, mapDetail, directions, travel } =
     mapInfo
 
-  function zoomChanged() {
-    setZoom(this.getZoom())
-  }
+  // function zoomChanged() {
+  //   setZoom(this.getZoom())
+  // }
 
   const renderMap = () => {
     // wrapping to a function is useful in case you want to access `window.google`

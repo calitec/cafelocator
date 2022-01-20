@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { useState } from 'react'
 import Slider from 'react-slick'
 import { css } from '@emotion/react'
@@ -92,7 +91,7 @@ const Slick: React.FunctionComponent<IImagesProps> = ({ photos }) => {
   return (
     <div css={slickWrapper(active)}>
       <Slider {...settings}>
-        {photos != undefined ? (
+        {photos !== undefined ? (
           <div className="cover">
             <img
               src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photos[0]?.photo_reference}&sensor=false&key=${process.env.REACT_APP_API_KEY}`}

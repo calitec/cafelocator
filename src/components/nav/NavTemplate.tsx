@@ -1,4 +1,3 @@
-import React from 'react'
 import SearchForm from '../../components/nav/SearchForm'
 import Auth from '../../components/auth/Auth'
 import { css } from '@emotion/react'

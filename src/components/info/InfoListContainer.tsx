@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { useMapState } from '../../context/MapProvider'
 import haversine from 'haversine'
 import useTouch from 'src/lib/hooks/useTouch'
@@ -31,7 +30,7 @@ const InfoListContainer: React.FunctionComponent = () => {
   const { mapPosition, keyword } = mapInfo
   const url = useGetDatas()
   const { onClick } = useGetDetail()
-  const { data, error } = useSWR(url, fetcher, { suspense: true })
+  const { data } = useSWR(url, fetcher, { suspense: true })
 
   return (
     <InfoListPresenter

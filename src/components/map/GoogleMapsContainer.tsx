@@ -17,7 +17,7 @@ const GoogleMapsContainer: React.FunctionComponent = () => {
   const { mapPosition, directions } = mapInfo
   const { onClick } = useGetDetail()
   const url = useGetDatas()
-  const { data, error } = useSWR(url, fetcher)
+  const { data } = useSWR(url, fetcher)
 
   const { isLoaded, loadError } = useLoadScript({
     id: 'c2e1bb32e1c03c5c',
