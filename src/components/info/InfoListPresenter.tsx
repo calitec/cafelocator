@@ -128,7 +128,7 @@ const scrollContainer = (scrollContainerHeight) => css`
       justify-content: center;
       height: 130px;
       padding-left: 30px;
-      box-shadow: 0px 1px #cccccc;
+      border-bottom: 1px #cccccc solid;
       cursor: pointer;
       ${media.desktop} {
         &:hover {
