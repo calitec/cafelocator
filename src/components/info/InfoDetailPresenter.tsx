@@ -20,7 +20,7 @@ interface IInfoDetailPresenterProps {
 const InfoDetailPresenter: React.FunctionComponent<
   IInfoDetailPresenterProps
 > = ({ mapDetail, transY, onClearDirections, setTravel }) => {
-  const refs = useRef()
+  const refs = useRef<HTMLDivElement>(null)
 
   return (
     <>
@@ -84,29 +84,18 @@ const infoDetailContainer = css`
     border-radius: 10px;
     box-shadow: -1px 0px 7px rgb(0 0 0 / 20%);
   }
-  @keyframes toTheRight {
-    from {
-      opacity: 0;
-      left: 0;
-    }
-    to {
-      opacity: 1;
-      z-index: 2;
-      /* left: 360px; */
-    }
-  }
   @keyframes fixPosition {
     from {
       opacity: 0;
     }
     to {
-      opacity: 1;
+      opacity: 0.99;
       z-index: 2;
     }
   }
   &.activated {
     display: block;
-    animation: toTheRight 0.5s;
+    animation: fixPosition 0.5s;
     animation-fill-mode: forwards;
     ${media.large} {
       display: block;

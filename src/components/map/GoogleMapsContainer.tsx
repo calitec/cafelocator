@@ -29,7 +29,7 @@ const GoogleMapsContainer: React.FunctionComponent = () => {
     polylineOptions: {
       strokeColor: 'green',
       strokeWeight: '4',
-      strokeOpacity: '1',
+      strokeOpacity: '0.99',
     },
     zoomControlOptions: {
       position: {

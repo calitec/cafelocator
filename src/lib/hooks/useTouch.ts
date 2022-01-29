@@ -10,7 +10,7 @@ export default function useTouch() {
     touchMove: false,
   })
   const { transY, touchStart, touchMove } = infoPosition
-  const ref = useRef(null)
+  const ref = useRef<HTMLDivElement>(null)
   const draggingDOMHeight = 34
   const iphoneXSafeArea = 145
   const contentHeight = 350 + draggingDOMHeight
