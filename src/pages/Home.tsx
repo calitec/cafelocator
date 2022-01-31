@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { Suspense, lazy } from 'react'
 
-import GoogleMapsTemplate from 'src/components/map/GoogleMapsTemplate'
-import GoogleMapsContainer from 'src/components/map/GoogleMapsContainer'
+import GoogleMapsTemplate from '../components/map/GoogleMapsTemplate'
+import GoogleMapsContainer from '../components/map/GoogleMapsContainer'
 import NavTemplate from '../components/nav/NavTemplate'
 import InfoTemplate from '../components/info/InfoTemplate'
-import InfoListContainer from 'src/components/info/InfoListContainer'
+import InfoListContainer from '../components/info/InfoListContainer'
 
 import MainTemplate from '../components/common/MainTemplate'
 import Loader from '../components/common/Loader'

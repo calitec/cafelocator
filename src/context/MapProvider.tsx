@@ -5,7 +5,7 @@ import {
   useContext,
   useEffect,
 } from 'react'
-import useDeviceCheck from 'src/lib/hooks/useDeviceCheck'
+import useDeviceCheck from '../lib/hooks/useDeviceCheck'
 import { IMapDetailProps } from '../types/map'
 
 interface State {

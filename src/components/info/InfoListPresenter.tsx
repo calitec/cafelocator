@@ -1,6 +1,6 @@
 import Rating from '../common/Rating'
 import media from '../../lib/styles/media'
-import useScroll from 'src/lib/hooks/useScroll'
+import useScroll from '../../lib/hooks/useScroll'
 import { IMapDatasProps } from '../../types/map'
 import { css } from '@emotion/react'
 import { noto, notoBig } from '../..//lib/styles/common'

@@ -1,5 +1,5 @@
 import DraggableButton from './utils/DraggableButton'
-import useTouch from 'src/lib/hooks/useTouch'
+import useTouch from '../../lib/hooks/useTouch'
 import media from '../../lib/styles/media'
 import { css } from '@emotion/react'
 import { noto } from '../../lib/styles/common'

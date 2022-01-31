@@ -3,11 +3,11 @@ import { useCallback, memo } from 'react'
 import GoogleMapsPresenter from './GoogleMapsPresenter'
 import { useLoadScript } from '@react-google-maps/api'
 import { useMapState } from '../../context/MapProvider'
-import useGetDatas from 'src/lib/hooks/useGetDatas'
+import useGetDatas from '../../lib/hooks/useGetDatas'
 import useSWR from 'swr'
-import { fetcher } from 'src/lib/fetcher'
+import { fetcher } from '../../lib/fetcher'
 import Geocode from 'react-geocode'
-import useGetDetail from 'src/lib/hooks/useGetDetail'
+import useGetDetail from '../../lib/hooks/useGetDetail'
 
 Geocode.setApiKey(process.env.REACT_APP_API_KEY)
 Geocode.enableDebug()

@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
-import { useMapState } from 'src/context/MapProvider'
+import { useMapState } from '../../context/MapProvider'
 
 export default function useTouch() {
   const { mapInfo, setMapInfo } = useMapState()

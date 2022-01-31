@@ -1,4 +1,4 @@
-import { useMapState } from 'src/context/MapProvider'
+import { useMapState } from '../../context/MapProvider'
 
 export default function useGetDatas() {
   const { mapInfo } = useMapState()

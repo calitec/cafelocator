@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
-import { useMapState } from 'src/context/MapProvider'
-import { IMapDatasProps } from 'src/types/map'
+import { useMapState } from '../../context/MapProvider'
+import { IMapDatasProps } from '../../types/map'
 import axios from 'axios'
 
 export default function useGetDetail() {

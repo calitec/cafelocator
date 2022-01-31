@@ -1,5 +1,5 @@
 import { css } from '@emotion/react'
-import media from 'src/lib/styles/media'
+import media from '../../lib/styles/media'
 import Spin from './Spin'
 import Skeleton from './Skeleton'
 
