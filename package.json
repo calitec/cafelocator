@@ -108,7 +108,7 @@
     "workbox-webpack-plugin": "5.1.4"
   },
   "scripts": {
-    "dev": "cross-env node scripts/start.js node scripts/start.js",
+    "dev": "cross-env ANALYZE=true NODE_ENV=production node scripts/start.js",
     "build": "node scripts/build.js",
     "start": "node server.js",
     "test": "node scripts/test.js"
