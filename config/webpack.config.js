@@ -562,7 +562,6 @@ module.exports = function (webpackEnv) {
       // Generates an `index.html` file with the <script> injected.
       new CompressionPlugin({
         deleteOriginalAssets: false,
-        filename: '[path][base].gz',
         algorithm: 'gzip',
         test: /\.js$|\.css$|\.html$/,
         threshold: 10240,
