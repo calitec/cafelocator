@@ -1,7 +1,6 @@
 import ReactDOM from 'react-dom'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
-import { BrowserRouter } from 'react-router-dom'
 import MapProvider from './context/MapProvider'
 import { AuthProvider } from './context/AuthProvider'
 import './index.css'
@@ -10,13 +9,11 @@ const root = ReactDOM.createRoot(
 )
 
 root.render(
-  <BrowserRouter>
-    <MapProvider>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </MapProvider>
-  </BrowserRouter>
+  <MapProvider>
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  </MapProvider>
 )
 
 // If you want to start measuring performance in your app, pass a function
