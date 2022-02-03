@@ -66,7 +66,7 @@ const ReviewPresenter: React.FunctionComponent<IReviewsPresenterProps> = ({
           maxLength={19}
           style={inputStyle}
         />
-        <span>{20 - textCount} / 20</span>
+        <span>{textCount} / 20</span>
       </form>
       <ul className="comment">
         {reviews.length > 1 ? (
