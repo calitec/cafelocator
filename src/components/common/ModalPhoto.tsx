@@ -35,19 +35,28 @@ const modalPhotoWrapper = css`
     background: none;
     border: none;
     cursor: pointer;
+    width: 25px;
+    height: 25px;
+    padding: 0;
     &::before,
     &::after {
       position: absolute;
       display: block;
       content: '';
       clear: both;
-      width: 25px;
+      width: 100%;
       height: 1px;
       background: #fff;
       transform: rotate(45deg);
     }
     &::after {
       transform: rotate(-45deg);
+    }
+    &:hover {
+      &::before,
+      &::after {
+        background: #999999;
+      }
     }
   }
   img {

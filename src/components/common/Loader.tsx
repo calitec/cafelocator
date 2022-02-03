@@ -20,7 +20,8 @@ const LoaderWrapper = css`
   display: block;
   width: 350px;
   height: 400px;
-  overflow-y: auto;
+  padding: 3px 0;
+  background: #ffffff;
   z-index: 1000;
   ${media.large} {
     width: 100%;

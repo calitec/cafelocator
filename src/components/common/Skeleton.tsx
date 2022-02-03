@@ -16,6 +16,9 @@ const skeletonWrapper = (anim) => css`
   position: relative;
   height: 130px;
   box-shadow: #ccc 0px 1px;
+  background: #ffffff;
+  width: 100%;
+  margin: 5px auto;
   cursor: pointer;
   @-webkit-keyframes skeleton-gradient {
     0% {

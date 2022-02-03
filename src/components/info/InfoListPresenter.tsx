@@ -27,7 +27,7 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
 }) => {
   const [scrollTop, ref] = useScroll()
   const totalItemCount =
-    mapDatas.length > 1 && mapDatas.length <= 20 ? mapDatas.length : 20
+    mapDatas?.length > 1 && mapDatas.length <= 20 ? mapDatas.length : 20
   const itemHeight = 130
   const scrollViewPortHeight = 400
   const scrollContainerHeight = Math.max(
@@ -36,7 +36,7 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
   )
   const startIdx = Math.floor(scrollTop / itemHeight)
   const offsetY = startIdx * itemHeight
-  const visibleNodes = mapDatas.slice(
+  const visibleNodes = mapDatas?.slice(
     startIdx,
     startIdx + scrollViewPortHeight / itemHeight + 1
   )
@@ -46,7 +46,7 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
       <div ref={ref} css={ScrollViewport(transY, scrollViewPortHeight)}>
         <div css={scrollContainer(scrollContainerHeight)}>
           <ul className="infoList">
-            {visibleNodes.map((item, i) => (
+            {visibleNodes?.map((item, i) => (
               <li
                 key={i}
                 css={visibleNodesWrapper(offsetY)}
@@ -85,9 +85,11 @@ const ScrollViewport = (transY, scrollViewPortHeight) => css`
   overflow-y: ${transY > 0 || transY >= 350 ? 'hidden' : 'auto'};
   z-index: 3;
   -webkit-overflow-scrolling: touch;
+  background: #ebecf0;
   ${media.large} {
     width: 100%;
     height: ${scrollViewPortHeight - 50}px;
+    background: #ffffff;
   }
   .infoList__default {
     display: flex;
@@ -95,6 +97,7 @@ const ScrollViewport = (transY, scrollViewPortHeight) => css`
     align-items: center;
     justify-content: center;
     height: 100%;
+    background: #ffffff;
     p {
       font: ${notoBig(35)};
       font-weight: 500;
@@ -128,12 +131,23 @@ const scrollContainer = (scrollContainerHeight) => css`
       justify-content: center;
       height: 130px;
       padding-left: 30px;
-      border-bottom: 1px #cccccc solid;
       cursor: pointer;
+      background: #ffffff;
+      border-radius: 6px;
+      width: 95%;
+      margin: 10px auto;
+      box-shadow: 0px 1px rgb(0 0 0 / 50%);
       ${media.desktop} {
         &:hover {
           background-color: #f9f9f9;
         }
+      }
+      ${media.large} {
+        width: 100%;
+        border-radius: 0;
+        margin: 0 auto;
+        box-shadow: none;
+        border-bottom: 1px #cccccc solid;
       }
       h2,
       > div,

@@ -21,33 +21,8 @@ const InfoTemplate: React.FunctionComponent = ({ children }) => {
 const InfoTemplateContainer = (transY) => css`
   .infoTemplate__body {
     position: relative;
-    border-radius: 20px;
     overflow: hidden;
-    background-color: #fff;
-    .vision {
-      display: none;
-      ${media.large} {
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-        padding: 15px 5px;
-        span {
-          display: block;
-          margin: auto;
-          width: 25px;
-          height: 4px;
-          background-color: #353535;
-          border-radius: 10px;
-          margin: 0 auto;
-        }
-        em {
-          display: block;
-          font: ${noto()};
-          color: #000;
-          margin: 5% 0;
-        }
-      }
-    }
+    border-radius: 20px;
     ${media.large} {
       position: fixed;
       top: initial;
