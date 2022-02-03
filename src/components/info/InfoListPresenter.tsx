@@ -30,10 +30,8 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
     mapDatas?.length > 1 && mapDatas.length <= 20 ? mapDatas.length : 20
   const itemHeight = 130
   const scrollViewPortHeight = 400
-  const scrollContainerHeight = Math.max(
-    scrollViewPortHeight,
-    itemHeight * totalItemCount
-  )
+  const scrollContainerHeight =
+    Math.max(scrollViewPortHeight, itemHeight * totalItemCount) + 30
   const startIdx = Math.floor(scrollTop / itemHeight)
   const offsetY = startIdx * itemHeight
   const visibleNodes = mapDatas?.slice(
