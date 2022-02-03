@@ -123,9 +123,9 @@ const ScrollViewport = (transY, scrollViewPortHeight) => css`
 `
 const scrollContainer = (scrollContainerHeight) => css`
   position: relative;
-  height: ${scrollContainerHeight}px;
+  height: ${scrollContainerHeight + 30}px;
   ${media.large} {
-    height: ${scrollContainerHeight + 30}px;
+    height: ${scrollContainerHeight}px;
   }
   .infoList {
     li {
