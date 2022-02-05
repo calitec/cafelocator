@@ -11,11 +11,6 @@ function App() {
     <>
       {helmets}
       <Global styles={reset} />
-      {/* <Switch>
-        {routes.map(({ path, page, exact }, i) => (
-          <Route exact={exact} path={path} component={page} key={i} />
-        ))}
-      </Switch> */}
       <Home />
       <div id="portal" />
       <Core />

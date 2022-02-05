@@ -24,19 +24,27 @@ interface State {
   onReset: () => void
 }
 
-export const MapStateContext = createContext<State | null>(null)
-
-const MapProvider: React.FunctionComponent = ({ children }) => {
-  const [mapInfo, setMapInfo] = useState({
+export const initialState = {
+  mapInfo: {
     currentPosition: { lat: 0, lng: 0 },
     mapPosition: { lat: 0, lng: 0 },
     mapDetail: null,
     directions: null,
     travel: false,
     keyword: '',
-    vision: true,
-  })
-  const { mapDetail, mapPosition, currentPosition, keyword } = mapInfo
+    vision: true
+  },
+  setMapInfo: null,
+  getCurrentLocation: null,
+  onClearDirections: null,
+  onReset: null
+}
+
+export const MapStateContext = createContext<State | null>(null)
+
+const MapProvider: React.FunctionComponent = ({ children }) => {
+  const [mapInfo, setMapInfo] = useState(initialState.mapInfo)
+  const { mapDetail, mapPosition, currentPosition } = mapInfo
   const { screenHeight } = useDeviceCheck()
 
   // 맵 초기화
