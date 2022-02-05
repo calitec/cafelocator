@@ -24,7 +24,7 @@ const HoursContainer: React.FunctionComponent<IHoursContainerProps> = ({
     return () => doRealignment(mapDetail.opening_hours?.weekday_text)
   })
 
-  function doRealignment(opening) {
+  function doRealignment(opening:string[]) {
     try {
       if (realignment.length < 1) {
         const getDay = new Date().getDay()

@@ -40,7 +40,7 @@ export default function useTouch() {
   }, [infoPosition, ref])
 
   const onTouchStart = useCallback(
-    (e) => {
+    () => {
       setInfoPosition((prev) => ({
         ...prev,
         transY: 0,
@@ -52,7 +52,7 @@ export default function useTouch() {
   )
 
   const onTouchMove = useCallback(
-    (e) => {
+    (e: TouchEvent) => {
       if (!touchStart) return
       const clientY = e.changedTouches[0].clientY
       const device = clientY - (mobileScreenHeight - contentHeight - 13)
@@ -69,7 +69,7 @@ export default function useTouch() {
   )
 
   const onTouchEnd = useCallback(
-    (e) => {
+    (e: TouchEvent) => {
       e.preventDefault()
       if (touchStart && !touchMove) {
         setMapInfo((prev) => ({

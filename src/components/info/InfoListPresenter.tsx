@@ -43,7 +43,7 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
 
   if (keyword.length > 1) {
     return (
-      <div ref={ref} css={ScrollViewport(transY, scrollViewPortHeight)}>
+      <div ref={ref} css={ScrollViewport(transY)}>
         <div css={scrollContainer(scrollContainerHeight)}>
           <ul className="infoList">
             {visibleNodes?.map((item, i) => (
@@ -69,7 +69,7 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
 
   // 디폴트
   return (
-    <div ref={ref} css={ScrollViewport(transY, scrollViewPortHeight)}>
+    <div ref={ref} css={ScrollViewport(transY)}>
       <div className="infoList__default">
         <p>주변 카페를 검색 해보세요.</p>
         <span>ex) 스타벅스</span>
@@ -78,17 +78,17 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
   )
 }
 
-const ScrollViewport = (transY, scrollViewPortHeight) => css`
+const ScrollViewport = (transY) => css`
   display: block;
   width: 350px;
-  height: ${scrollViewPortHeight}px;
+  height: 400px;
   overflow-y: ${transY > 0 || transY >= 350 ? 'hidden' : 'auto'};
   z-index: 3;
   -webkit-overflow-scrolling: touch;
   background: #ebecf0;
   ${media.large} {
     width: 100%;
-    height: ${scrollViewPortHeight - 50}px;
+    height: 350px;
     background: #ffffff;
   }
   .infoList__default {
