@@ -86,7 +86,7 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
         }))
       })
     }
-  }, [mapInfo])
+  }, [])
 
   // 경로/디테일 리셋
   const onClearDirections = useCallback(() => {
