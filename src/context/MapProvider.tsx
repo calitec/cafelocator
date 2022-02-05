@@ -78,7 +78,7 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
           ...prev,
           currentPosition: {
             lat:
-              screenHeight > 812
+            screenHeight < 812
                 ? position.coords.latitude
                 : position.coords.latitude - 0.015,
             lng: position.coords.longitude,
