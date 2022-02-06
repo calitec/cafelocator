@@ -6,8 +6,6 @@ import {
   signOut,
   setPersistence,
   browserSessionPersistence,
-  signInWithRedirect,
-  GoogleAuthProvider,
   signInWithPopup,
   onAuthStateChanged,
 } from 'firebase/auth'
@@ -31,44 +29,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (!user) return
       setUser({ ...user, user: user })
     })
+    const apiKey = process.env.REACT_APP_FIREBASE_API_KEY;
+    const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`
+    const user = JSON.parse(sessionStorage.getItem(sessionKey))
+    setUser({ ...user, user })
   }, [])
 
   const onLogin = useCallback((e) => {
     e.preventDefault()
     try {
-      // setPersistence(auth, browserSessionPersistence)
-      //   .then(() => {
-      //     // const provider = new GoogleAuthProvider()
-      //     // In memory persistence will be applied to the signed in Google user
-      //     // even though the persistence was set to 'none' and a page redirect
-      //     // occurred.
-      //     return signInWithRedirect(auth, provider)
-      //   })
-      //   .catch((error) => {
-      //     // Handle Errors here.
-      //     // const errorCode = error.code
-      //     // const errorMessage = error.message
-      //   })
-
-      signInWithPopup(auth, provider)
-        .then((result) => {
-          // This gives you a Google Access Token. You can use it to access the Google API.
-          // const credential = GoogleAuthProvider.credentialFromResult(result)
-          // const token = credential.accessToken
-          // The signed-in user info.
-          // const user = result.user
-          // setUser({ ...user, user: user })
-          // ...
+      setPersistence(auth, browserSessionPersistence)
+        .then(() => {
+          return signInWithPopup(auth, provider)
         })
         .catch((error) => {
           // Handle Errors here.
           // const errorCode = error.code
-          // const errorMessage = error.message
-          // // The email of the user's account used.
-          // const email = error.email
-          // // The AuthCredential type that was used.
-          // const credential = GoogleAuthProvider.credentialFromError(error)
-          // ...
+          const errorMessage = error.message
+          console.error(errorMessage)
         })
     } catch (error) {
       console.error(error)
@@ -82,6 +60,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signOut(auth)
           .then(() => {
             // Sign-out successful.
+            const apiKey = process.env.REACT_APP_FIREBASE_API_KEY;
+            const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`
+            sessionStorage.removeItem(sessionKey)
             setUser(null)
           })
           .catch((error) => {

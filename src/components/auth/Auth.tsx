@@ -8,16 +8,16 @@ const Auth: React.FunctionComponent = () => {
   return (
     <div css={authContainer}>
       <form action="">
-        {user == null ? (
-          <button onClick={onLogin} type="submit">
+        {user?.user == null ? (
+          <button onClick={onLogin} type="submit"className="login">
             <img
               src="//maps.gstatic.com/mapfiles/maps_lite/images/2x/signinphoto_96dp.png"
               alt=""
             />
           </button>
         ) : (
-          <button onClick={onLogout}>
-            <img src={user ? user?.user?.photoURL : ''} alt="" />
+          <button onClick={onLogout} className='logout'>
+            <img src={user.user.photoURL} alt="" />
           </button>
         )}
       </form>
