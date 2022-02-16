@@ -63,20 +63,14 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
     }
   }, [currentPosition, mapPosition])
 
-  const getCurrentLocation = useCallback(() => {
-    setMapInfo((prev) => ({
-      ...prev,
-      currentPosition: mapPosition,
-    }))
-  }, [mapInfo])
-
+  // 위치정보 갱신
   useEffect(() => {
     if (navigator.geolocation) {
       const geo = navigator.geolocation
       const id = geo.watchPosition((position) => {
         setMapInfo((prev) => ({
           ...prev,
-          currentPosition: {
+          mapPosition: {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           },
@@ -85,6 +79,13 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
       return () => navigator.geolocation.clearWatch(id)
     }
   }, [])
+
+  const getCurrentLocation = useCallback(() => {
+    setMapInfo((prev) => ({
+      ...prev,
+      currentPosition: mapPosition,
+    }))
+  }, [mapInfo])
 
   // 경로/디테일 리셋
   const onClearDirections = useCallback(() => {
