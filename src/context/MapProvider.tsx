@@ -43,7 +43,6 @@ export const MapStateContext = createContext<State | null>(null)
 const MapProvider: React.FunctionComponent = ({ children }) => {
   const [mapInfo, setMapInfo] = useState(initialState.mapInfo)
   const { mapPosition, currentPosition } = mapInfo
-  const { screenHeight } = useDeviceCheck()
 
   // 맵 초기화
   useEffect(() => {
@@ -65,19 +64,25 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
   }, [currentPosition, mapPosition])
 
   const getCurrentLocation = useCallback(() => {
+    setMapInfo((prev) => ({
+      ...prev,
+      currentPosition: mapPosition,
+    }))
+  }, [mapInfo])
+
+  useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
+      const geo = navigator.geolocation
+      const id = geo.watchPosition((position) => {
         setMapInfo((prev) => ({
           ...prev,
           currentPosition: {
-            lat:
-              screenHeight < 812
-                ? position.coords.latitude - 0.018
-                : position.coords.latitude,
+            lat: position.coords.latitude,
             lng: position.coords.longitude,
           },
         }))
       })
+      return () => navigator.geolocation.clearWatch(id)
     }
   }, [])
 
