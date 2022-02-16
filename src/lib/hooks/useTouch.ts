@@ -1,10 +1,8 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
-import { useMapState } from '../../context/MapProvider'
 
 export default function useTouch() {
-  const { mapInfo, setMapInfo } = useMapState()
-  const { vision } = mapInfo
   const [infoPosition, setInfoPosition] = useState({
+    vision: true,
     transY: 0,
     touchStart: false,
     touchMove: false,
@@ -15,16 +13,6 @@ export default function useTouch() {
   const iphoneXSafeArea = 145
   const contentHeight = 350 + draggingDOMHeight
   const mobileScreenHeight = window.screen.availHeight
-
-  useEffect(() => {
-    if (vision) {
-      setInfoPosition({
-        transY: 0,
-        touchStart: false,
-        touchMove: false,
-      })
-    }
-  }, [vision])
 
   useEffect(() => {
     if (!ref.current) return
@@ -39,17 +27,14 @@ export default function useTouch() {
     }
   }, [infoPosition, ref])
 
-  const onTouchStart = useCallback(
-    () => {
-      setInfoPosition((prev) => ({
-        ...prev,
-        transY: 0,
-        touchStart: true,
-        touchMove: false,
-      }))
-    },
-    [infoPosition]
-  )
+  const onTouchStart = useCallback(() => {
+    setInfoPosition((prev) => ({
+      ...prev,
+      transY: 0,
+      touchStart: true,
+      touchMove: false,
+    }))
+  }, [infoPosition])
 
   const onTouchMove = useCallback(
     (e: TouchEvent) => {
@@ -72,7 +57,7 @@ export default function useTouch() {
     (e: TouchEvent) => {
       e.preventDefault()
       if (touchStart && !touchMove) {
-        setMapInfo((prev) => ({
+        setInfoPosition((prev) => ({
           ...prev,
           vision: true,
         }))
@@ -85,12 +70,9 @@ export default function useTouch() {
         return
       }
       if (transY >= 170 && transY < 350) {
-        setMapInfo((prev) => ({
-          ...prev,
-          vision: false,
-        }))
         setInfoPosition((prev) => ({
           ...prev,
+          vision: false,
           transY: 350,
           touchStart: false,
           touchMove: false,
@@ -104,7 +86,7 @@ export default function useTouch() {
         }))
       }
     },
-    [infoPosition, mapInfo]
+    [infoPosition]
   )
 
   return { infoPosition, setInfoPosition, ref } as any

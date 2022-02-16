@@ -18,8 +18,9 @@ export default function useGetDetail() {
           .then((res) =>
             setMapInfo((prev) => ({
               ...prev,
-              mapDetail: res.data,
               vision: true,
+              mapDetail: res.data,
+              currentPosition: res.data.geometry.location,
             }))
           )
           .catch((error) => console.error(error))

@@ -1,16 +1,17 @@
-import { useMapState } from '../../../context/MapProvider'
 import { css } from '@emotion/react'
 import media from '../../../lib/styles/media'
 import { noto } from '../../../lib/styles/common'
 interface IDragProps {
   refs: React.MutableRefObject<any>
+  vision: boolean
 }
-const DraggableButton: React.FunctionComponent<IDragProps> = ({ refs }) => {
-  const { mapInfo } = useMapState()
-
+const DraggableButton: React.FunctionComponent<IDragProps> = ({
+  refs,
+  vision,
+}) => {
   return (
     <div ref={refs} className="vision" css={DraggableButtonWrapper}>
-      {!mapInfo.vision ? <em>목록을 보려면 탭하세요</em> : <span></span>}
+      {!vision ? <em>목록을 보려면 탭하세요</em> : <span></span>}
     </div>
   )
 }

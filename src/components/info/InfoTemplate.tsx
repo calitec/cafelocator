@@ -5,12 +5,12 @@ import { css } from '@emotion/react'
 
 const InfoTemplate: React.FunctionComponent = ({ children }) => {
   const { ref, infoPosition } = useTouch()
-  const { transY } = infoPosition
+  const { vision, transY } = infoPosition
 
   return (
     <div className="infoTemplate" css={InfoTemplateContainer(transY)}>
       <div className="infoTemplate__body">
-        <DraggableButton refs={ref} />
+        <DraggableButton refs={ref} vision={vision} />
         {children}
       </div>
     </div>

@@ -16,7 +16,6 @@ interface State {
     directions: object
     travel: boolean
     keyword: string
-    vision: boolean
   }
   setMapInfo: (data: object) => void
   getCurrentLocation: () => void
@@ -32,19 +31,18 @@ export const initialState = {
     directions: null,
     travel: false,
     keyword: '',
-    vision: true
   },
   setMapInfo: null,
   getCurrentLocation: null,
   onClearDirections: null,
-  onReset: null
+  onReset: null,
 }
 
 export const MapStateContext = createContext<State | null>(null)
 
 const MapProvider: React.FunctionComponent = ({ children }) => {
   const [mapInfo, setMapInfo] = useState(initialState.mapInfo)
-  const { mapDetail, mapPosition, currentPosition } = mapInfo
+  const { mapPosition, currentPosition } = mapInfo
   const { screenHeight } = useDeviceCheck()
 
   // 맵 초기화
@@ -66,19 +64,6 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
     }
   }, [currentPosition, mapPosition])
 
-  // 클릭 후 위치조정
-  useEffect(() => {
-    if (mapDetail) {
-      setMapInfo((prev) => ({
-        ...prev,
-        currentPosition: {
-          lat: mapDetail?.geometry.location.lat,
-          lng: mapDetail?.geometry.location.lng,
-        },
-      }))
-    }
-  }, [mapInfo.mapDetail])
-
   const getCurrentLocation = useCallback(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -86,7 +71,7 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
           ...prev,
           currentPosition: {
             lat:
-            screenHeight < 812
+              screenHeight < 812
                 ? position.coords.latitude - 0.018
                 : position.coords.latitude,
             lng: position.coords.longitude,
@@ -103,6 +88,7 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
       mapDetail: null,
       directions: null,
       travel: false,
+      currentPosition: mapPosition,
     }))
   }, [mapInfo])
 
@@ -114,6 +100,7 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
       directions: null,
       travel: false,
       keyword: '',
+      currentPosition: mapPosition,
     }))
   }, [mapInfo])
 
