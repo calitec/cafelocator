@@ -1,10 +1,10 @@
 import { useCallback } from 'react'
-import { useMapState } from '../../context/MapProvider'
+import { useMapContext } from '../../context/MapProvider'
 import { IMapDatasProps } from '../../types/map'
 import axios from 'axios'
 
 export default function useGetDetail() {
-  const { mapInfo, setMapInfo, onClearDirections } = useMapState()
+  const { mapInfo, setMapInfo, onClearDirections } = useMapContext()
   const onClick = useCallback(
     async (data: IMapDatasProps) => {
       try {

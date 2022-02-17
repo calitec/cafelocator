@@ -1,10 +1,10 @@
 import * as React from 'react'
 import useTouch from 'src/lib/hooks/useTouch'
-import { useMapState } from '../../context/MapProvider'
+import { useMapContext } from '../../context/MapProvider'
 import InfoDetailPresenter from './InfoDetailPresenter'
 
 const InfoDetailContainer: React.FunctionComponent = () => {
-  const { mapInfo, setMapInfo, onClearDirections } = useMapState()
+  const { mapInfo, setMapInfo, onClearDirections } = useMapContext()
   const { mapDetail } = mapInfo
   const { infoPosition } = useTouch()
   const { transY } = infoPosition

@@ -1,7 +1,7 @@
-import { useMapState } from '../../context/MapProvider'
+import { useMapContext } from '../../context/MapProvider'
 
 export default function useGetDatas() {
-  const { mapInfo } = useMapState()
+  const { mapInfo } = useMapContext()
   const { mapPosition, keyword } = mapInfo
   const url =
     process.env.NODE_ENV !== 'production'

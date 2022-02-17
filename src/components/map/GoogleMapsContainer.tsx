@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { useCallback, memo } from 'react'
+import { useCallback } from 'react'
 import GoogleMapsPresenter from './GoogleMapsPresenter'
 import { useLoadScript } from '@react-google-maps/api'
-import { useMapState } from '../../context/MapProvider'
+import { useMapContext } from '../../context/MapProvider'
 import useGetDatas from '../../lib/hooks/useGetDatas'
 import useSWR from 'swr'
 import { fetcher } from '../../lib/fetcher'
@@ -13,7 +13,7 @@ Geocode.setApiKey(process.env.REACT_APP_API_KEY)
 Geocode.enableDebug()
 
 const GoogleMapsContainer: React.FunctionComponent = () => {
-  const { mapInfo, setMapInfo, getCurrentLocation } = useMapState()
+  const { mapInfo, setMapInfo, getCurrentLocation } = useMapContext()
   const { mapPosition, directions } = mapInfo
   const { onClick } = useGetDetail()
   const url = useGetDatas()
@@ -72,4 +72,4 @@ const GoogleMapsContainer: React.FunctionComponent = () => {
   )
 }
 
-export default memo(GoogleMapsContainer)
+export default GoogleMapsContainer

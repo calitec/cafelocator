@@ -16,6 +16,7 @@ import Spin from '../common/Spin'
 import useDeviceCheck from '../../lib/hooks/useDeviceCheck'
 import media from '../../lib/styles/media'
 import GoogleMapsMarkers from './utils/GoogleMapsMarkers'
+import Button from '../common/Button'
 
 interface IGoogleMapsPresenterProps {
   mapDatas: IMapDatasProps[]
@@ -88,9 +89,9 @@ const GoogleMapsPresenter: React.FunctionComponent<
         {/* Child components, such as markers, info windows, etc. */}
         <div css={googleMapsContainer}>
           <div className="currentLocation" onClick={getCurrentLocation}>
-            <button type="button">
+            <Button type="button" aria-label="현재위치">
               <span></span>
-            </button>
+            </Button>
           </div>
           {/* directions */}
           {mapDetail != null && travel ? (
@@ -165,4 +166,4 @@ const googleMapsContainer = css`
   }
 `
 
-export default memo(GoogleMapsPresenter)
+export default GoogleMapsPresenter

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Marker } from '@react-google-maps/api'
 import { IMapDatasProps, IMapDetailProps } from '../../../types/map'
+import { useVisionContext } from 'src/context/VisionProvider'
 interface IGoogleMapsMarkersProps {
   mapDatas: IMapDatasProps[]
   mapInfo: {
@@ -27,6 +28,7 @@ const GoogleMapsMarkers: React.FunctionComponent<IGoogleMapsMarkersProps> = ({
   onClick,
 }) => {
   const { mapDetail, mapPosition, keyword, travel } = mapInfo
+  const { setVision } = useVisionContext()
   return (
     <>
       {/* current location marker*/}
@@ -81,7 +83,10 @@ const GoogleMapsMarkers: React.FunctionComponent<IGoogleMapsMarkersProps> = ({
                 }}
                 key={i}
                 clickable
-                onClick={() => onClick(v, i)}
+                onClick={() => {
+                  onClick(v, i)
+                  setVision(true)
+                }}
                 position={{ lat, lng }}
                 label={{
                   className: 'markerLabels',

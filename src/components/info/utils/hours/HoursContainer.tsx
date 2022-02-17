@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import useToggle from '../../../../lib/hooks/useToggle'
-import { useMapState } from '../../../../context/MapProvider'
+import { useMapContext } from '../../../../context/MapProvider'
 import HoursPresenter from './HoursPresenter'
 import useScrollTo from '../../../../lib/hooks/useScrollTo'
 
@@ -11,7 +11,7 @@ interface IHoursContainerProps {
 const HoursContainer: React.FunctionComponent<IHoursContainerProps> = ({
   wrapperRef,
 }) => {
-  const { mapInfo } = useMapState()
+  const { mapInfo } = useMapContext()
   const { mapDetail } = mapInfo
   const [realignment, setRealignment] = useState([])
   const [drop, setDrop] = useToggle(false)
@@ -20,11 +20,12 @@ const HoursContainer: React.FunctionComponent<IHoursContainerProps> = ({
 
   // 영업시간 재가공
   useEffect(() => {
-    doRealignment(mapDetail.opening_hours?.weekday_text)
-    return () => doRealignment(mapDetail.opening_hours?.weekday_text)
+    const { weekday_text } = mapDetail.opening_hours
+    doRealignment(weekday_text)
+    return () => doRealignment(weekday_text)
   })
 
-  function doRealignment(opening:string[]) {
+  function doRealignment(opening: string[]) {
     try {
       if (realignment.length < 1) {
         const getDay = new Date().getDay()

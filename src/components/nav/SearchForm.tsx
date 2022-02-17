@@ -1,14 +1,14 @@
 import { useEffect } from 'react'
 import { useRef } from 'react'
 import { useCallback, useState } from 'react'
-import { useMapState } from '../../context/MapProvider'
+import { useMapContext } from '../../context/MapProvider'
 import FontAwesomeIcons from '../common/FontAwesomeIcons'
 import Input from '../common/Input'
 import Button from '../../components/common/Button'
 import { css } from '@emotion/react'
 
 const SearchForm: React.FunctionComponent = () => {
-  const { mapInfo, setMapInfo, onReset } = useMapState()
+  const { mapInfo, setMapInfo, onReset } = useMapContext()
   const [keyword, setKeyword] = useState('')
   const onChange = (e) => setKeyword(e.target.value)
   const enterRef = useRef(null)
@@ -45,7 +45,7 @@ const SearchForm: React.FunctionComponent = () => {
         onChange={onChange}
         onKeyPress={onEnter}
       />
-      <Button ref={enterRef} onClick={onSearch} type="submit">
+      <Button ref={enterRef} onClick={onSearch} type="submit" aria-label="검색">
         <FontAwesomeIcons icon={'search'} color={'white'} />
       </Button>
     </div>

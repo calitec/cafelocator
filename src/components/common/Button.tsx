@@ -17,7 +17,6 @@ const Button: React.FunctionComponent<IButtonProps> = forwardRef(
         css={buttonWrapper}
         className="custom-button"
         type="button"
-        role="button"
         {...rest}
       >
         {children}

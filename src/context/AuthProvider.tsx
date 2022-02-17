@@ -18,7 +18,7 @@ interface State {
   onLogout: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
-const AuthStateContext = createContext<State | null>(null)
+const AuthContext = createContext<State | null>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState(null)
@@ -29,7 +29,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (!user) return
       setUser({ ...user, user: user })
     })
-    const apiKey = process.env.REACT_APP_FIREBASE_API_KEY;
+    const apiKey = process.env.REACT_APP_FIREBASE_API_KEY
     const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`
     const user = JSON.parse(sessionStorage.getItem(sessionKey))
     setUser({ ...user, user })
@@ -60,7 +60,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signOut(auth)
           .then(() => {
             // Sign-out successful.
-            const apiKey = process.env.REACT_APP_FIREBASE_API_KEY;
+            const apiKey = process.env.REACT_APP_FIREBASE_API_KEY
             const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`
             sessionStorage.removeItem(sessionKey)
             setUser(null)
@@ -75,14 +75,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   return (
-    <AuthStateContext.Provider value={{ user, setUser, onLogin, onLogout }}>
+    <AuthContext.Provider value={{ user, setUser, onLogin, onLogout }}>
       {children}
-    </AuthStateContext.Provider>
+    </AuthContext.Provider>
   )
 }
 
-export function useAuthState() {
-  const state = useContext(AuthStateContext)
-  if (!state) throw new Error('Cannot find AuthStateContext')
+export function useAuthContext() {
+  const state = useContext(AuthContext)
+  if (!state) throw new Error('Cannot find AuthContext')
   return state
 }

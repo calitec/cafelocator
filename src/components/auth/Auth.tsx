@@ -1,22 +1,27 @@
-import { useAuthState } from '../../context/AuthProvider'
+import { useAuthContext } from '../../context/AuthProvider'
 import { css } from '@emotion/react'
 import { noto } from '../../lib/styles/common'
 
 const Auth: React.FunctionComponent = () => {
-  const { user, onLogin, onLogout } = useAuthState()
+  const { user, onLogin, onLogout } = useAuthContext()
 
   return (
     <div css={authContainer}>
       <form action="">
         {user?.user == null ? (
-          <button onClick={onLogin} type="submit"className="login">
+          <button
+            onClick={onLogin}
+            type="submit"
+            className="login"
+            aria-label="로그인"
+          >
             <img
               src="//maps.gstatic.com/mapfiles/maps_lite/images/2x/signinphoto_96dp.png"
               alt=""
             />
           </button>
         ) : (
-          <button onClick={onLogout} className='logout'>
+          <button onClick={onLogout} className="logout">
             <img src={user.user.photoURL} alt="" />
           </button>
         )}

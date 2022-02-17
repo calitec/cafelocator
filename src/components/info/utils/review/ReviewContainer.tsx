@@ -15,8 +15,8 @@ import {
   onValue,
 } from 'firebase/database'
 import { toast } from 'react-toastify'
-import { useAuthState } from '../../../../context/AuthProvider'
-import { useMapState } from '../../../../context/MapProvider'
+import { useAuthContext } from '../../../../context/AuthProvider'
+import { useMapContext } from '../../../../context/MapProvider'
 import ReviewPresenter from './ReviewPresenter'
 import useToggle from '../../../../lib/hooks/useToggle'
 import useScrollTo from '../../../../lib/hooks/useScrollTo'
@@ -32,9 +32,9 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
   const auth = getAuth()
   const reviewsRef = ref(db, 'reviews')
   const currentUser = auth.currentUser
-  const { mapInfo } = useMapState()
+  const { mapInfo } = useMapContext()
   const { mapDetail } = mapInfo
-  const { user, onLogin } = useAuthState()
+  const { user, onLogin } = useAuthContext()
   const [reviews, setReviews] = useState([])
   const [reviewsCount, setReviewsCount] = useState(0)
   const [offset, setOffset] = useState('')

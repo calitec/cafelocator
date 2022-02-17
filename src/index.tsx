@@ -4,6 +4,7 @@ import reportWebVitals from './reportWebVitals'
 import MapProvider from './context/MapProvider'
 import { AuthProvider } from './context/AuthProvider'
 import './index.css'
+import { VisionProvider } from './context/VisionProvider'
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLDivElement
 )
@@ -11,7 +12,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <MapProvider>
     <AuthProvider>
-      <App />
+      <VisionProvider>
+        <App />
+      </VisionProvider>
     </AuthProvider>
   </MapProvider>
 )

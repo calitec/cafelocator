@@ -4,8 +4,8 @@ import {
   useState,
   useContext,
   useEffect,
+  useMemo,
 } from 'react'
-import useDeviceCheck from '../lib/hooks/useDeviceCheck'
 import { IMapDetailProps } from '../types/map'
 
 interface State {
@@ -38,7 +38,7 @@ export const initialState = {
   onReset: null,
 }
 
-export const MapStateContext = createContext<State | null>(null)
+export const MapContext = createContext<State | null>(null)
 
 const MapProvider: React.FunctionComponent = ({ children }) => {
   const [mapInfo, setMapInfo] = useState(initialState.mapInfo)
@@ -46,9 +46,10 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
 
   // 맵 초기화
   useEffect(() => {
+    const { geolocation } = navigator
     if (mapPosition.lat < 1) {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
+      if (geolocation) {
+        geolocation.getCurrentPosition((position) => {
           const positions = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
@@ -65,9 +66,9 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
 
   // 위치정보 갱신
   useEffect(() => {
-    if (navigator.geolocation) {
-      const geo = navigator.geolocation
-      const id = geo.watchPosition((position) => {
+    const { geolocation } = navigator
+    if (geolocation) {
+      const id = geolocation.watchPosition((position) => {
         setMapInfo((prev) => ({
           ...prev,
           mapPosition: {
@@ -76,7 +77,7 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
           },
         }))
       })
-      return () => navigator.geolocation.clearWatch(id)
+      return () => geolocation.clearWatch(id)
     }
   }, [])
 
@@ -110,24 +111,23 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
     }))
   }, [mapInfo])
 
-  return (
-    <MapStateContext.Provider
-      value={{
-        mapInfo,
-        setMapInfo,
-        getCurrentLocation,
-        onClearDirections,
-        onReset,
-      }}
-    >
-      {children}
-    </MapStateContext.Provider>
+  const value = useMemo(
+    () => ({
+      mapInfo,
+      setMapInfo,
+      getCurrentLocation,
+      onClearDirections,
+      onReset,
+    }),
+    [mapInfo]
   )
+
+  return <MapContext.Provider value={value}>{children}</MapContext.Provider>
 }
 
-export function useMapState() {
-  const state = useContext(MapStateContext)
-  if (!state) throw new Error('Cannot find MapStateContext')
+export function useMapContext() {
+  const state = useContext(MapContext)
+  if (!state) throw new Error('Cannot find MapContext')
   return state
 }
 
