@@ -9,9 +9,7 @@ npm install
 npm run dev
 
 ## description
-![cl_gif01](https://user-images.githubusercontent.com/39756786/133887506-f85fcaf2-8d72-40dd-8631-b25c57ccd048.gif)
-![cl_gif02](https://user-images.githubusercontent.com/39756786/133887511-32a5e110-68b4-402c-8aca-7030fcea6141.gif)
-![cl_gif03](https://user-images.githubusercontent.com/39756786/133887512-61c88be8-b1ab-4f24-96af-384a3bb3f48d.gif)
+![cafelocatorapp](https://user-images.githubusercontent.com/39756786/154636563-f205a586-f50b-45b7-ad75-4e853d66206c.gif)
 
 ## review
 
