@@ -9,7 +9,8 @@ npm install
 npm run dev
 
 ## description
-![app_comp](https://user-images.githubusercontent.com/39756786/154638001-74e0bf74-6649-4cd1-9c39-56fcbe8879fb.gif)
+![app_comp](https://user-images.githubusercontent.com/39756786/154645691-bce6c80c-0462-4d83-8273-5a4cda54f634.gif)
+
 
 ## stacks
 - 구글 맵
