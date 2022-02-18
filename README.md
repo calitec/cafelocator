@@ -9,11 +9,7 @@ npm install
 npm run dev
 
 ## description
-![cafelocatorapp](https://user-images.githubusercontent.com/39756786/154636563-f205a586-f50b-45b7-ad75-4e853d66206c.gif)
-
-## review
-
-https://velog.io/@syg0713/%EC%B9%B4%ED%8E%98%ED%8C%8C%EC%9D%B8%EB%8D%94
+![app_comp](https://user-images.githubusercontent.com/39756786/154638001-74e0bf74-6649-4cd1-9c39-56fcbe8879fb.gif)
 
 ## stacks
 - 구글 맵
