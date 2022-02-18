@@ -38,6 +38,9 @@ const ReviewPresenter: React.FunctionComponent<IReviewsPresenterProps> = ({
   hasMore,
   onLogin,
 }) => {
+  React.useEffect(() => {
+    console.log(currentUser)
+  }, [])
   return (
     <div css={reviewsWrapper(drop)} className="list__review head">
       {/* 리뷰 */}
@@ -50,15 +53,15 @@ const ReviewPresenter: React.FunctionComponent<IReviewsPresenterProps> = ({
       <form
         action=""
         onSubmit={onSubmit}
-        onClick={currentUser == null ? onLogin : null}
+        onClick={currentUser?.user == null ? onLogin : null}
       >
         <Input
           placeholder={
-            currentUser != null
-              ? '입력 후 엔터를 눌러주세요.'
-              : '로그인이 필요합니다.'
+            currentUser?.user == null
+              ? '로그인이 필요합니다.'
+              : '입력 후 엔터를 눌러주세요.'
           }
-          disabled={currentUser ? false : true}
+          disabled={currentUser?.user == null ? true : false}
           name="content"
           value={content}
           onChange={onChange}

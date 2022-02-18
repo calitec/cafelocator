@@ -85,7 +85,7 @@ const ScrollViewport = (transY) => css`
   overflow-y: ${transY > 0 || transY >= 350 ? 'hidden' : 'auto'};
   z-index: 3;
   -webkit-overflow-scrolling: touch;
-  background: #ebecf0;
+  background: #e2e2e4;
   ${media.large} {
     width: 100%;
     height: 350px;

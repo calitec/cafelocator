@@ -27,12 +27,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (!user) return
-      setUser({ ...user, user: user })
+      setUser((prev) => ({ ...prev, user: user }))
     })
     const apiKey = process.env.REACT_APP_FIREBASE_API_KEY
     const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`
     const user = JSON.parse(sessionStorage.getItem(sessionKey))
-    setUser({ ...user, user })
+    setUser((prev) => ({ ...prev, user: user }))
   }, [])
 
   const onLogin = useCallback((e) => {

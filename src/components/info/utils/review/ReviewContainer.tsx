@@ -148,7 +148,7 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
 
   return (
     <ReviewPresenter
-      currentUser={currentUser}
+      currentUser={user}
       textCount={textCount}
       drop={drop}
       setDrop={setDrop}
