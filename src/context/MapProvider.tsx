@@ -65,21 +65,23 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
   }, [currentPosition, mapPosition])
 
   // 위치정보 갱신
-  useEffect(() => {
-    const { geolocation } = navigator
-    if (geolocation) {
-      const id = geolocation.watchPosition((position) => {
-        setMapInfo((prev) => ({
-          ...prev,
-          mapPosition: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          },
-        }))
-      })
-      return () => geolocation.clearWatch(id)
-    }
-  }, [])
+  // useEffect(() => {
+  //   const { geolocation } = navigator
+  //   if (geolocation) {
+  //     const id = geolocation.watchPosition((position) => {
+  //       const positions = {
+  //         lat: position.coords.latitude,
+  //         lng: position.coords.longitude,
+  //       }
+  //       setMapInfo((prev) => ({
+  //         ...prev,
+  //         mapPosition: positions,
+  //         currentPosition: positions,
+  //       }))
+  //     })
+  //     return () => geolocation.clearWatch(id)
+  //   }
+  // }, [])
 
   const getCurrentLocation = useCallback(() => {
     setMapInfo((prev) => ({
