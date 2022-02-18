@@ -9,13 +9,8 @@ npm install
 npm run dev
 
 ## description
-![cl_gif01](https://user-images.githubusercontent.com/39756786/133887506-f85fcaf2-8d72-40dd-8631-b25c57ccd048.gif)
-![cl_gif02](https://user-images.githubusercontent.com/39756786/133887511-32a5e110-68b4-402c-8aca-7030fcea6141.gif)
-![cl_gif03](https://user-images.githubusercontent.com/39756786/133887512-61c88be8-b1ab-4f24-96af-384a3bb3f48d.gif)
+![app_comp](https://user-images.githubusercontent.com/39756786/154645691-bce6c80c-0462-4d83-8273-5a4cda54f634.gif)
 
-## review
-
-https://velog.io/@syg0713/%EC%B9%B4%ED%8E%98%ED%8C%8C%EC%9D%B8%EB%8D%94
 
 ## stacks
 - 구글 맵
