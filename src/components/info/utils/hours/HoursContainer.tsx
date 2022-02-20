@@ -20,35 +20,35 @@ const HoursContainer: React.FunctionComponent<IHoursContainerProps> = ({
 
   // 영업시간 재가공
   useEffect(() => {
-    const { weekday_text } = mapDetail.opening_hours
-    doRealignment(weekday_text)
-    return () => doRealignment(weekday_text)
+    try {
+      const { weekday_text } = mapDetail.opening_hours
+      doRealignment(weekday_text)
+      return () => doRealignment(weekday_text)
+    } catch {
+      console.log('no opening_hours')
+    }
   })
 
   function doRealignment(opening: string[]) {
-    try {
-      if (realignment.length < 1) {
-        const getDay = new Date().getDay()
-        if (getDay === 0) {
-          // 일요일~
-          const sortedSundayFirst = [opening[opening.length - 1], ...opening]
-          setRealignment(realignment.concat(sortedSundayFirst.slice(0, 7)))
-          return
-        } else if (getDay === 1) {
-          // 월요일~
-          setRealignment(realignment.concat(opening))
-          return
-        } else {
-          // rest
-          const prevDays = opening?.filter((v, i) => i < getDay - 1)
-          const nextDays = opening?.filter((v, i) => i > getDay - 2)
-          const result = nextDays.concat(prevDays)
-          setRealignment(realignment.concat(result))
-          return
-        }
+    if (realignment.length < 1) {
+      const getDay = new Date().getDay()
+      if (getDay === 0) {
+        // 일요일~
+        const sortedSundayFirst = [opening[opening.length - 1], ...opening]
+        setRealignment(realignment.concat(sortedSundayFirst.slice(0, 7)))
+        return
+      } else if (getDay === 1) {
+        // 월요일~
+        setRealignment(realignment.concat(opening))
+        return
+      } else {
+        // rest
+        const prevDays = opening?.filter((v, i) => i < getDay - 1)
+        const nextDays = opening?.filter((v, i) => i > getDay - 2)
+        const result = nextDays.concat(prevDays)
+        setRealignment(realignment.concat(result))
+        return
       }
-    } catch {
-      console.log('no datas')
     }
   }
 
