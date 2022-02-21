@@ -1,34 +1,44 @@
 import { useCallback } from 'react'
 import { useMapContext } from '../../context/MapProvider'
-import { IMapDatasProps } from '../../types/map'
-import axios from 'axios'
 
 export default function useGetDetail() {
   const { mapInfo, setMapInfo, onClearDirections } = useMapContext()
-  const onClick = useCallback(
-    async (data: IMapDatasProps) => {
+
+  const getMapDetail = useCallback(
+    (mapDetail) => {
+      onClearDirections()
       try {
-        onClearDirections()
-        await axios
-          .get(
-            process.env.NODE_ENV !== 'production'
-              ? `http://localhost:3070/google/detail?place_id=${data.place_id}`
-              : `https://cafelocator-server.herokuapp.com/google/detail?place_id=${data.place_id}`
-          )
-          .then((res) =>
-            setMapInfo((prev) => ({
-              ...prev,
-              vision: true,
-              mapDetail: res.data,
-              currentPosition: res.data.geometry.location,
-            }))
-          )
-          .catch((error) => console.error(error))
+        //@ts-ignore
+        const map = new google.maps.Map(document.getElementById('map'), {
+          center: {
+            lat: mapInfo.currentPosition.lat,
+            lng: mapInfo.currentPosition.lng,
+          },
+          zoom: 15,
+        })
+        //@ts-ignore
+        const request = {
+          placeId: mapDetail.place_id,
+        }
+        //@ts-ignore
+        const service = new google.maps.places.PlacesService(map)
+        service.getDetails(request, (place, status) => {
+          if (
+            //@ts-ignore
+            status === google.maps.places.PlacesServiceStatus.OK &&
+            place &&
+            place.geometry &&
+            place.geometry.location
+          ) {
+            setMapInfo((prev) => ({ ...prev, mapDetail: place }))
+          }
+        })
       } catch {
         console.log('no datas')
       }
     },
     [mapInfo]
   )
-  return { onClick }
+
+  return { getMapDetail }
 }

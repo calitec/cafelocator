@@ -1,17 +1,12 @@
-import SearchForm from '../../components/nav/SearchForm'
-import Auth from '../../components/auth/Auth'
 import { css } from '@emotion/react'
 import { after, notoBigger } from '../../lib/styles/common'
 import media from '../../lib/styles/media'
 
-const NavTemplate = () => {
+const NavTemplate = ({ children }) => {
   return (
     <nav role="navigation" css={navTemplateContainer}>
       <h1>CAFE LOCATOR</h1>
-      <div className="infoTemplate__head">
-        <SearchForm />
-        <Auth />
-      </div>
+      <div className="infoTemplate__head">{children}</div>
     </nav>
   )
 }

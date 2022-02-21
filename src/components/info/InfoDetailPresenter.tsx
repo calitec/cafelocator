@@ -3,12 +3,12 @@ import { useRef } from 'react'
 import { IMapDetailProps } from '../../types/map'
 import FontAwesomeIcons from '../../components/common/FontAwesomeIcons'
 import Rating from '../common/Rating'
-import { after, noto, notoBig } from '../../lib/styles/common'
-import media from '../../lib/styles/media'
-import { css } from '@emotion/react'
 import Hours from './utils/hours/HoursContainer'
 import ReviewContainer from './utils/review/ReviewContainer'
 import Slick from '../common/Slick'
+import media from '../../lib/styles/media'
+import { css } from '@emotion/react'
+import { after, noto, notoBig } from '../../lib/styles/common'
 
 interface IInfoDetailPresenterProps {
   mapDetail: IMapDetailProps
@@ -17,9 +17,12 @@ interface IInfoDetailPresenterProps {
   setTravel: () => void
 }
 
-const InfoDetailPresenter: React.FunctionComponent<
-  IInfoDetailPresenterProps
-> = ({ mapDetail, transY, onClearDirections, setTravel }) => {
+const InfoDetailPresenter: React.FunctionComponent<IInfoDetailPresenterProps> = ({
+  mapDetail,
+  transY,
+  onClearDirections,
+  setTravel,
+}) => {
   const refs = useRef<HTMLDivElement>(null)
 
   return (

@@ -8,14 +8,15 @@ import {
 } from 'react'
 import { IMapDetailProps } from '../types/map'
 
-interface State {
+export interface MapState {
   mapInfo: {
     currentPosition: { lat: number; lng: number }
     mapPosition: { lat: number; lng: number }
+    mapDatas: object
     mapDetail: IMapDetailProps
     directions: object
     travel: boolean
-    keyword: string
+    loading: boolean
   }
   setMapInfo: (data: object) => void
   getCurrentLocation: () => void
@@ -27,10 +28,11 @@ export const initialState = {
   mapInfo: {
     currentPosition: { lat: 0, lng: 0 },
     mapPosition: { lat: 0, lng: 0 },
+    mapDatas: null,
     mapDetail: null,
     directions: null,
     travel: false,
-    keyword: '',
+    loading: false,
   },
   setMapInfo: null,
   getCurrentLocation: null,
@@ -38,7 +40,7 @@ export const initialState = {
   onReset: null,
 }
 
-export const MapContext = createContext<State | null>(null)
+export const MapContext = createContext<MapState | null>(null)
 
 const MapProvider: React.FunctionComponent = ({ children }) => {
   const [mapInfo, setMapInfo] = useState(initialState.mapInfo)
@@ -63,6 +65,11 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
       }
     }
   }, [currentPosition, mapPosition])
+
+  useEffect(() => {
+    if (mapInfo.mapDatas !== null)
+      setMapInfo((prev) => ({ ...prev, loading: false }))
+  }, [mapInfo.mapDatas])
 
   // 위치정보 갱신
   // useEffect(() => {

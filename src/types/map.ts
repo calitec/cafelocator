@@ -30,7 +30,7 @@ export interface IMapDetailProps {
   length: number
   place_id: string
   photos: {
-    photo_reference: string
+    getUrl: () => string
   }[]
   formatted_phone_number: number
   opening_hours: {

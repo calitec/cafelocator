@@ -1,10 +1,11 @@
-import React from 'react'
+import * as React from 'react'
 import { Marker } from '@react-google-maps/api'
-import { IMapDatasProps, IMapDetailProps } from '../../../types/map'
+import { IMapDetailProps } from '../../../types/map'
 import { useVisionContext } from 'src/context/VisionProvider'
+import useGetDetail from 'src/lib/hooks/useGetDetail'
 interface IGoogleMapsMarkersProps {
-  mapDatas: IMapDatasProps[]
   mapInfo: {
+    mapDatas: any
     currentPosition: {
       lat: number
       lng: number
@@ -15,64 +16,32 @@ interface IGoogleMapsMarkersProps {
     }
     mapDetail: IMapDetailProps
     travel: boolean
-    keyword: string
     directions: {}
   }
   zoom: number
-  onClick: (v, i) => void
+  setMapInfo: (v) => void
 }
 const GoogleMapsMarkers: React.FunctionComponent<IGoogleMapsMarkersProps> = ({
-  mapDatas,
   mapInfo,
   zoom,
-  onClick,
 }) => {
-  const { mapDetail, mapPosition, keyword, travel } = mapInfo
+  const { mapDatas, mapDetail, mapPosition, travel } = mapInfo
   const { setVision } = useVisionContext()
+  const { getMapDetail } = useGetDetail()
+
   return (
     <>
       {/* current location marker*/}
-      <Marker
-        //@ts-ignore
-        position={{ lat: mapPosition.lat, lng: mapPosition.lng }}
-      >
+      <Marker position={{ lat: mapPosition.lat, lng: mapPosition.lng }}>
         <div className="effective"></div>
       </Marker>
-      {mapDatas &&
-        keyword.length > 1 &&
-        mapDatas.map((v, i) => {
-          const { lat, lng } = v.geometry.location
-          if (mapDetail?.place_id === v.place_id) {
-            return (
-              <div key={i}>
-                <Marker
-                  icon={{
-                    url: './images/locator.png',
-                    //@ts-ignore
-                    size: new google.maps.Size(50, 57),
-                    //@ts-ignore
-                    labelOrigin: new google.maps.Point(9, 50),
-                  }}
-                  //@ts-ignore
-                  animation={!travel && window.google.maps.Animation.BOUNCE}
-                  position={{ lat, lng }}
-                  label={{
-                    className: 'markerLabels',
-                    text: v.name,
-                    color: 'black',
-                    fontSize: zoom > 12 ? '12px' : '0px',
-                    fontWeight: 'bold',
-                    stroke: '5px white',
-                  }}
-                >
-                  <div className="effective"></div>
-                </Marker>
-              </div>
-            )
-          }
+
+      {/* markers */}
+      {mapDatas?.map((v, i) => {
+        const { lat, lng } = v.geometry.location
+        if (mapDetail?.place_id === v.place_id) {
           return (
             <div key={i}>
-              {/* cluster markers */}
               <Marker
                 icon={{
                   url: './images/locator.png',
@@ -81,13 +50,9 @@ const GoogleMapsMarkers: React.FunctionComponent<IGoogleMapsMarkersProps> = ({
                   //@ts-ignore
                   labelOrigin: new google.maps.Point(9, 50),
                 }}
-                key={i}
-                clickable
-                onClick={() => {
-                  onClick(v, i)
-                  setVision(true)
-                }}
-                position={{ lat, lng }}
+                //@ts-ignore
+                animation={!travel && window.google.maps.Animation.BOUNCE}
+                position={{ lat: lat(), lng: lng() }}
                 label={{
                   className: 'markerLabels',
                   text: v.name,
@@ -96,10 +61,41 @@ const GoogleMapsMarkers: React.FunctionComponent<IGoogleMapsMarkersProps> = ({
                   fontWeight: 'bold',
                   stroke: '5px white',
                 }}
-              ></Marker>
+              >
+                <div className="effective"></div>
+              </Marker>
             </div>
           )
-        })}
+        }
+        return (
+          <div key={i}>
+            <Marker
+              icon={{
+                url: './images/locator.png',
+                //@ts-ignore
+                size: new google.maps.Size(50, 57),
+                //@ts-ignore
+                labelOrigin: new google.maps.Point(9, 50),
+              }}
+              key={i}
+              clickable
+              onClick={() => {
+                setVision(true)
+                getMapDetail(v)
+              }}
+              position={{ lat: lat(), lng: lng() }}
+              label={{
+                className: 'markerLabels',
+                text: v.name,
+                color: 'black',
+                fontSize: zoom > 12 ? '12px' : '0px',
+                fontWeight: 'bold',
+                stroke: '5px white',
+              }}
+            ></Marker>
+          </div>
+        )
+      })}
     </>
   )
 }

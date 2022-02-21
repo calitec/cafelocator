@@ -3,16 +3,14 @@ import media from '../../lib/styles/media'
 
 interface IAppLayoutProps {
   children: React.ReactNode
-  nav: React.ReactNode
 }
 
 const MainTemplate: React.FunctionComponent<IAppLayoutProps> = ({
   children,
-  nav,
+  // nav,
 }) => {
   return (
     <section css={MainTemplateContainer}>
-      {nav}
       <main role="main">{children}</main>
     </section>
   )

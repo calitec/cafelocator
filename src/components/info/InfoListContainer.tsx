@@ -1,10 +1,7 @@
 import { useMapContext } from '../../context/MapProvider'
 import haversine from 'haversine'
 import useTouch from '../../lib/hooks/useTouch'
-import useSWR from 'swr'
-import { fetcher } from '../../lib/fetcher'
 import InfoListPresenter from './InfoListPresenter'
-import useGetDatas from '../../lib/hooks/useGetDatas'
 import useGetDetail from '../../lib/hooks/useGetDetail'
 
 function haversined(mapPosition, value) {
@@ -27,18 +24,13 @@ const InfoListContainer: React.FunctionComponent = () => {
   const { infoPosition } = useTouch()
   const { transY } = infoPosition
   const { mapInfo } = useMapContext()
-  const { mapPosition, keyword } = mapInfo
-  const url = useGetDatas()
-  const { onClick } = useGetDetail()
-  const { data } = useSWR(url, fetcher, { suspense: true })
+  const { getMapDetail } = useGetDetail()
 
   return (
     <InfoListPresenter
-      mapPosition={mapPosition}
-      mapDatas={data}
-      keyword={keyword}
+      mapInfo={mapInfo}
       transY={transY}
-      onClick={onClick}
+      getMapDetail={getMapDetail}
       haversined={haversined}
     />
   )

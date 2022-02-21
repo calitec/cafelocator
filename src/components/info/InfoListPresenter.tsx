@@ -1,30 +1,25 @@
 import Rating from '../common/Rating'
 import media from '../../lib/styles/media'
 import useScroll from '../../lib/hooks/useScroll'
-import { IMapDatasProps } from '../../types/map'
 import { css } from '@emotion/react'
 import { noto, notoBig } from '../..//lib/styles/common'
-
+import { IMapDatasProps } from 'src/types/map'
+import Loader from '../common/Loader'
 interface IInfoListPresenterProps {
-  mapPosition: {
-    lat: number
-    lng: number
-  }
-  mapDatas: IMapDatasProps[]
+  mapInfo: any
   transY: number
-  keyword: string
-  onClick?: (v, i) => void
+  getMapDetail?: (v) => void
   haversined: (mapPosition: object, value: any) => {}
 }
 
 const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
-  mapPosition,
-  mapDatas,
+  mapInfo,
   transY,
-  keyword,
-  onClick,
+  getMapDetail,
   haversined,
 }) => {
+  const { mapDatas, mapPosition, loading } = mapInfo
+
   const [scrollTop, ref] = useScroll()
   const totalItemCount =
     mapDatas?.length > 1 && mapDatas.length <= 20 ? mapDatas.length : 20
@@ -41,7 +36,8 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
     startIdx + scrollViewPortHeight / itemHeight + 1
   )
 
-  if (keyword.length > 1) {
+  if (loading) return <Loader />
+  if (mapDatas !== null) {
     return (
       <div ref={ref} css={ScrollViewport(transY)}>
         <div css={scrollContainer(scrollContainerHeight)}>
@@ -51,7 +47,7 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
                 key={i}
                 css={visibleNodesWrapper(offsetY)}
                 onClick={() => {
-                  onClick(item, i)
+                  getMapDetail(item)
                 }}
               >
                 <h2>{item.name}</h2>

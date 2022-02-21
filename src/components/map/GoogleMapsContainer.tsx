@@ -3,26 +3,45 @@ import { useCallback } from 'react'
 import GoogleMapsPresenter from './GoogleMapsPresenter'
 import { useLoadScript } from '@react-google-maps/api'
 import { useMapContext } from '../../context/MapProvider'
-import useGetDatas from '../../lib/hooks/useGetDatas'
-import useSWR from 'swr'
-import { fetcher } from '../../lib/fetcher'
 import Geocode from 'react-geocode'
 import useGetDetail from '../../lib/hooks/useGetDetail'
 
 Geocode.setApiKey(process.env.REACT_APP_API_KEY)
 Geocode.enableDebug()
-
+type Libraries =
+  | 'drawing'
+  | 'geometry'
+  | 'localContext'
+  | 'places'
+  | 'visualization'
+const libraries: Libraries[] = ['places']
 const GoogleMapsContainer: React.FunctionComponent = () => {
   const { mapInfo, setMapInfo, getCurrentLocation } = useMapContext()
   const { mapPosition, directions } = mapInfo
-  const { onClick } = useGetDetail()
-  const url = useGetDatas()
-  const { data } = useSWR(url, fetcher)
-
+  const { getMapDetail } = useGetDetail()
   const { isLoaded, loadError } = useLoadScript({
     id: 'c2e1bb32e1c03c5c',
     googleMapsApiKey: process.env.REACT_APP_API_KEY,
+    libraries,
+    preventGoogleFontsLoading: false,
   })
+
+  const directionsCallback = useCallback(
+    (response) => {
+      if (response !== null && directions == null) {
+        if (response.status === 'OK') {
+          setMapInfo((prev) => ({ ...prev, directions: response }))
+        }
+      }
+    },
+    [directions]
+  )
+
+  function onPlacesChanged() {
+    const mapDatas = this.getPlaces()
+    setMapInfo((prev) => ({ ...prev, loading: true }))
+    setMapInfo((prev) => ({ ...prev, mapDatas }))
+  }
 
   // 디렉션 옵션
   const directionsOptions = {
@@ -39,33 +58,17 @@ const GoogleMapsContainer: React.FunctionComponent = () => {
     },
   }
 
-  const directionsCallback = useCallback(
-    (response) => {
-      // console.log(response,'response')
-      if (response !== null && directions == null) {
-        if (response.status === 'OK') {
-          setMapInfo((prev) => ({ ...prev, directions: response }))
-        }
-      }
-    },
-    [directions]
-  )
-
-  const onLoad = (map) => {
-    // console.log(mapInstance, 'mapInstance')
-  }
-
   return (
     <>
       <GoogleMapsPresenter
-        mapDatas={data}
         mapInfo={mapInfo}
         directionsOptions={directionsOptions}
         isLoaded={isLoaded}
         loadError={loadError}
+        setMapInfo={setMapInfo}
         directionsCallback={directionsCallback}
-        onLoad={onLoad}
-        onClick={onClick}
+        onPlacesChanged={onPlacesChanged}
+        getMapDetail={getMapDetail}
         getCurrentLocation={getCurrentLocation}
       />
     </>

@@ -1,26 +1,30 @@
 /* global google */
 import * as React from 'react'
-import { useState, memo } from 'react'
+import { useState, useRef } from 'react'
 import {
   GoogleMap,
   DirectionsService,
   DirectionsRenderer,
+  StandaloneSearchBox,
 } from '@react-google-maps/api'
-import {
-  IGoogleMapOptionsProps,
-  IMapDatasProps,
-  IMapDetailProps,
-} from '../../types/map'
+import { IGoogleMapOptionsProps, IMapDetailProps } from '../../types/map'
 import { css } from '@emotion/react'
 import Spin from '../common/Spin'
 import useDeviceCheck from '../../lib/hooks/useDeviceCheck'
 import media from '../../lib/styles/media'
 import GoogleMapsMarkers from './utils/GoogleMapsMarkers'
 import Button from '../common/Button'
+import InfoTemplate from '../info/InfoTemplate'
+import InfoListContainer from '../info/InfoListContainer'
+import InfoDetailContainer from '../info/InfoDetailContainer'
+import NavTemplate from '../nav/NavTemplate'
+import MainTemplate from '../../components/common/MainTemplate'
+import Input from '../common/Input'
+import Auth from '../auth/Auth'
 
 interface IGoogleMapsPresenterProps {
-  mapDatas: IMapDatasProps[]
   mapInfo: {
+    mapDatas: any
     currentPosition: {
       lat: number
       lng: number
@@ -31,61 +35,78 @@ interface IGoogleMapsPresenterProps {
     }
     mapDetail: IMapDetailProps
     travel: boolean
-    keyword: string
     directions: {}
   }
   directionsOptions: IGoogleMapOptionsProps
   isLoaded: boolean
   loadError: Error | undefined
+  setMapInfo: (v) => void
   directionsCallback: (v) => void
-  onLoad: (v) => void
-  onClick: (v, i) => void
+  onPlacesChanged: () => void
+  getMapDetail: (v) => void
   getCurrentLocation: () => void
 }
 
-const GoogleMapsPresenter: React.FunctionComponent<
-  IGoogleMapsPresenterProps
-> = ({
-  mapDatas,
+const GoogleMapsPresenter: React.FunctionComponent<IGoogleMapsPresenterProps> = ({
   mapInfo,
   directionsOptions,
   isLoaded,
   loadError,
+  setMapInfo,
   directionsCallback,
-  onLoad,
-  onClick,
+  onPlacesChanged,
   getCurrentLocation,
 }) => {
   const { screenWidth } = useDeviceCheck()
-  const [zoom, setZoom] = useState(13)
+  const [zoom] = useState(13)
+  const mapRef = useRef(null)
   const mapOption = {
     fullscreenControl: false,
     disableDefaultUI: screenWidth <= 414 ? true : false,
   }
-  const { currentPosition, mapPosition, mapDetail, directions, travel } =
-    mapInfo
-
-  // function zoomChanged() {
-  //   setZoom(this.getZoom())
-  // }
+  const {
+    currentPosition,
+    mapPosition,
+    mapDetail,
+    directions,
+    travel,
+  } = mapInfo
 
   const renderMap = () => {
-    // wrapping to a function is useful in case you want to access `window.google`
-    // to eg. setup options or create latLng object, it won't be available otherwise
-    // feel free to render directly if you don't need that
-
+    //@ts-ignore
+    const yourLocation = new google.maps.LatLngBounds(
+      //@ts-ignore
+      new google.maps.LatLng(mapPosition.lat, mapPosition.lng)
+    )
     return (
       <GoogleMap
+        ref={mapRef}
         mapContainerStyle={{
           width: '100%',
           height: `${window.innerHeight}px`,
         }}
         center={{ lat: currentPosition.lat, lng: currentPosition.lng }}
         zoom={13}
-        // onZoomChanged={zoomChanged}
-        onLoad={onLoad}
         options={mapOption}
       >
+        <MainTemplate>
+          <StandaloneSearchBox
+            bounds={yourLocation}
+            onPlacesChanged={onPlacesChanged}
+          >
+            <NavTemplate>
+              <div css={searchFormWrapper}>
+                <Input placeholder="주변 카페를 검색 해보세요" style={input} />
+              </div>
+              <Auth />
+            </NavTemplate>
+          </StandaloneSearchBox>
+          <InfoTemplate>
+            <InfoListContainer />
+            <InfoDetailContainer />
+          </InfoTemplate>
+        </MainTemplate>
+
         {/* Child components, such as markers, info windows, etc. */}
         <div css={googleMapsContainer}>
           <div className="currentLocation" onClick={getCurrentLocation}>
@@ -112,20 +133,16 @@ const GoogleMapsPresenter: React.FunctionComponent<
           ) : (
             ''
           )}
-
           <GoogleMapsMarkers
-            mapDatas={mapDatas}
             mapInfo={mapInfo}
             zoom={zoom}
-            onClick={onClick}
+            setMapInfo={setMapInfo}
           />
         </div>
       </GoogleMap>
     )
   }
-  if (loadError) {
-    return <div>Map cannot be loaded right now, sorry.</div>
-  }
+  if (loadError) return <div>Map cannot be loaded right now, sorry.</div>
   return isLoaded ? renderMap() : <Spin />
 }
 
@@ -165,5 +182,29 @@ const googleMapsContainer = css`
     }
   }
 `
-
+const searchFormWrapper = css`
+  display: inline-block;
+  position: relative;
+  top: 2px;
+  width: 85%;
+  button {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+    z-index: 2;
+  }
+`
+const input = css`
+  background: #000024;
+  color: #fff;
+  line-height: 32px;
+  font-weight: 500;
+  border-radius: 100px;
+  text-indent: 5px;
+  width: 100%;
+`
 export default GoogleMapsPresenter

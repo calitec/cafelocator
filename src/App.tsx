@@ -4,14 +4,14 @@ import { Global } from '@emotion/react'
 import { helmets } from './components/common/Helmet'
 import { reset } from './lib/styles/GlobalReset'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Home from './pages/Home'
+import Map from './pages/Map'
 
 function App() {
   return (
     <>
       {helmets}
       <Global styles={reset} />
-      <Home />
+      <Map />
       <div id="portal" />
       <Core />
     </>

@@ -38,6 +38,7 @@ const modalPhotoWrapper = css`
     width: 25px;
     height: 25px;
     padding: 0;
+    z-index: 3;
     &::before,
     &::after {
       position: absolute;
@@ -65,6 +66,7 @@ const modalPhotoWrapper = css`
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 3;
+    width: 80%;
     ${media.large} {
       width: 100%;
     }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Slider from 'react-slick'
 import { css } from '@emotion/react'
 import Portal from '../common/Portal'
@@ -8,7 +8,7 @@ import FontAwesomeIcons from './FontAwesomeIcons'
 
 interface IImagesProps {
   photos: {
-    photo_reference: string
+    getUrl: () => string
   }[]
 }
 
@@ -55,13 +55,9 @@ const Slick: React.FunctionComponent<IImagesProps> = ({ photos }) => {
         <Slider {...settings}>
           {photos.map((v, i) => {
             return (
-              <div key={v.photo_reference}>
+              <div key={v.getUrl()}>
                 <div className="cover">
-                  <img
-                    key={i}
-                    src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${v?.photo_reference}&sensor=false&key=${process.env.REACT_APP_API_KEY}`}
-                    alt="이미지"
-                  />
+                  <img key={i} src={v.getUrl()} alt="이미지" />
                   <div className="zoom" onClick={(e) => onZoom(e, i)}>
                     <FontAwesomeIcons icon={'searchPlus'} color={'white'} />
                   </div>
@@ -71,9 +67,7 @@ const Slick: React.FunctionComponent<IImagesProps> = ({ photos }) => {
                     <ModalPhoto onClose={onClose}>
                       <img
                         key={i}
-                        src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${
-                          photos[active.index]?.photo_reference
-                        }&sensor=false&key=${process.env.REACT_APP_API_KEY}`}
+                        src={photos[active.index]?.getUrl()}
                         alt="이미지"
                       />
                     </ModalPhoto>
@@ -93,10 +87,7 @@ const Slick: React.FunctionComponent<IImagesProps> = ({ photos }) => {
       <Slider {...settings}>
         {photos !== undefined ? (
           <div className="cover">
-            <img
-              src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photos[0]?.photo_reference}&sensor=false&key=${process.env.REACT_APP_API_KEY}`}
-              alt="이미지"
-            />
+            <img src={photos[0].getUrl()} alt="이미지" />
           </div>
         ) : (
           ''
