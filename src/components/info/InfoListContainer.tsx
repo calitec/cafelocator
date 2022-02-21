@@ -5,6 +5,7 @@ import InfoListPresenter from './InfoListPresenter'
 import useGetDetail from '../../lib/hooks/useGetDetail'
 
 function haversined(mapPosition, value) {
+  console.log(value)
   return (
     Math.round(
       haversine(
@@ -13,8 +14,8 @@ function haversined(mapPosition, value) {
           longitude: mapPosition.lng,
         },
         {
-          latitude: value?.geometry.location.lat,
-          longitude: value?.geometry.location.lng,
+          latitude: value?.geometry.location.lat(),
+          longitude: value?.geometry.location.lng(),
         }
       ) * 100
     ) / 100
