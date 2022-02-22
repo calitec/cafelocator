@@ -5,22 +5,14 @@ import {
   GoogleMap,
   DirectionsService,
   DirectionsRenderer,
-  StandaloneSearchBox,
 } from '@react-google-maps/api'
-import { IGoogleMapOptionsProps, IMapDetailProps } from '../../types/map'
+import { IMapDetailProps } from '../../types/map'
 import { css } from '@emotion/react'
 import Spin from '../common/Spin'
 import useDeviceCheck from '../../lib/hooks/useDeviceCheck'
 import media from '../../lib/styles/media'
-import GoogleMapsMarkers from './utils/GoogleMapsMarkers'
+import GoogleMapsMarkers from './GoogleMapsMarkers'
 import Button from '../common/Button'
-import InfoTemplate from '../info/InfoTemplate'
-import InfoListContainer from '../info/InfoListContainer'
-import InfoDetailContainer from '../info/InfoDetailContainer'
-import NavTemplate from '../nav/NavTemplate'
-import MainTemplate from '../../components/common/MainTemplate'
-import Input from '../common/Input'
-import Auth from '../auth/Auth'
 
 interface IGoogleMapsPresenterProps {
   mapInfo: {
@@ -34,85 +26,83 @@ interface IGoogleMapsPresenterProps {
       lng: number
     }
     mapDetail: IMapDetailProps
-    travel: boolean
     directions: {}
+    travel: boolean
+    loading: boolean
   }
-  directionsOptions: IGoogleMapOptionsProps
   isLoaded: boolean
   loadError: Error | undefined
   setMapInfo: (v) => void
   directionsCallback: (v) => void
-  onPlacesChanged: () => void
   getMapDetail: (v) => void
   getCurrentLocation: () => void
+  renderInfoView: () => void
 }
 
 const GoogleMapsPresenter: React.FunctionComponent<IGoogleMapsPresenterProps> = ({
   mapInfo,
-  directionsOptions,
   isLoaded,
   loadError,
   setMapInfo,
   directionsCallback,
-  onPlacesChanged,
   getCurrentLocation,
+  renderInfoView,
 }) => {
+  const { mapPosition, mapDetail, directions, travel, loading } = mapInfo
+
   const { screenWidth } = useDeviceCheck()
   const [zoom] = useState(13)
   const mapRef = useRef(null)
+
+  // 맵 옵션
   const mapOption = {
     fullscreenControl: false,
     disableDefaultUI: screenWidth <= 414 ? true : false,
   }
-  const {
-    currentPosition,
-    mapPosition,
-    mapDetail,
-    directions,
-    travel,
-  } = mapInfo
+
+  // 맵 컨테이너 스타일
+  const mapContainerStyle = {
+    width: '100%',
+    height: `${window.innerHeight}px`,
+  }
+
+  // 디렉션 옵션
+  const directionsOptions = {
+    polylineOptions: {
+      strokeColor: 'green',
+      strokeWeight: '4',
+      strokeOpacity: '0.99',
+    },
+    zoomControlOptions: {
+      position: {
+        lat: mapPosition.lat,
+        lng: mapPosition.lng,
+      },
+    },
+  }
 
   const renderMap = () => {
-    //@ts-ignore
-    const yourLocation = new google.maps.LatLngBounds(
-      //@ts-ignore
-      new google.maps.LatLng(mapPosition.lat, mapPosition.lng)
-    )
     return (
       <GoogleMap
         ref={mapRef}
-        mapContainerStyle={{
-          width: '100%',
-          height: `${window.innerHeight}px`,
-        }}
-        center={{ lat: currentPosition.lat, lng: currentPosition.lng }}
-        zoom={13}
+        mapContainerStyle={mapContainerStyle}
+        center={{ lat: mapPosition.lat, lng: mapPosition.lng }}
         options={mapOption}
+        zoom={13}
       >
-        <MainTemplate>
-          <StandaloneSearchBox
-            bounds={yourLocation}
-            onPlacesChanged={onPlacesChanged}
-          >
-            <NavTemplate>
-              <div css={searchFormWrapper}>
-                <Input placeholder="주변 카페를 검색 해보세요" style={input} />
-              </div>
-              <Auth />
-            </NavTemplate>
-          </StandaloneSearchBox>
-          <InfoTemplate>
-            <InfoListContainer />
-            <InfoDetailContainer />
-          </InfoTemplate>
-        </MainTemplate>
+        {/* 인포메이션 뷰 */}
+        {renderInfoView()}
 
         {/* Child components, such as markers, info windows, etc. */}
         <div css={googleMapsContainer}>
           <div className="currentLocation" onClick={getCurrentLocation}>
-            <Button type="button" aria-label="현재위치">
-              <span></span>
-            </Button>
+            {loading ? (
+              <Spin />
+            ) : (
+              <Button type="button" aria-label="현재위치">
+                <span></span>
+              </Button>
+            )}
           </div>
           {/* directions */}
           {mapDetail != null && travel ? (
@@ -182,29 +172,5 @@ const googleMapsContainer = css`
     }
   }
 `
-const searchFormWrapper = css`
-  display: inline-block;
-  position: relative;
-  top: 2px;
-  width: 85%;
-  button {
-    position: absolute;
-    top: 50%;
-    right: 5px;
-    transform: translateY(-50%);
-    border: 0;
-    background-color: transparent;
-    cursor: pointer;
-    z-index: 2;
-  }
-`
-const input = css`
-  background: #000024;
-  color: #fff;
-  line-height: 32px;
-  font-weight: 500;
-  border-radius: 100px;
-  text-indent: 5px;
-  width: 100%;
-`
+
 export default GoogleMapsPresenter

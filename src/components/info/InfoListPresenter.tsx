@@ -3,10 +3,23 @@ import media from '../../lib/styles/media'
 import useScroll from '../../lib/hooks/useScroll'
 import { css } from '@emotion/react'
 import { noto, notoBig } from '../..//lib/styles/common'
-import { IMapDatasProps } from 'src/types/map'
 import Loader from '../common/Loader'
+import {
+  IDirectionsProps,
+  IMapDatasProps,
+  IMapDetailProps,
+} from 'src/types/map'
+
 interface IInfoListPresenterProps {
-  mapInfo: any
+  mapInfo: {
+    currentPosition: { lat: number; lng: number }
+    mapPosition: { lat: number; lng: number }
+    mapDatas: IMapDatasProps[]
+    mapDetail: IMapDetailProps
+    directions: IDirectionsProps
+    travel: boolean
+    loading: boolean
+  }
   transY: number
   getMapDetail?: (v) => void
   haversined: (mapPosition: object, value: any) => {}
@@ -18,7 +31,7 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
   getMapDetail,
   haversined,
 }) => {
-  const { mapDatas, mapPosition, loading } = mapInfo
+  const { mapDatas, currentPosition } = mapInfo
 
   const [scrollTop, ref] = useScroll()
   const totalItemCount =
@@ -54,7 +67,7 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
                 <div>
                   <span>{item.rating}</span> <Rating star={item.rating} />
                 </div>
-                <p>현재 위치로부터 {haversined(mapPosition, item)} km</p>
+                <p>현재 위치로부터 {haversined(currentPosition, item)} km</p>
               </li>
             ))}
           </ul>
@@ -62,9 +75,6 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
       </div>
     )
   }
-
-  // 로딩
-  if (loading) return <Loader />
 
   // 디폴트
   return (

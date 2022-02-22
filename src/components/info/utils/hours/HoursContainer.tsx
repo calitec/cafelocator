@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useMemo, useState } from 'react'
 import useToggle from '../../../../lib/hooks/useToggle'
 import { useMapContext } from '../../../../context/MapProvider'
 import HoursPresenter from './HoursPresenter'
@@ -19,7 +19,7 @@ const HoursContainer: React.FunctionComponent<IHoursContainerProps> = ({
   useScrollTo(wrapperRef, drop)
 
   // 영업시간 재가공
-  useEffect(() => {
+  useMemo(() => {
     try {
       const { weekday_text } = mapDetail.opening_hours
       doRealignment(weekday_text)
@@ -27,7 +27,7 @@ const HoursContainer: React.FunctionComponent<IHoursContainerProps> = ({
     } catch {
       console.log('no opening_hours')
     }
-  })
+  }, [])
 
   function doRealignment(opening: string[]) {
     if (realignment.length < 1) {

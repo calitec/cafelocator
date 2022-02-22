@@ -6,15 +6,15 @@ import {
   useEffect,
   useMemo,
 } from 'react'
-import { IMapDetailProps } from '../types/map'
+import { IDirectionsProps, IMapDatasProps, IMapDetailProps } from '../types/map'
 
 export interface MapState {
   mapInfo: {
     currentPosition: { lat: number; lng: number }
     mapPosition: { lat: number; lng: number }
-    mapDatas: object
+    mapDatas: IMapDatasProps[]
     mapDetail: IMapDetailProps
-    directions: object
+    directions: IDirectionsProps
     travel: boolean
     loading: boolean
   }
@@ -44,7 +44,7 @@ export const MapContext = createContext<MapState | null>(null)
 
 const MapProvider: React.FunctionComponent = ({ children }) => {
   const [mapInfo, setMapInfo] = useState(initialState.mapInfo)
-  const { mapPosition, currentPosition } = mapInfo
+  const { mapPosition } = mapInfo
 
   // 맵 초기화
   useEffect(() => {
@@ -64,14 +64,9 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
         })
       }
     }
-  }, [currentPosition, mapPosition])
+  }, [])
 
-  useEffect(() => {
-    if (mapInfo.mapDatas !== null)
-      setMapInfo((prev) => ({ ...prev, loading: false }))
-  }, [mapInfo.mapDatas])
-
-  // 위치정보 갱신
+  // 실시간 위치정보 갱신
   // useEffect(() => {
   //   const { geolocation } = navigator
   //   if (geolocation) {
@@ -90,12 +85,24 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
   //   }
   // }, [])
 
+  // 위치정보 갱신
   const getCurrentLocation = useCallback(() => {
-    setMapInfo((prev) => ({
-      ...prev,
-      currentPosition: mapPosition,
-    }))
-  }, [mapInfo])
+    const { geolocation } = navigator
+    setMapInfo((prev) => ({ ...prev, loading: true }))
+    if (geolocation) {
+      geolocation.getCurrentPosition((position) => {
+        const positions = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        }
+        setMapInfo((prev) => ({
+          ...prev,
+          mapPosition: positions,
+          loading: false,
+        }))
+      })
+    }
+  }, [mapInfo.currentPosition])
 
   // 경로/디테일 리셋
   const onClearDirections = useCallback(() => {
@@ -104,14 +111,14 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
       mapDetail: null,
       directions: null,
       travel: false,
-      currentPosition: mapPosition,
     }))
   }, [mapInfo])
 
-  // 앱 리셋
+  // Map 상태 리셋
   const onReset = useCallback(() => {
     setMapInfo((prev) => ({
       ...prev,
+      mapDatas: null,
       mapDetail: null,
       directions: null,
       travel: false,

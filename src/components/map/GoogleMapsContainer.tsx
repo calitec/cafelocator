@@ -1,13 +1,19 @@
 import * as React from 'react'
 import { useCallback } from 'react'
 import GoogleMapsPresenter from './GoogleMapsPresenter'
-import { useLoadScript } from '@react-google-maps/api'
+import { StandaloneSearchBox, useLoadScript } from '@react-google-maps/api'
 import { useMapContext } from '../../context/MapProvider'
 import Geocode from 'react-geocode'
 import useGetDetail from '../../lib/hooks/useGetDetail'
+import Nav from '../common/Nav'
+import MainTemplate from '../common/MainTemplate'
+import InfoTemplate from '../info/InfoTemplate'
+import InfoListContainer from '../info/InfoListContainer'
+import InfoDetailContainer from '../info/InfoDetailContainer'
 
 Geocode.setApiKey(process.env.REACT_APP_API_KEY)
 Geocode.enableDebug()
+
 type Libraries =
   | 'drawing'
   | 'geometry'
@@ -15,6 +21,7 @@ type Libraries =
   | 'places'
   | 'visualization'
 const libraries: Libraries[] = ['places']
+
 const GoogleMapsContainer: React.FunctionComponent = () => {
   const { mapInfo, setMapInfo, getCurrentLocation } = useMapContext()
   const { mapPosition, directions } = mapInfo
@@ -39,37 +46,42 @@ const GoogleMapsContainer: React.FunctionComponent = () => {
 
   function onPlacesChanged() {
     const mapDatas = this.getPlaces()
-    setMapInfo((prev) => ({ ...prev, loading: true }))
-    setMapInfo((prev) => ({ ...prev, mapDatas }))
+    setMapInfo((prev) => ({ ...prev, mapDatas: mapDatas }))
   }
 
-  // 디렉션 옵션
-  const directionsOptions = {
-    polylineOptions: {
-      strokeColor: 'green',
-      strokeWeight: '4',
-      strokeOpacity: '0.99',
-    },
-    zoomControlOptions: {
-      position: {
-        lat: mapPosition.lat,
-        lng: mapPosition.lng,
-      },
-    },
+  function renderInfoView() {
+    //@ts-ignore
+    const yourLocation = new google.maps.LatLngBounds(
+      //@ts-ignore
+      new google.maps.LatLng(mapPosition.lat, mapPosition.lng)
+    )
+    return (
+      <MainTemplate>
+        <StandaloneSearchBox
+          bounds={yourLocation}
+          onPlacesChanged={onPlacesChanged}
+        >
+          <Nav />
+        </StandaloneSearchBox>
+        <InfoTemplate>
+          <InfoListContainer />
+          <InfoDetailContainer />
+        </InfoTemplate>
+      </MainTemplate>
+    )
   }
 
   return (
     <>
       <GoogleMapsPresenter
         mapInfo={mapInfo}
-        directionsOptions={directionsOptions}
         isLoaded={isLoaded}
         loadError={loadError}
         setMapInfo={setMapInfo}
-        directionsCallback={directionsCallback}
-        onPlacesChanged={onPlacesChanged}
         getMapDetail={getMapDetail}
         getCurrentLocation={getCurrentLocation}
+        directionsCallback={directionsCallback}
+        renderInfoView={renderInfoView}
       />
     </>
   )

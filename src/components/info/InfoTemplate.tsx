@@ -10,7 +10,7 @@ const InfoTemplate: React.FunctionComponent = ({ children }) => {
   const { vision } = useVisionContext()
 
   return (
-    <div className="infoTemplate" css={InfoTemplateContainer(transY)}>
+    <div css={InfoTemplateContainer(transY)}>
       <div className="infoTemplate__body">
         <div ref={ref} className="vision" css={DraggableButtonWrapper}>
           {!vision ? <em>목록을 보려면 탭하세요</em> : <span></span>}

@@ -4,14 +4,13 @@ import useTouch from '../../lib/hooks/useTouch'
 import InfoListPresenter from './InfoListPresenter'
 import useGetDetail from '../../lib/hooks/useGetDetail'
 
-function haversined(mapPosition, value) {
-  console.log(value)
+function haversined(currentPosition, value) {
   return (
     Math.round(
       haversine(
         {
-          latitude: mapPosition.lat,
-          longitude: mapPosition.lng,
+          latitude: currentPosition.lat,
+          longitude: currentPosition.lng,
         },
         {
           latitude: value?.geometry.location.lat(),

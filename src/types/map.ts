@@ -38,8 +38,31 @@ export interface IMapDetailProps {
   }
   geometry: {
     location: {
-      lat: number
-      lng: number
+      lat: () => number
+      lng: () => number
     }
   }
+}
+export interface IDirectionsProps {
+  geocoded_waypoints: {
+    geocoder_status: string
+    place_id: string
+  }[]
+  request: {
+    destination: {
+      location: {
+        lat: () => void
+        lng: () => void
+      }
+    }
+    origin: {
+      location: {
+        lat: () => void
+        lng: () => void
+      }
+      travelMode: string
+    }
+  }
+  routes: any[]
+  status: string
 }

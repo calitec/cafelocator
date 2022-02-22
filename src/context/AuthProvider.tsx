@@ -43,10 +43,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           return signInWithPopup(auth, provider)
         })
         .catch((error) => {
-          // Handle Errors here.
-          // const errorCode = error.code
-          const errorMessage = error.message
-          console.error(errorMessage)
+          console.error(error.message)
         })
     } catch (error) {
       console.error(error)
