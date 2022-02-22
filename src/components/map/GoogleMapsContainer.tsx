@@ -10,16 +10,11 @@ import MainTemplate from '../common/MainTemplate'
 import InfoTemplate from '../info/InfoTemplate'
 import InfoListContainer from '../info/InfoListContainer'
 import InfoDetailContainer from '../info/InfoDetailContainer'
+import { Libraries } from '../../types/map'
 
 Geocode.setApiKey(process.env.REACT_APP_API_KEY)
 Geocode.enableDebug()
 
-type Libraries =
-  | 'drawing'
-  | 'geometry'
-  | 'localContext'
-  | 'places'
-  | 'visualization'
 const libraries: Libraries[] = ['places']
 
 const GoogleMapsContainer: React.FunctionComponent = () => {

@@ -15,7 +15,6 @@ export default function useGetDetail() {
             lat: mapInfo.mapPosition.lat,
             lng: mapInfo.mapPosition.lng,
           },
-          zoom: 15,
         })
         //@ts-ignore
         const request = {

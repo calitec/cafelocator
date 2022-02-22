@@ -6,7 +6,7 @@ import {
   DirectionsService,
   DirectionsRenderer,
 } from '@react-google-maps/api'
-import { IMapDetailProps } from '../../types/map'
+import { IMapDatasProps, IMapDetailProps } from '../../types/map'
 import { css } from '@emotion/react'
 import Spin from '../common/Spin'
 import useDeviceCheck from '../../lib/hooks/useDeviceCheck'
@@ -16,7 +16,7 @@ import Button from '../common/Button'
 
 interface IGoogleMapsPresenterProps {
   mapInfo: {
-    mapDatas: any
+    mapDatas: IMapDatasProps[]
     currentPosition: {
       lat: number
       lng: number
@@ -26,7 +26,7 @@ interface IGoogleMapsPresenterProps {
       lng: number
     }
     mapDetail: IMapDetailProps
-    directions: {}
+    directions: object
     travel: boolean
     loading: boolean
   }
@@ -48,7 +48,14 @@ const GoogleMapsPresenter: React.FunctionComponent<IGoogleMapsPresenterProps> = 
   getCurrentLocation,
   renderInfoView,
 }) => {
-  const { mapPosition, mapDetail, directions, travel, loading } = mapInfo
+  const {
+    mapPosition,
+    mapDetail,
+    directions,
+    travel,
+    currentPosition,
+    loading,
+  } = mapInfo
 
   const { screenWidth } = useDeviceCheck()
   const [zoom] = useState(13)
@@ -104,13 +111,17 @@ const GoogleMapsPresenter: React.FunctionComponent<IGoogleMapsPresenterProps> = 
               </Button>
             )}
           </div>
+
           {/* directions */}
-          {mapDetail != null && travel ? (
+          {mapDetail !== null && travel && (
             <>
               <DirectionsService
                 options={{
-                  origin: { lat: mapPosition.lat, lng: mapPosition.lng },
-                  destination: mapDetail ? mapDetail.geometry?.location : '',
+                  origin: {
+                    lat: currentPosition.lat,
+                    lng: currentPosition.lng,
+                  },
+                  destination: mapDetail?.geometry?.location,
                   travelMode: 'TRANSIT',
                 }}
                 callback={directionsCallback}
@@ -120,8 +131,6 @@ const GoogleMapsPresenter: React.FunctionComponent<IGoogleMapsPresenterProps> = 
                 options={directionsOptions}
               />
             </>
-          ) : (
-            ''
           )}
           <GoogleMapsMarkers
             mapInfo={mapInfo}

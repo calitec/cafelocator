@@ -43,26 +43,9 @@ export interface IMapDetailProps {
     }
   }
 }
-export interface IDirectionsProps {
-  geocoded_waypoints: {
-    geocoder_status: string
-    place_id: string
-  }[]
-  request: {
-    destination: {
-      location: {
-        lat: () => void
-        lng: () => void
-      }
-    }
-    origin: {
-      location: {
-        lat: () => void
-        lng: () => void
-      }
-      travelMode: string
-    }
-  }
-  routes: any[]
-  status: string
-}
+export type Libraries =
+  | 'drawing'
+  | 'geometry'
+  | 'localContext'
+  | 'places'
+  | 'visualization'

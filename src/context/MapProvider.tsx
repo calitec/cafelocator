@@ -3,10 +3,11 @@ import {
   createContext,
   useState,
   useContext,
-  useEffect,
   useMemo,
+  useLayoutEffect,
+  useEffect,
 } from 'react'
-import { IDirectionsProps, IMapDatasProps, IMapDetailProps } from '../types/map'
+import { IMapDatasProps, IMapDetailProps } from '../types/map'
 
 export interface MapState {
   mapInfo: {
@@ -14,7 +15,7 @@ export interface MapState {
     mapPosition: { lat: number; lng: number }
     mapDatas: IMapDatasProps[]
     mapDetail: IMapDetailProps
-    directions: IDirectionsProps
+    directions: object
     travel: boolean
     loading: boolean
   }
@@ -44,12 +45,12 @@ export const MapContext = createContext<MapState | null>(null)
 
 const MapProvider: React.FunctionComponent = ({ children }) => {
   const [mapInfo, setMapInfo] = useState(initialState.mapInfo)
-  const { mapPosition } = mapInfo
+  const { mapPosition, travel } = mapInfo
 
   // 맵 초기화
-  useEffect(() => {
-    const { geolocation } = navigator
+  useLayoutEffect(() => {
     if (mapPosition.lat < 1) {
+      const { geolocation } = navigator
       if (geolocation) {
         geolocation.getCurrentPosition((position) => {
           const positions = {
@@ -66,25 +67,6 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
     }
   }, [])
 
-  // 실시간 위치정보 갱신
-  // useEffect(() => {
-  //   const { geolocation } = navigator
-  //   if (geolocation) {
-  //     const id = geolocation.watchPosition((position) => {
-  //       const positions = {
-  //         lat: position.coords.latitude,
-  //         lng: position.coords.longitude,
-  //       }
-  //       setMapInfo((prev) => ({
-  //         ...prev,
-  //         mapPosition: positions,
-  //         currentPosition: positions,
-  //       }))
-  //     })
-  //     return () => geolocation.clearWatch(id)
-  //   }
-  // }, [])
-
   // 위치정보 갱신
   const getCurrentLocation = useCallback(() => {
     const { geolocation } = navigator
@@ -98,11 +80,31 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
         setMapInfo((prev) => ({
           ...prev,
           mapPosition: positions,
+          currentPosition: positions,
           loading: false,
         }))
       })
     }
-  }, [mapInfo.currentPosition])
+  }, [])
+
+  // 실시간 위치정보 갱신
+  useEffect(() => {
+    const { geolocation } = navigator
+    if (geolocation && travel) {
+      const id = geolocation.watchPosition((position) => {
+        const positions = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        }
+        setMapInfo((prev) => ({
+          ...prev,
+          mapPosition: positions,
+          currentPosition: positions,
+        }))
+      })
+      return () => geolocation.clearWatch(id)
+    }
+  }, [travel])
 
   // 경로/디테일 리셋
   const onClearDirections = useCallback(() => {
@@ -123,7 +125,6 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
       directions: null,
       travel: false,
       keyword: '',
-      currentPosition: mapPosition,
     }))
   }, [mapInfo])
 

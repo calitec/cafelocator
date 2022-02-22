@@ -3,12 +3,8 @@ import media from '../../lib/styles/media'
 import useScroll from '../../lib/hooks/useScroll'
 import { css } from '@emotion/react'
 import { noto, notoBig } from '../..//lib/styles/common'
-import Loader from '../common/Loader'
-import {
-  IDirectionsProps,
-  IMapDatasProps,
-  IMapDetailProps,
-} from 'src/types/map'
+
+import { IMapDatasProps, IMapDetailProps } from 'src/types/map'
 
 interface IInfoListPresenterProps {
   mapInfo: {
@@ -16,7 +12,7 @@ interface IInfoListPresenterProps {
     mapPosition: { lat: number; lng: number }
     mapDatas: IMapDatasProps[]
     mapDetail: IMapDetailProps
-    directions: IDirectionsProps
+    directions: object
     travel: boolean
     loading: boolean
   }
