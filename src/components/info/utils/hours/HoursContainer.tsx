@@ -27,7 +27,7 @@ const HoursContainer: React.FunctionComponent<IHoursContainerProps> = ({
     } catch {
       console.log('no opening_hours')
     }
-  }, [])
+  }, [mapDetail])
 
   function doRealignment(opening: string[]) {
     if (realignment.length < 1) {
