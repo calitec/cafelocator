@@ -8,6 +8,7 @@ import {
   useEffect,
 } from 'react'
 import { IMapDatasProps, IMapDetailProps } from '../types/map'
+import throttle from 'lodash'
 
 export interface MapState {
   mapInfo: {
@@ -82,11 +83,14 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         }
-        setMapInfo((prev) => ({
-          ...prev,
-          mapPosition: positions,
-          currentPosition: positions,
-        }))
+        throttle(
+          setMapInfo((prev) => ({
+            ...prev,
+            mapPosition: positions,
+            currentPosition: positions,
+          })),
+          3500
+        )
       })
       return () => geolocation.clearWatch(id)
     }
