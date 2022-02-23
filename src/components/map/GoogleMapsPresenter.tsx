@@ -104,7 +104,12 @@ const GoogleMapsPresenter: React.FunctionComponent<IGoogleMapsPresenterProps> = 
         <div css={googleMapsContainer}>
           <div className="currentLocation" onClick={getCurrentLocation}>
             {loading ? (
-              <Spin />
+              <>
+                <Spin />
+                <Button type="button" aria-label="현재위치">
+                  <span></span>
+                </Button>
+              </>
             ) : (
               <Button type="button" aria-label="현재위치">
                 <span></span>
@@ -159,7 +164,7 @@ const googleMapsContainer = css`
     button {
       width: 29px;
       height: 29px;
-      border-radius: 8px;
+      border-radius: 50%;
       background: transparent;
       background-color: #fff;
       border: 0;

@@ -45,7 +45,7 @@ export const MapContext = createContext<MapState | null>(null)
 
 const MapProvider: React.FunctionComponent = ({ children }) => {
   const [mapInfo, setMapInfo] = useState(initialState.mapInfo)
-  const { mapPosition, travel } = mapInfo
+  const { mapDatas, mapPosition, travel, loading } = mapInfo
 
   // 맵 초기화
   useLayoutEffect(() => {
@@ -67,25 +67,11 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
     }
   }, [])
 
-  // 위치정보 갱신
-  const getCurrentLocation = useCallback(() => {
-    const { geolocation } = navigator
-    setMapInfo((prev) => ({ ...prev, loading: true }))
-    if (geolocation) {
-      geolocation.getCurrentPosition((position) => {
-        const positions = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        }
-        setMapInfo((prev) => ({
-          ...prev,
-          mapPosition: positions,
-          currentPosition: positions,
-          loading: false,
-        }))
-      })
-    }
-  }, [])
+  // 로딩 리셋
+  useEffect(() => {
+    if (loading && mapDatas !== null)
+      setMapInfo((prev) => ({ ...prev, loading: false }))
+  }, [mapDatas, loading])
 
   // 실시간 위치정보 갱신
   useEffect(() => {
@@ -105,6 +91,26 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
       return () => geolocation.clearWatch(id)
     }
   }, [travel])
+
+  // 위치정보 갱신
+  const getCurrentLocation = useCallback(() => {
+    const { geolocation } = navigator
+    setMapInfo((prev) => ({ ...prev, loading: true }))
+    if (geolocation) {
+      geolocation.getCurrentPosition((position) => {
+        const positions = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        }
+        setMapInfo((prev) => ({
+          ...prev,
+          mapPosition: positions,
+          currentPosition: positions,
+          loading: false,
+        }))
+      })
+    }
+  }, [])
 
   // 경로/디테일 리셋
   const onClearDirections = useCallback(() => {
