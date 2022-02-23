@@ -47,7 +47,7 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
   )
 
   // 데이터
-  if (!loading && mapDatas) {
+  if (mapDatas) {
     return (
       <div ref={ref} css={ScrollViewport(transY)}>
         <div css={scrollContainer(scrollContainerHeight)}>
@@ -73,7 +73,7 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
     )
   }
 
-  if (loading) return <Loader />
+  // if (loading) return <Loader />
   // 디폴트
   return (
     <div ref={ref} css={ScrollViewport(transY)}>
