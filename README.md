@@ -5,12 +5,7 @@ https://cafelocator.herokuapp.com/
 
 ## how to use
 npm install
-
 npm run dev
-
-## description
-![app_comp](https://user-images.githubusercontent.com/39756786/154645691-bce6c80c-0462-4d83-8273-5a4cda54f634.gif)
-
 
 ## features
 - Maps Javascript API
@@ -19,6 +14,10 @@ npm run dev
 - 한줄 리뷰 구현
 - 바텀 시트 구현
 - 가상 스크롤 적용
+
+## description
+![app_comp](https://user-images.githubusercontent.com/39756786/154645691-bce6c80c-0462-4d83-8273-5a4cda54f634.gif)
+
 
 ## updates
 - 이미지 슬라이드 기능 및 팝업 추가(21.11.12)
