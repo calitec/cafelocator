@@ -3,7 +3,6 @@ import { useVisionContext } from 'src/context/VisionProvider'
 
 export default function useTouch() {
   const [infoPosition, setInfoPosition] = useState({
-    // vision: true,
     transY: 0,
     touchStart: false,
     touchMove: false,

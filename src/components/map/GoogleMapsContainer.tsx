@@ -41,7 +41,7 @@ const GoogleMapsContainer: React.FunctionComponent = () => {
 
   function onPlacesChanged() {
     const mapDatas = this.getPlaces()
-    setMapInfo((prev) => ({ ...prev, mapDatas: mapDatas, loading: true }))
+    setMapInfo((prev) => ({ ...prev, mapDatas: mapDatas }))
   }
 
   function renderInfoView() {

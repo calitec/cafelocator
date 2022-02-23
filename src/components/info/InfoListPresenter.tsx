@@ -3,9 +3,7 @@ import media from '../../lib/styles/media'
 import useScroll from '../../lib/hooks/useScroll'
 import { css } from '@emotion/react'
 import { noto, notoBig } from '../..//lib/styles/common'
-
 import { IMapDatasProps, IMapDetailProps } from 'src/types/map'
-import Loader from '../common/Loader'
 
 interface IInfoListPresenterProps {
   mapInfo: {
@@ -28,7 +26,7 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
   getMapDetail,
   haversined,
 }) => {
-  const { mapDatas, currentPosition, loading } = mapInfo
+  const { mapDatas, currentPosition } = mapInfo
 
   const [scrollTop, ref] = useScroll()
   const totalItemCount =
@@ -47,7 +45,7 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
   )
 
   // 데이터
-  if (mapDatas) {
+  if (mapDatas !== null) {
     return (
       <div ref={ref} css={ScrollViewport(transY)}>
         <div css={scrollContainer(scrollContainerHeight)}>
@@ -73,7 +71,6 @@ const InfoListPresenter: React.FunctionComponent<IInfoListPresenterProps> = ({
     )
   }
 
-  // if (loading) return <Loader />
   // 디폴트
   return (
     <div ref={ref} css={ScrollViewport(transY)}>

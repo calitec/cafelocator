@@ -46,7 +46,7 @@ export const MapContext = createContext<MapState | null>(null)
 
 const MapProvider: React.FunctionComponent = ({ children }) => {
   const [mapInfo, setMapInfo] = useState(initialState.mapInfo)
-  const { mapDatas, mapPosition, travel, loading } = mapInfo
+  const { mapPosition, travel } = mapInfo
 
   // 맵 초기화
   useLayoutEffect(() => {
@@ -67,12 +67,6 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
       }
     }
   }, [])
-
-  // 로딩 리셋
-  useEffect(() => {
-    if (loading && mapDatas !== null)
-      setMapInfo((prev) => ({ ...prev, loading: false }))
-  }, [mapDatas, loading])
 
   // 실시간 위치정보 갱신
   useEffect(() => {
