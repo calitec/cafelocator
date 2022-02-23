@@ -78,20 +78,20 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
   useEffect(() => {
     const { geolocation } = navigator
     if (geolocation && travel) {
-      const id = geolocation.watchPosition((position) => {
-        const positions = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        }
-        throttle(
+      const id = throttle(
+        geolocation.watchPosition((position) => {
+          const positions = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          }
           setMapInfo((prev) => ({
             ...prev,
             mapPosition: positions,
             currentPosition: positions,
-          })),
-          3500
-        )
-      })
+          }))
+        }),
+        3500
+      )
       return () => geolocation.clearWatch(id)
     }
   }, [travel])
