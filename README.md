@@ -12,12 +12,13 @@ npm run dev
 ![app_comp](https://user-images.githubusercontent.com/39756786/154645691-bce6c80c-0462-4d83-8273-5a4cda54f634.gif)
 
 
-## stacks
-- 구글 맵
+## features
+- Maps Javascript API
 - 파이어베이스 인증
 - 파이어베이스 리얼타임데이터베이스
 - 한줄 리뷰 구현
-- 모바일 반응형 구현(desktop friendly)
+- 바텀 시트 구현
+- 가상 스크롤 적용
 
 ## updates
 - 이미지 슬라이드 기능 및 팝업 추가(21.11.12)
