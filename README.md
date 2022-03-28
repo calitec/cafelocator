@@ -1,5 +1,5 @@
 # cafelocator-client
-reactjs typescript emotion
+https://img.shields.io/badge/react-61dafb?style=flat&logo=react&logoColor=ffffff https://img.shields.io/badge/typescript-719af4?style=flat&logo=typescript&logoColor=ffffff https://img.shields.io/badge/emotion-C43BAD?style=flat&logo=emotion&logoColor=ffffff https://img.shields.io/badge/firebase-ffcb33?style=flat&logo=firebase&logoColor=ffffff
 
 https://cafelocator.herokuapp.com/
 
