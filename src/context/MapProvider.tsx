@@ -4,7 +4,6 @@ import {
   useState,
   useContext,
   useMemo,
-  useLayoutEffect,
   useEffect,
 } from 'react'
 import { IMapDatasProps, IMapDetailProps } from '../types/map'
@@ -49,11 +48,12 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
   const { mapDatas, mapPosition, travel, loading } = mapInfo
 
   // 맵 초기화
-  useLayoutEffect(() => {
+  useEffect(() => {
+    let unsubscribe
     if (mapPosition.lat < 1) {
       const { geolocation } = navigator
       if (geolocation) {
-        geolocation.getCurrentPosition((position) => {
+        unsubscribe = geolocation.getCurrentPosition((position) => {
           const positions = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
@@ -66,6 +66,7 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
         })
       }
     }
+    return () => unsubscribe()
   }, [])
 
   // 로딩 리셋
@@ -100,8 +101,9 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
   const getCurrentLocation = useCallback(() => {
     const { geolocation } = navigator
     setMapInfo((prev) => ({ ...prev, loading: true }))
+    let unsubscribe
     if (geolocation) {
-      geolocation.getCurrentPosition((position) => {
+      unsubscribe = geolocation.getCurrentPosition((position) => {
         const positions = {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
@@ -114,6 +116,7 @@ const MapProvider: React.FunctionComponent = ({ children }) => {
         }))
       })
     }
+    return () => unsubscribe()
   }, [])
 
   // 경로/디테일 리셋

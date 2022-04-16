@@ -25,14 +25,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const auth = getAuth()
 
   useLayoutEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (!user) return
-      setUser((prev) => ({ ...prev, user: user }))
-    })
-    const apiKey = process.env.REACT_APP_FIREBASE_API_KEY
-    const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`
-    const user = JSON.parse(sessionStorage.getItem(sessionKey))
-    setUser((prev) => ({ ...prev, user: user }))
+    let unsubscribe
+    ;(async () => {
+      try {
+        unsubscribe = await onAuthStateChanged(auth, (user) => {
+          if (!user) return
+          setUser((prev) => ({ ...prev, user: user }))
+        })
+        const apiKey = process.env.REACT_APP_FIREBASE_API_KEY
+        const sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`
+        const user = JSON.parse(sessionStorage.getItem(sessionKey))
+        setUser((prev) => ({ ...prev, user: user }))
+        unsubscribe = null
+      } catch (err) {
+        console.error(err)
+      }
+      return () => unsubscribe()
+    })()
   }, [])
 
   const onLogin = useCallback((e) => {

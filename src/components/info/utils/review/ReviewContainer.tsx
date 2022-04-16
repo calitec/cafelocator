@@ -49,11 +49,29 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
 
   // 리뷰 읽기
   useEffect(() => {
+    function initReviews() {
+      if (mapDetail?.place_id !== undefined) {
+        if (drop) {
+          onValue(child(reviewsRef, `${mapDetail.place_id}`), (snapshot) => {
+            if (snapshot.exists()) setReviewsCount(snapshot.size)
+          })
+        }
+        onValue(
+          query(child(reviewsRef, `${mapDetail.place_id}`), limitToLast(5)),
+          (DataSnapshot) => {
+            if (DataSnapshot.val() != null) {
+              setReviews(Object.values(DataSnapshot.val()).reverse())
+            }
+          }
+        )
+      }
+    }
     initReviews()
     setReviews([])
     if (drop) {
       initReviews()
     }
+    return () => initReviews()
   }, [mapInfo.mapDetail, drop, reviewsCount])
 
   // offset 값 저장
@@ -127,24 +145,6 @@ const ReviewContainer: React.FunctionComponent<IReviewsContainerProps> = ({
       })
     }
   }, [offset, reviews])
-
-  function initReviews() {
-    if (mapDetail?.place_id !== undefined) {
-      if (drop) {
-        onValue(child(reviewsRef, `${mapDetail.place_id}`), (snapshot) => {
-          if (snapshot.exists()) setReviewsCount(snapshot.size)
-        })
-      }
-      onValue(
-        query(child(reviewsRef, `${mapDetail.place_id}`), limitToLast(5)),
-        (DataSnapshot) => {
-          if (DataSnapshot.val() != null) {
-            setReviews(Object.values(DataSnapshot.val()).reverse())
-          }
-        }
-      )
-    }
-  }
 
   return (
     <ReviewPresenter
